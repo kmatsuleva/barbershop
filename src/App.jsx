@@ -1,8 +1,12 @@
+import Footer from "./components/footer/Footer";
+
 function App() {
   return (
-    <>
-      <h1>Barbershop booking system</h1>
-    </>
+    <div className="page">
+      <header></header>
+      <main></main>
+      <Footer />
+    </div>
   );
 }
 export default App;
