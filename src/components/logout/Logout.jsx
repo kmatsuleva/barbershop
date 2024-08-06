@@ -1,27 +1,19 @@
-// components/logout/Logout.js
-
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import { auth } from "../../server/firebase";
 
 const Logout = () => {
-  const logout = useLogout();
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const handleLogout = async () => {
-      await logout();
-      navigate("/login");
-    };
+    (async () => {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        console.error("Error signing out: ", error);
+      }
+    })();
+  }, []);
 
-    handleLogout();
-  }, [logout, navigate]);
-
-  return (
-    <div>
-      <h2>Logging Out...</h2>
-    </div>
-  );
+  return <Navigate to="/" />;
 };
 
 export default Logout;

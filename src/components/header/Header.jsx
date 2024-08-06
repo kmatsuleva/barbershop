@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { NAVIGATION } from "../../constants/constants";
-import { useAuth } from "../../hooks/useAuth";
 
 import Logo from "../logo/Logo";
 import ButtonLink from "../button-link/ButtonLink";
@@ -15,8 +14,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // hooks
-  const { user } = useAuth();
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1200) {
@@ -45,6 +42,7 @@ export default function Header() {
   const buttonClass = isMenuOpen ? styles["show"] : "";
   const mobileButtonClass = isMenuOpen ? styles["open"] : "";
 
+  // TODO: Remove navigation blink on refresh
   return (
     <header className={styles["header"]}>
       <Logo />
