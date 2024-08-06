@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useRegister } from "../../hooks/useAuth";
 import { useForm } from "../../hooks/useForm";
 
 import Button from "../button/Button";
 
 import styles from "./Register.module.css";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  db,
+} from "../../server/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 export default function Register() {
   // variables
   const initialValues = {
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   };
@@ -20,7 +26,6 @@ export default function Register() {
   const [errors, setErrors] = useState({});
 
   // hooks
-  const register = useRegister();
   const navigate = useNavigate();
   const { values, handleInputChange } = useForm(initialValues);
 
@@ -32,6 +37,8 @@ export default function Register() {
   const handleFormValidation = () => {
     const errorsList = {};
 
+    if (!values.firstName) errorsList.firstName = "Field is required.";
+    if (!values.lastName) errorsList.lastName = "Field is required.";
     if (!values.email) {
       errorsList.email = "Email is required.";
     } else if (!validateEmail(values.email)) {
@@ -48,7 +55,21 @@ export default function Register() {
 
     try {
       if (handleFormValidation()) {
-        await register(values.email, values.password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+        const user = userCredential.user;
+        const usersCollectionRef = collection(db, "users");
+        const userDocRef = doc(usersCollectionRef, user.uid);
+
+        await setDoc(userDocRef, {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          role: "client",
+        });
         navigate("/");
       }
     } catch (err) {
@@ -88,16 +109,38 @@ export default function Register() {
                         >
                           <input
                             type="text"
-                            name="name"
-                            placeholder="Name *"
+                            name="firstName"
+                            placeholder="First Name *"
                             className="form-control"
                             value={values.name}
                             onChange={handleInputChange}
                           />
                         </fieldset>
-                        {errors.name && (
+                        {errors.firstName && (
                           <span className={styles["form-validation"]}>
-                            {errors.name}
+                            {errors.firstName}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="form-group">
+                        <fieldset
+                          className={`${styles["form-group"]} ${
+                            errors.email ? styles["has-error"] : ""
+                          }`}
+                        >
+                          <input
+                            type="text"
+                            name="lastName"
+                            placeholder="Last Name *"
+                            className="form-control"
+                            value={values.name}
+                            onChange={handleInputChange}
+                          />
+                        </fieldset>
+                        {errors.lastName && (
+                          <span className={styles["form-validation"]}>
+                            {errors.lastName}
                           </span>
                         )}
                       </div>
@@ -161,4 +204,4 @@ export default function Register() {
       </section>
     </>
   );
-};
+}

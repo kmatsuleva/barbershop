@@ -9,11 +9,11 @@ import {
 import styles from "../Header.module.css";
 
 export default function AuthLinks({ onLinkClick }) {
-  const { user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
-      {(user ? AUTHENTICATED_NAVIGATION : UNAUTHENTICATED_NAVIGATION).map(
+      {(isAuthenticated ? AUTHENTICATED_NAVIGATION : UNAUTHENTICATED_NAVIGATION).map(
         (item) => (
           <li key={item.url} className={styles["nav-item"]}>
             <Link to={item.url} onClick={onLinkClick}>
