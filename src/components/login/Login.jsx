@@ -1,32 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { useLogin } from "../../hooks/useAuth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "../../hooks/useForm";
-
+import { auth } from "../../server/firebase";
 import Button from "../button/Button";
-
 import styles from "./Login.module.css";
 
 const Login = () => {
-  // variables
   const initialValues = {
     email: "",
     password: "",
   };
 
-  // states
   const [errors, setErrors] = useState({});
-
-  // hooks
-  const login = useLogin();
   const navigate = useNavigate();
   const { values, handleInputChange } = useForm(initialValues);
 
-  // handlers
-  const validateEmail = (email) => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
+  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   const handleFormValidation = () => {
     const errorsList = {};
@@ -42,110 +32,108 @@ const Login = () => {
     return Object.keys(errorsList).length === 0;
   };
 
-  const handleFormSubmitClick = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-
-    try {
-      if (handleFormValidation()) {
-        await login(values.email, values.password);
+    if (handleFormValidation()) {
+      try {
+        await signInWithEmailAndPassword(auth, values.email, values.password);
         navigate("/");
+      } catch (error) {
+        console.error("Login error:", error.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
   };
 
   return (
-    <>
-      <section className="section-xl">
-        <div className="range range-50">
-          <div className="cell-xs-12">
-            <form onSubmit={handleFormSubmitClick}>
-              <div className="shell">
-                <div className="range">
-                  <div className="cell-md-6">
-                    <img
-                      src="/images/home-three-3-1011x800.jpg"
-                      className="w-full h-full"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className="cell-md-6">
-                    <div className="flex flex-col h-full justify-center text-center">
-                      <h4>Welcome Back!</h4>
-                      <p className="mb-3">
-                        Log in to book your next appointment, manage your
-                        favorite barbers, and explore our latest blog posts.
-                        Share your experience by writing testimonials and stay
-                        connected with our community.
-                      </p>
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.email ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="email"
-                            name="email"
-                            placeholder="Email *"
-                            className="form-control"
-                            value={values.email}
-                            onChange={handleInputChange}
-                          />
-                        </fieldset>
-                        {errors.email && (
+    <section className="section-xl">
+      <div className="range range-50">
+        <div className="cell-xs-12">
+          <form onSubmit={handleLogin}>
+            <div className="shell">
+              <div className="range">
+                <div className="cell-md-6">
+                  <img
+                    src="/images/home-three-3-1011x800.jpg"
+                    className="w-full h-full"
+                    style={{ objectFit: "cover" }}
+                    alt="Background"
+                  />
+                </div>
+                <div className="cell-md-6">
+                  <div className="flex flex-col h-full justify-center text-center">
+                    <h4>Welcome Back!</h4>
+                    <p className="mb-3">
+                      Log in to book your next appointment, manage your favorite
+                      barbers, and explore our latest blog posts. Share your
+                      experience by writing testimonials and stay connected with
+                      our community.
+                    </p>
+                    {errors.form && (
+                      <p className={styles["form-validation"]}>{errors.form}</p>
+                    )}
+                    <div className="form-group">
+                      <fieldset
+                        className={`${styles["form-group"]} ${
+                          errors.email ? styles["has-error"] : ""
+                        }`}
+                      >
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email *"
+                          className="form-control"
+                          value={values.email}
+                          onChange={handleInputChange}
+                        />
+                      </fieldset>
+                      {errors.email && (
+                        <span className={styles["form-validation"]}>
+                          {errors.email}
+                        </span>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <fieldset
+                        className={`${styles["form-group"]} ${
+                          errors.password ? styles["has-error"] : ""
+                        }`}
+                      >
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="Password *"
+                          className="form-control"
+                          value={values.password}
+                          onChange={handleInputChange}
+                        />
+                        {errors.password && (
                           <span className={styles["form-validation"]}>
-                            {errors.email}
+                            {errors.password}
                           </span>
                         )}
-                      </div>
-
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.password ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="password"
-                            name="password"
-                            placeholder="Password *"
-                            className="form-control"
-                            value={values.password}
-                            onChange={handleInputChange}
-                          />
-                          {errors.password && (
-                            <span className={styles["form-validation"]}>
-                              {errors.password}
-                            </span>
-                          )}
-                        </fieldset>
-                      </div>
-
-                      <div>
-                        <Link
-                          to="/register"
-                          className={styles["create-account-link"]}
-                        >
-                          Create new account
-                        </Link>
-                      </div>
-
-                      <div className="range">
-                        <div className="cell-md-12">
-                          <Button type="submit" text="Log In" size="sm" />
-                        </div>
+                      </fieldset>
+                    </div>
+                    <div>
+                      <Link
+                        to="/register"
+                        className={styles["create-account-link"]}
+                      >
+                        Create new account
+                      </Link>
+                    </div>
+                    <div className="range">
+                      <div className="cell-md-12">
+                        <Button type="submit" text="Log In" size="sm" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

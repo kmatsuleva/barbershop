@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import Header from "./components/header/Header";
 import Login from "./components/login/Login";
@@ -14,24 +15,26 @@ import NotFound from "./components/404/NotFound";
 
 function App() {
   return (
-    <div className="page">
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/barbers" element={<Barbers />}>
-            <Route index element={<BarbersList />} />
-            <Route path=":barberId/details" element={<BarberDetail />} />
-          </Route>
-          <Route path="/blogs/:blogId/details" element={<BlogPostDetail />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <div className="page">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/barbers" element={<Barbers />}>
+              <Route index element={<BarbersList />} />
+              <Route path=":barberId/details" element={<BarberDetail />} />
+            </Route>
+            <Route path="/blogs/:blogId/details" element={<BlogPostDetail />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </AuthProvider>
   );
 }
 

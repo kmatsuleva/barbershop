@@ -1,8 +1,8 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { NAVIGATION } from "../../constants/constants";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 import Logo from "../logo/Logo";
 import ButtonLink from "../button-link/ButtonLink";
@@ -15,7 +15,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // hooks
-  const { isAuthenticated } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,10 +59,7 @@ export default function Header() {
           ))}
           {isMenuOpen && (
             <>
-              <AuthLinks
-                isAuthenticated={isAuthenticated}
-                onLinkClick={closeMenu}
-              />
+              <AuthLinks onLinkClick={closeMenu} />
               <li className={styles["nav-item"]}>
                 <Link to="/booking" onClick={closeMenu}>
                   Book now
@@ -74,7 +71,7 @@ export default function Header() {
       </nav>
 
       <ul className={styles["user-actions"]}>
-        <AuthLinks isAuthenticated={isAuthenticated} onLinkClick={closeMenu} />
+        <AuthLinks onLinkClick={closeMenu} />
         <ButtonLink
           url="booking"
           size="xs"

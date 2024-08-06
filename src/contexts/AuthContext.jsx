@@ -1,32 +1,19 @@
-import { createContext } from "react";
-import usePersistedState from "../hooks/usePersistedState";
+import { createContext, useState, useEffect } from "react";
+import { auth, onAuthStateChanged } from "../server/firebase";
 
-export const AuthContext = createContext({
-  userId: "",
-  email: "",
-  accessToken: "",
-  isAuthenticated: false,
-  changeAuthState: () => null,
-});
+export const AuthContext = createContext();
 
-export function AuthContextProvider(props) {
-  const [authState, setAuthState] = usePersistedState('auth', {});
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-  const changeAuthState = (state) => {
-    setAuthState(state);
-  };
-
-  const contextData = {
-    userId: authState._id,
-    email: authState.email,
-    accessToken: authState.accessToken,
-    isAuthenticated: !!authState.email,
-    changeAuthState,
-  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <AuthContext.Provider value={contextData}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
-}
+};
