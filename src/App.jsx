@@ -1,5 +1,13 @@
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
+import Header from "./components/header/Header";
+import Login from "./components/login/Login";
+import Register from "./components/register/Register";
+import Home from "./components/home/Home";
+import Barbers from "./components/barbers/Barbers";
+import BarbersList from "./components/barbers/barbers-list/BarbersList";
+import BarberDetail from "./components/barbers/barber-detail/BarberDetail";
+import BlogPostDetail from "./components/blogs/blog-post-detail/BlogPostDetail";
 import Contacts from "./components/contacts/Contacts";
 import Footer from "./components/footer/Footer";
 import NotFound from "./components/404/NotFound";
@@ -7,9 +15,17 @@ import NotFound from "./components/404/NotFound";
 function App() {
   return (
     <div className="page">
-      <header></header>
+      <Header />
       <main>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/barbers" element={<Barbers />}>
+            <Route index element={<BarbersList />} />
+            <Route path=":barberId/details" element={<BarberDetail />} />
+          </Route>
+          <Route path="/blogs/:blogId/details" element={<BlogPostDetail />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
@@ -18,4 +34,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

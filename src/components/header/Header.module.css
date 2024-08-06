@@ -1,0 +1,172 @@
+body {
+  margin: 0;
+  padding-top: 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f8f9;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+  display: none;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding: 10px 0px;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: #f5f8f9;
+  width: 100%;
+}
+
+.nav-item a {
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.user-actions {
+  align-items: center;
+  gap: 20px;
+  display: none;
+}
+
+.user-actions li a {
+  font-size: 13px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 15px 0px;
+}
+
+.menu-icon {
+  width: 26px;
+  height: 1px;
+  background: #000;
+  display: block;
+  margin: 0 0 0 auto;
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
+  padding: 0;
+  transition: width .22s ease, transform .3s ease-in-out;
+  position: relative;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background-color: #000;
+  position: absolute;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-icon::before {
+  top: -8px;
+}
+
+.menu-icon::after {
+  top: 8px;
+}
+
+.menu-button.open .menu-icon {
+  transform: rotate(45deg);
+}
+
+.menu-button.open .menu-icon::before {
+  transform: rotate(90deg);
+}
+
+.menu-button.open .menu-icon::after {
+  transform: rotate(90deg);
+}
+
+.show {
+  display: flex !important;
+}
+
+.menu-button.open .menu-icon::before,
+.menu-button.open .menu-icon::after {
+  top: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mobile-menu {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 7px 5px;
+  cursor: pointer;
+}
+
+.nav {
+  display: none;
+}
+
+.menu-button {
+  display: block;
+}
+
+.nav-item {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+
+@media (min-width: 1200px) {
+  .nav {
+    display: flex;
+  }
+
+  .nav-list {
+    column-gap: 30px;
+    position: relative;
+    top: 0;
+    flex-direction: row;
+  }
+
+  .user-actions {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .nav-list {
+    column-gap: 30px;
+  }
+}
