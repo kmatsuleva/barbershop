@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "../../hooks/useForm";
-import { auth } from "../../server/firebase";
+import { auth } from "../../service/firebase";
 import Button from "../button/Button";
 import styles from "./Login.module.css";
 
@@ -47,11 +47,11 @@ const Login = () => {
   return (
     <section className="section-xl">
       <div className="range range-50">
-        <div className="cell-xs-12">
+        <div className="cell-xs-12 mt-0 mt-lg-2">
           <form onSubmit={handleLogin}>
             <div className="shell">
               <div className="range">
-                <div className="cell-md-6">
+                <div className="cell-md-6 d-none d-lg-flex">
                   <img
                     src="/images/home-three-3-1011x800.jpg"
                     className="w-full h-full"
@@ -59,7 +59,7 @@ const Login = () => {
                     alt="Background"
                   />
                 </div>
-                <div className="cell-md-6">
+                <div className="cell-md-6 mt-0">
                   <div className="flex flex-col h-full justify-center text-center">
                     <h4>Welcome Back!</h4>
                     <p className="mb-3">
@@ -113,6 +113,12 @@ const Login = () => {
                         )}
                       </fieldset>
                     </div>
+                    <div className="range">
+                      <div className="cell-md-12">
+                        <Button type="submit" text="Log In" size="sm" />
+                      </div>
+                    </div>
+
                     <div>
                       <Link
                         to="/register"
@@ -121,11 +127,7 @@ const Login = () => {
                         Create new account
                       </Link>
                     </div>
-                    <div className="range">
-                      <div className="cell-md-12">
-                        <Button type="submit" text="Log In" size="sm" />
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>

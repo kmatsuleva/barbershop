@@ -1,6 +1,4 @@
-import testimonialsAPI from "../../../../api/testimonials-api";
 import { useForm } from "../../../../hooks/useForm";
-import useCreateTestimonial from "../../../../hooks/useTestimonials";
 import Button from "../../../button/Button";
 
 export default function TestimonialCreate({ barberId }) {
@@ -8,14 +6,8 @@ export default function TestimonialCreate({ barberId }) {
     review: "",
   });
 
-  // const createTestimonial = useCreateTestimonial();
-
   const handleFormSubmitClick = async (event) => {
     event.preventDefault();
-    
-    const newTestimonial = await testimonialsAPI.createTestimonial(barberId, username, views.review)
-
-    // createTestimonial(barberId, values.review);
   };
 
   return (
