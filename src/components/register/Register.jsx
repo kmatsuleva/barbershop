@@ -4,6 +4,7 @@ import { useRegister } from "../../hooks/useAuth";
 import Button from "../button/Button";
 import FormField from "../form-field/FormField";
 import styles from "./Register.module.css";
+import Error from "../error/Error";
 
 export default function Register() {
   // variables
@@ -142,9 +143,7 @@ export default function Register() {
                       {registerError && (
                         <div className="range mt-3">
                           <div className="cell-md-11 m-auto">
-                            <p className={styles["error-msg"]}>
-                              {registerError}
-                            </p>
+                            <Error message={registerError} />
                           </div>
                         </div>
                       )}

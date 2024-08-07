@@ -4,6 +4,7 @@ import Button from "../button/Button";
 import FormField from "../form-field/FormField";
 import styles from "./Login.module.css";
 import { useLogin } from "../../hooks/useAuth";
+import Error from "../error/Error";
 
 const Login = () => {
   const initialValues = {
@@ -85,7 +86,7 @@ const Login = () => {
                     {loginError && (
                       <div className="range mt-3">
                         <div className="cell-md-11 m-auto">
-                          <p className={styles["error-msg"]}>{loginError}</p>
+                          <Error message={loginError} />
                         </div>
                       </div>
                     )}

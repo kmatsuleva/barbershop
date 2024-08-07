@@ -3,8 +3,7 @@
   margin-bottom: 0;
 }
 
-.has-error .form-validation,
-.error-msg {
+.has-error .form-validation {
   color: #d9534f;
 }
 
