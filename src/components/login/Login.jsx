@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import Button from "../button/Button";
 import FormField from "../form-field/FormField";
-import styles from "./Login.module.css";
 import { useLogin } from "../../hooks/useAuth";
 import Error from "../error/Error";
 
@@ -104,10 +103,7 @@ const Login = () => {
                     </div>
 
                     <div>
-                      <Link
-                        to="/register"
-                        className={styles["create-account-link"]}
-                      >
+                      <Link to="/register" className="create-account-link">
                         Create new account
                       </Link>
                     </div>

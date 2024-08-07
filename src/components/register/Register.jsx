@@ -3,7 +3,6 @@ import { useForm } from "../../hooks/useForm";
 import { useRegister } from "../../hooks/useAuth";
 import Button from "../button/Button";
 import FormField from "../form-field/FormField";
-import styles from "./Register.module.css";
 import Error from "../error/Error";
 
 export default function Register() {
@@ -162,10 +161,7 @@ export default function Register() {
 
                       <div>
                         Have an account?
-                        <Link
-                          to="/login"
-                          className={`ml-2 ${styles["create-account-link"]}`}
-                        >
+                        <Link to="/login" className="ml-2 create-account-link">
                           Log in
                         </Link>
                       </div>
