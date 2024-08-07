@@ -9,19 +9,24 @@ import {
 import styles from "../Header.module.css";
 
 export default function AuthLinks({ onLinkClick }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return;
+  }
 
   return (
     <>
-      {(isAuthenticated ? AUTHENTICATED_NAVIGATION : UNAUTHENTICATED_NAVIGATION).map(
-        (item) => (
-          <li key={item.url} className={styles["nav-item"]}>
-            <Link to={item.url} onClick={onLinkClick}>
-              {item.title}
-            </Link>
-          </li>
-        )
-      )}
+      {(isAuthenticated
+        ? AUTHENTICATED_NAVIGATION
+        : UNAUTHENTICATED_NAVIGATION
+      ).map((item) => (
+        <li key={item.url} className={styles["nav-item"]}>
+          <Link to={item.url} onClick={onLinkClick}>
+            {item.title}
+          </Link>
+        </li>
+      ))}
     </>
   );
 }

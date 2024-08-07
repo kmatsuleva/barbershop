@@ -47,11 +47,11 @@ const Login = () => {
   return (
     <section className="section-xl">
       <div className="range range-50">
-        <div className="cell-xs-12 mt-0 mt-lg-2">
+        <div className="cell-xs-12">
           <form onSubmit={handleLogin}>
             <div className="shell">
               <div className="range">
-                <div className="cell-md-6 d-none d-lg-flex">
+                <div className="cell-md-5 d-none d-lg-flex">
                   <img
                     src="/images/home-three-3-1011x800.jpg"
                     className="w-full h-full"
@@ -59,7 +59,7 @@ const Login = () => {
                     alt="Background"
                   />
                 </div>
-                <div className="cell-md-6 mt-0">
+                <div className="cell-md-7 mt-0">
                   <div className="flex flex-col h-full justify-center text-center">
                     <h4>Welcome Back!</h4>
                     <p className="mb-3">
@@ -68,54 +68,61 @@ const Login = () => {
                       experience by writing testimonials and stay connected with
                       our community.
                     </p>
-                    {errors.form && (
-                      <p className={styles["form-validation"]}>{errors.form}</p>
-                    )}
-                    <div className="form-group">
-                      <fieldset
-                        className={`${styles["form-group"]} ${
-                          errors.email ? styles["has-error"] : ""
-                        }`}
-                      >
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Email *"
-                          className="form-control"
-                          value={values.email}
-                          onChange={handleInputChange}
-                        />
-                      </fieldset>
-                      {errors.email && (
-                        <span className={styles["form-validation"]}>
-                          {errors.email}
-                        </span>
-                      )}
+
+                    <div className="range mt-0">
+                      <div className="cell-md-6 mt-1">
+                        <fieldset
+                          className={`${styles["form-group"]} ${
+                            errors.email ? styles["has-error"] : ""
+                          }`}
+                        >
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="Email *"
+                            className={styles["form-control"]}
+                            value={values.email}
+                            onChange={handleInputChange}
+                          />
+                          {errors.email && (
+                            <span className={styles["form-validation"]}>
+                              {errors.email}
+                            </span>
+                          )}
+                        </fieldset>
+                      </div>
+                      <div className="cell-md-6 mt-1">
+                        <fieldset
+                          className={`${styles["form-group"]} ${
+                            errors.password ? styles["has-error"] : ""
+                          }`}
+                        >
+                          <input
+                            type="password"
+                            name="password"
+                            placeholder="Password *"
+                            className={styles["form-control"]}
+                            value={values.password}
+                            onChange={handleInputChange}
+                          />
+                          {errors.password && (
+                            <span className={styles["form-validation"]}>
+                              {errors.password}
+                            </span>
+                          )}
+                        </fieldset>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <fieldset
-                        className={`${styles["form-group"]} ${
-                          errors.password ? styles["has-error"] : ""
-                        }`}
-                      >
-                        <input
-                          type="password"
-                          name="password"
-                          placeholder="Password *"
-                          className="form-control"
-                          value={values.password}
-                          onChange={handleInputChange}
-                        />
-                        {errors.password && (
-                          <span className={styles["form-validation"]}>
-                            {errors.password}
-                          </span>
-                        )}
-                      </fieldset>
-                    </div>
+
                     <div className="range">
                       <div className="cell-md-12">
-                        <Button type="submit" text="Log In" size="sm" />
+                        <Button
+                          type="submit"
+                          text="Log In"
+                          size="sm"
+                          btnStyle="circle"
+                          className="btn-block"
+                        />
                       </div>
                     </div>
 
@@ -127,7 +134,6 @@ const Login = () => {
                         Create new account
                       </Link>
                     </div>
-                    
                   </div>
                 </div>
               </div>

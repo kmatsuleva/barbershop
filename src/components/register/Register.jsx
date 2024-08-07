@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "../../hooks/useForm";
-import Button from "../button/Button";
-import styles from "./Register.module.css";
+import { collection, doc, setDoc } from "firebase/firestore";
 import {
   auth,
   createUserWithEmailAndPassword,
   db,
 } from "../../service/firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+
+import { useForm } from "../../hooks/useForm";
+import Button from "../button/Button";
+
+import styles from "./Register.module.css";
 
 export default function Register() {
   // variables
@@ -33,7 +35,7 @@ export default function Register() {
   };
 
   const validatePhoneNumber = (phoneNumber) => {
-    return /^\+?[1-9]\d{1,14}$/.test(phoneNumber); 
+    return /^\+?[1-9]\d{1,14}$/.test(phoneNumber);
   };
 
   const handleFormValidation = () => {
@@ -74,7 +76,7 @@ export default function Register() {
         await setDoc(userDocRef, {
           firstName: values.firstName,
           lastName: values.lastName,
-          phoneNumber: values.phoneNumber, 
+          phoneNumber: values.phoneNumber,
           email: values.email,
           role: "client",
         });
@@ -89,18 +91,18 @@ export default function Register() {
     <>
       <section className="section-xl">
         <div className="range range-50">
-          <div className="cell-xs-12 mt-0 mt-lg-2">
+          <div className="cell-xs-12">
             <form onSubmit={handleFormSubmitClick}>
               <div className="shell">
                 <div className="range">
-                  <div className="cell-md-6 d-none d-lg-flex">
+                  <div className="cell-md-5 d-none d-lg-flex">
                     <img
                       src="/images/home-three-3-1011x800.jpg"
                       className="w-full h-full"
                       style={{ objectFit: "cover" }}
                     />
                   </div>
-                  <div className="cell-md-6 mt-0">
+                  <div className="cell-md-7 mt-0">
                     <div className="flex flex-col h-full justify-center text-center">
                       <h4>Welcome!</h4>
                       <p className="mb-3">
@@ -109,119 +111,135 @@ export default function Register() {
                         Share your experience by writing testimonials and stay
                         connected with our community.
                       </p>
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.firstName ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="text"
-                            name="firstName"
-                            placeholder="First Name *"
-                            className="form-control"
-                            value={values.firstName}
-                            onChange={handleInputChange}
-                          />
-                        </fieldset>
-                        {errors.firstName && (
-                          <span className={styles["form-validation"]}>
-                            {errors.firstName}
-                          </span>
-                        )}
+                      <div className="range mt-0">
+                        <div className="cell-md-6 mt-1">
+                          <fieldset
+                            className={`${styles["form-group"]} ${
+                              errors.firstName ? styles["has-error"] : ""
+                            }`}
+                          >
+                            <input
+                              type="text"
+                              name="firstName"
+                              placeholder="First Name *"
+                              className={styles["form-control"]}
+                              value={values.firstName}
+                              onChange={handleInputChange}
+                            />
+
+                            {errors.firstName && (
+                              <span className={styles["form-validation"]}>
+                                {errors.firstName}
+                              </span>
+                            )}
+                          </fieldset>
+                        </div>
+
+                        <div className="cell-md-6 mt-1">
+                          <fieldset
+                            className={`${styles["form-group"]} ${
+                              errors.lastName ? styles["has-error"] : ""
+                            }`}
+                          >
+                            <input
+                              type="text"
+                              name="lastName"
+                              placeholder="Last Name *"
+                              className={styles["form-control"]}
+                              value={values.lastName}
+                              onChange={handleInputChange}
+                            />
+                            {errors.lastName && (
+                              <span className={styles["form-validation"]}>
+                                {errors.lastName}
+                              </span>
+                            )}
+                          </fieldset>
+                        </div>
                       </div>
 
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.lastName ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="text"
-                            name="lastName"
-                            placeholder="Last Name *"
-                            className="form-control"
-                            value={values.lastName}
-                            onChange={handleInputChange}
-                          />
-                        </fieldset>
-                        {errors.lastName && (
-                          <span className={styles["form-validation"]}>
-                            {errors.lastName}
-                          </span>
-                        )}
+                      <div className="range mt-0">
+                        <div className="cell-md-6 mt-1">
+                          <fieldset
+                            className={`${styles["form-group"]} ${
+                              errors.phoneNumber ? styles["has-error"] : ""
+                            }`}
+                          >
+                            <input
+                              type="text"
+                              name="phoneNumber"
+                              placeholder="Phone Number *"
+                              className={styles["form-control"]}
+                              value={values.phoneNumber}
+                              onChange={handleInputChange}
+                            />
+
+                            {errors.phoneNumber && (
+                              <span className={styles["form-validation"]}>
+                                {errors.phoneNumber}
+                              </span>
+                            )}
+                          </fieldset>
+                        </div>
+                        <div className="cell-md-6 mt-1">
+                         
+                        </div>
                       </div>
 
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.phoneNumber ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="text"
-                            name="phoneNumber"
-                            placeholder="Phone Number *"
-                            className="form-control"
-                            value={values.phoneNumber}
-                            onChange={handleInputChange}
-                          />
-                        </fieldset>
-                        {errors.phoneNumber && (
-                          <span className={styles["form-validation"]}>
-                            {errors.phoneNumber}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.email ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="email"
-                            name="email"
-                            placeholder="Email *"
-                            className="form-control"
-                            value={values.email}
-                            onChange={handleInputChange}
-                          />
-                        </fieldset>
-                        {errors.email && (
-                          <span className={styles["form-validation"]}>
-                            {errors.email}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="form-group">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.password ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="password"
-                            name="password"
-                            placeholder="Password *"
-                            className="form-control"
-                            value={values.password}
-                            onChange={handleInputChange}
-                          />
-                          {errors.password && (
-                            <span className={styles["form-validation"]}>
-                              {errors.password}
-                            </span>
-                          )}
-                        </fieldset>
+                      <div className="range mt-0">
+                      <div className="cell-md-6 mt-1">
+                          <fieldset
+                            className={`${styles["form-group"]} ${
+                              errors.email ? styles["has-error"] : ""
+                            }`}
+                          >
+                            <input
+                              type="email"
+                              name="email"
+                              placeholder="Email *"
+                              className={styles["form-control"]}
+                              value={values.email}
+                              onChange={handleInputChange}
+                            />
+                            {errors.email && (
+                              <span className={styles["form-validation"]}>
+                                {errors.email}
+                              </span>
+                            )}
+                          </fieldset>
+                        </div>
+                        <div className="cell-md-6 mt-1">
+                          <fieldset
+                            className={`${styles["form-group"]} ${
+                              errors.password ? styles["has-error"] : ""
+                            }`}
+                          >
+                            <input
+                              type="password"
+                              name="password"
+                              placeholder="Password *"
+                              className={styles["form-control"]}
+                              value={values.password}
+                              onChange={handleInputChange}
+                            />
+                            {errors.password && (
+                              <span className={styles["form-validation"]}>
+                                {errors.password}
+                              </span>
+                            )}
+                          </fieldset>
+                        </div>
                       </div>
 
                       <div className="range">
                         <div className="cell-md-12">
-                          <Button type="submit" text="Register" size="sm" />
+                          <Button
+                            type="submit"
+                            text="Register"
+                            size="sm"
+                            btnStyle="circle"
+                            className="btn-block"
+                          />
                         </div>
                       </div>
 

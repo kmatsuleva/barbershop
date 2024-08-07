@@ -6,6 +6,7 @@ import { useForm } from "../../hooks/useForm";
 
 import Banner from "../banner/Banner";
 import SuccessSubmit from "./success-submit/SuccessSubmit";
+import Button from "../button/Button";
 
 import styles from "./Contacts.module.css";
 import "leaflet/dist/leaflet.css";
@@ -251,12 +252,13 @@ export default function Contacts() {
                         </div>
                         <div className="range">
                           <div className="cell-md-12 text-center">
-                            <button
-                              className="btn btn-sm btn-primary btn-block btn-circle"
+                            <Button
                               type="submit"
-                            >
-                              Send Message Now
-                            </button>
+                              text="Send Message Now"
+                              size="sm"
+                              btnStyle="circle"
+                              className="btn-block"
+                            />
                           </div>
                         </div>
                       </div>
