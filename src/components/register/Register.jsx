@@ -22,48 +22,40 @@ export default function Register() {
     password: "",
   };
 
+  const validators = {
+    firstName: (value) => (!value ? "Field is required." : ""),
+    lastName: (value) => (!value ? "Field is required." : ""),
+    phoneNumber: (value) =>
+      !value
+        ? "Phone number is required."
+        : !/^\+?[1-9]\d{1,14}$/.test(value)
+        ? "Invalid phone number."
+        : "",
+    email: (value) =>
+      !value
+        ? "Email is required."
+        : !/\S+@\S+\.\S+/.test(value)
+        ? "Invalid email address."
+        : "",
+    password: (value) =>
+      !value
+        ? "Password is required."
+        : value.length < 6
+        ? "Password should be at least 6 characters."
+        : "",
+  };
+
   // states
-  const [errors, setErrors] = useState({});
   const [registerError, setRegisterError] = useState("");
 
   // hooks
   const navigate = useNavigate();
-  const { values, handleInputChange } = useForm(initialValues);
+  const { values, handleInputChange, handleFormValidation, errors } = useForm(
+    initialValues,
+    validators
+  );
 
   // handlers
-  const validateEmail = (email) => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
-
-  const validatePhoneNumber = (phoneNumber) => {
-    return /^\+?[1-9]\d{1,14}$/.test(phoneNumber);
-  };
-
-  const handleFormValidation = () => {
-    const errorsList = {};
-
-    if (!values.firstName) errorsList.firstName = "Field is required.";
-    if (!values.lastName) errorsList.lastName = "Field is required.";
-    if (!values.phoneNumber) {
-      errorsList.phoneNumber = "Phone number is required.";
-    } else if (!validatePhoneNumber(values.phoneNumber)) {
-      errorsList.phoneNumber = "Invalid phone number.";
-    }
-    if (!values.email) {
-      errorsList.email = "Email is required.";
-    } else if (!validateEmail(values.email)) {
-      errorsList.email = "Invalid email address.";
-    }
-    if (!values.password) {
-      errorsList.password = "Password is required.";
-    } else if (values.password.length < 6) {
-      errorsList.password = "Password should be at least 6 characters.";
-    }
-
-    setErrors(errorsList);
-    return Object.keys(errorsList).length === 0;
-  };
-
   const handleFormSubmitClick = async (event) => {
     event.preventDefault();
 
@@ -89,7 +81,7 @@ export default function Register() {
       }
     } catch (error) {
       console.log(error.message);
-      
+
       switch (error.code) {
         case "auth/email-already-in-use":
           setRegisterError(

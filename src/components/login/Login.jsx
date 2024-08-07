@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "../../hooks/useForm";
 import { auth } from "../../service/firebase";
 import Button from "../button/Button";
 import styles from "./Login.module.css";
+import { useState } from "react";
 
 const Login = () => {
   const initialValues = {
@@ -12,27 +12,23 @@ const Login = () => {
     password: "",
   };
 
-  const [errors, setErrors] = useState({});
+  const validators = {
+    email: (value) =>
+      !value
+        ? "Email is required."
+        : !/\S+@\S+\.\S+/.test(value)
+        ? "Invalid email address."
+        : null,
+    password: (value) => (!value ? "Password is required." : null),
+  };
+  
   const [loginError, setLoginError] = useState("");
 
   const navigate = useNavigate();
-  const { values, handleInputChange } = useForm(initialValues);
-
-  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-
-  const handleFormValidation = () => {
-    const errorsList = {};
-
-    if (!values.email) {
-      errorsList.email = "Email is required.";
-    } else if (!validateEmail(values.email)) {
-      errorsList.email = "Invalid email address.";
-    }
-    if (!values.password) errorsList.password = "Password is required.";
-
-    setErrors(errorsList);
-    return Object.keys(errorsList).length === 0;
-  };
+  const { values, handleInputChange, handleFormValidation, errors } = useForm(
+    initialValues,
+    validators
+  );
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,12 +38,10 @@ const Login = () => {
         navigate("/");
       } catch (error) {
         console.error("Login error:", error.message);
-        
+
         switch (error.code) {
           case "auth/invalid-credential":
-            setLoginError(
-              "User not found. Please check your email or register."
-            );
+            setLoginError("User not found. Please check your email or register.");
             break;
           default:
             setLoginError("Login failed. Please try again.");
