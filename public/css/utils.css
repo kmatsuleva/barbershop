@@ -238,6 +238,13 @@
   margin: 20px;
 }
 
+.m-center {
+  margin: 0 auto;
+}
+
+.m-auto {
+  margin: auto;
+}
 
 .flex {
   display: flex;

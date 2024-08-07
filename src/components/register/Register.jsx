@@ -24,6 +24,7 @@ export default function Register() {
 
   // states
   const [errors, setErrors] = useState({});
+  const [registerError, setRegisterError] = useState("");
 
   // hooks
   const navigate = useNavigate();
@@ -53,7 +54,11 @@ export default function Register() {
     } else if (!validateEmail(values.email)) {
       errorsList.email = "Invalid email address.";
     }
-    if (!values.password) errorsList.password = "Password is required.";
+    if (!values.password) {
+      errorsList.password = "Password is required.";
+    } else if (values.password.length < 6) {
+      errorsList.password = "Password should be at least 6 characters.";
+    }
 
     setErrors(errorsList);
     return Object.keys(errorsList).length === 0;
@@ -82,8 +87,18 @@ export default function Register() {
         });
         navigate("/");
       }
-    } catch (err) {
-      console.log(err.message);
+    } catch (error) {
+      console.log(error.message);
+      
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setRegisterError(
+            "This email address is already in use. Please use a different email or try logging in."
+          );
+          break;
+        default:
+          setRegisterError("Register failed. Please try again.");
+      }
     }
   };
 
@@ -181,13 +196,11 @@ export default function Register() {
                             )}
                           </fieldset>
                         </div>
-                        <div className="cell-md-6 mt-1">
-                         
-                        </div>
+                        <div className="cell-md-6 mt-1"></div>
                       </div>
 
                       <div className="range mt-0">
-                      <div className="cell-md-6 mt-1">
+                        <div className="cell-md-6 mt-1">
                           <fieldset
                             className={`${styles["form-group"]} ${
                               errors.email ? styles["has-error"] : ""
@@ -230,6 +243,16 @@ export default function Register() {
                           </fieldset>
                         </div>
                       </div>
+
+                      {registerError && (
+                        <div className="range mt-3">
+                          <div className="cell-md-11 m-auto">
+                            <p className={styles["error-msg"]}>
+                              {registerError}
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="range">
                         <div className="cell-md-12">

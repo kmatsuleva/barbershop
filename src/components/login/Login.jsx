@@ -13,6 +13,8 @@ const Login = () => {
   };
 
   const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState("");
+
   const navigate = useNavigate();
   const { values, handleInputChange } = useForm(initialValues);
 
@@ -40,6 +42,16 @@ const Login = () => {
         navigate("/");
       } catch (error) {
         console.error("Login error:", error.message);
+        
+        switch (error.code) {
+          case "auth/invalid-credential":
+            setLoginError(
+              "User not found. Please check your email or register."
+            );
+            break;
+          default:
+            setLoginError("Login failed. Please try again.");
+        }
       }
     }
   };
@@ -113,6 +125,14 @@ const Login = () => {
                         </fieldset>
                       </div>
                     </div>
+
+                    {loginError && (
+                      <div className="range mt-3">
+                        <div className="cell-md-11 m-auto">
+                          <p className={styles["error-msg"]}>{loginError}</p>
+                        </div>
+                      </div>
+                    )}
 
                     <div className="range">
                       <div className="cell-md-12">

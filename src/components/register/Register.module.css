@@ -43,7 +43,7 @@ textarea.form-control {
   right: 4px;
 }
 
-.has-error .form-validation {
+.has-error .form-validation, .error-msg {
   color: #d9534f;
 }
 
