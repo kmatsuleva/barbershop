@@ -1,17 +1,9 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { collection, doc, setDoc } from "firebase/firestore";
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  db,
-} from "../../service/firebase";
-
+import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
+import { useRegister } from "../../hooks/useAuth";
 import Button from "../button/Button";
-
-import styles from "./Register.module.css";
 import FormField from "../form-field/FormField";
+import styles from "./Register.module.css";
 
 export default function Register() {
   // variables
@@ -46,52 +38,19 @@ export default function Register() {
         : "",
   };
 
-  // states
-  const [registerError, setRegisterError] = useState("");
-
   // hooks
-  const navigate = useNavigate();
   const { values, handleInputChange, handleFormValidation, errors } = useForm(
     initialValues,
     validators
   );
+  const { register, registerError } = useRegister();
 
   // handlers
   const handleRegister = async (event) => {
     event.preventDefault();
 
-    try {
-      if (handleFormValidation()) {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        );
-        const user = userCredential.user;
-        const usersCollectionRef = collection(db, "users");
-        const userDocRef = doc(usersCollectionRef, user.uid);
-
-        await setDoc(userDocRef, {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          phoneNumber: values.phoneNumber,
-          email: values.email,
-          role: "client",
-        });
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error.message);
-
-      switch (error.code) {
-        case "auth/email-already-in-use":
-          setRegisterError(
-            "This email address is already in use. Please use a different email or try logging in."
-          );
-          break;
-        default:
-          setRegisterError("Register failed. Please try again.");
-      }
+    if (handleFormValidation()) {
+      await register(values);
     }
   };
 

@@ -1,11 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { auth } from "../../service/firebase";
 import Button from "../button/Button";
-import styles from "./Login.module.css";
-import { useState } from "react";
 import FormField from "../form-field/FormField";
+import styles from "./Login.module.css";
+import { useLogin } from "../../hooks/useAuth";
 
 const Login = () => {
   const initialValues = {
@@ -23,33 +21,16 @@ const Login = () => {
     password: (value) => (!value ? "Password is required." : null),
   };
 
-  const [loginError, setLoginError] = useState("");
-
-  const navigate = useNavigate();
   const { values, handleInputChange, handleFormValidation, errors } = useForm(
     initialValues,
     validators
   );
+  const { login, loginError } = useLogin();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     if (handleFormValidation()) {
-      try {
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-        navigate("/");
-      } catch (error) {
-        console.error("Login error:", error.message);
-
-        switch (error.code) {
-          case "auth/invalid-credential":
-            setLoginError(
-              "User not found. Please check your email or register."
-            );
-            break;
-          default:
-            setLoginError("Login failed. Please try again.");
-        }
-      }
+      await login(values);
     }
   };
 

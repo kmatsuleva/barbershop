@@ -1,17 +1,13 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { auth } from "../../service/firebase";
+import { useLogout } from "../../hooks/useAuth";
 
 const Logout = () => {
+  const { logout } = useLogout();
+
   useEffect(() => {
-    (async () => {
-      try {
-        await auth.signOut();
-      } catch (error) {
-        console.error("Error signing out: ", error);
-      }
-    })();
-  }, []);
+    logout();
+  }, [logout]);
 
   return <Navigate to="/" />;
 };
