@@ -7,6 +7,7 @@ import { useForm } from "../../hooks/useForm";
 import Banner from "../banner/Banner";
 import SuccessSubmit from "./success-submit/SuccessSubmit";
 import Button from "../button/Button";
+import FormField from "../form-field/FormField";
 
 import styles from "./Contacts.module.css";
 import "leaflet/dist/leaflet.css";
@@ -15,19 +16,34 @@ export default function Contacts() {
   // variables
   const location = [47.717562, -122.303803];
 
-  // states
-  const [errors, setErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formHeight, setFormHeight] = useState(0);
-
-  // hooks
-  const { values, handleInputChange } = useForm({
+  const initialValues = {
     name: "",
     subject: "",
     email: "",
     phoneNumber: "",
     message: "",
-  });
+  };
+
+  const validators = {
+    name: (value) => (!value ? "Name is required." : ""),
+    email: (value) =>
+      !value
+        ? "Email is required."
+        : !/\S+@\S+\.\S+/.test(value)
+        ? "Invalid email address."
+        : "",
+    message: (value) => (!value ? "Message is required." : ""),
+  };
+
+  // states
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formHeight, setFormHeight] = useState(0);
+
+  // hooks
+  const { values, handleInputChange, handleFormValidation, errors } = useForm(
+    initialValues,
+    validators
+  );
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -37,25 +53,6 @@ export default function Contacts() {
   }, []);
 
   // handlers
-  const validateEmail = (email) => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
-
-  const handleFormValidation = () => {
-    const errorsList = {};
-
-    if (!values.name) errorsList.name = "Name is required.";
-    if (!values.email) {
-      errorsList.email = "Email is required.";
-    } else if (!validateEmail(values.email)) {
-      errorsList.email = "Invalid email address.";
-    }
-    if (!values.message) errorsList.message = "Message is required.";
-
-    setErrors(errorsList);
-    return Object.keys(errorsList).length === 0;
-  };
-
   const handleFormSubmit = () => {
     emailjs
       .send(
@@ -155,99 +152,66 @@ export default function Contacts() {
                       <div className="fill-form">
                         <div className="range">
                           <div className="cell-md-6 mt-1">
-                            <fieldset
-                              className={`${styles["form-group"]} ${
-                                errors.name ? styles["has-error"] : ""
-                              }`}
-                            >
-                              <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Name *"
-                                className={styles["form-control"]}
-                                value={values.name}
-                                onChange={handleInputChange}
-                              />
-                              {errors.name && (
-                                <span className={styles["form-validation"]}>
-                                  {errors.name}
-                                </span>
-                              )}
-                            </fieldset>
+                            <FormField
+                              type="text"
+                              name="name"
+                              id="name"
+                              placeholder="Name *"
+                              className={styles["form-control"]}
+                              value={values.name}
+                              onChange={handleInputChange}
+                              error={errors.name}
+                            />
                           </div>
                           <div className="cell-md-6 mt-1">
-                            <fieldset className={styles["form-group"]}>
-                              <input
-                                type="text"
-                                name="subject"
-                                id="subject"
-                                placeholder="Subject"
-                                className={styles["form-control"]}
-                                value={values.subject}
-                                onChange={handleInputChange}
-                              />
-                            </fieldset>
+                            <FormField
+                              type="text"
+                              name="subject"
+                              id="subject"
+                              placeholder="Subject"
+                              className={styles["form-control"]}
+                              value={values.subject}
+                              onChange={handleInputChange}
+                            />
                           </div>
                         </div>
                         <div className="range mt-0">
                           <div className="cell-md-6 mt-1">
-                            <fieldset
-                              className={`${styles["form-group"]} ${
-                                errors.email ? styles["has-error"] : ""
-                              }`}
-                            >
-                              <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                placeholder="Email *"
-                                className={styles["form-control"]}
-                                value={values.email}
-                                onChange={handleInputChange}
-                              />
-                              {errors.email && (
-                                <span className={styles["form-validation"]}>
-                                  {errors.email}
-                                </span>
-                              )}
-                            </fieldset>
+                            <FormField
+                              type="email"
+                              name="email"
+                              id="email"
+                              placeholder="Email *"
+                              className={styles["form-control"]}
+                              value={values.email}
+                              onChange={handleInputChange}
+                              error={errors.email}
+                            />
                           </div>
                           <div className="cell-md-6 mt-1">
-                            <fieldset className={styles["form-group"]}>
-                              <input
-                                type="text"
-                                name="phoneNumber"
-                                id="phoneNumber"
-                                placeholder="Phone number"
-                                className={styles["form-control"]}
-                                value={values.phoneNumber}
-                                onChange={handleInputChange}
-                              />
-                            </fieldset>
+                            <FormField
+                              type="text"
+                              name="phoneNumber"
+                              id="phoneNumber"
+                              placeholder="Phone number"
+                              className={styles["form-control"]}
+                              value={values.phoneNumber}
+                              onChange={handleInputChange}
+                            />
                           </div>
                         </div>
                         <div className="range mt-1">
                           <div className="cell-md-12">
-                            <fieldset
-                              className={`${styles["form-group"]} ${
-                                errors.message ? styles["has-error"] : ""
-                              }`}
-                            >
-                              <textarea
-                                name="message"
-                                className={styles["form-control"]}
-                                placeholder="Message *"
-                                rows={6}
-                                value={values.message}
-                                onChange={handleInputChange}
-                              ></textarea>
-                              {errors.message && (
-                                <span className={styles["form-validation"]}>
-                                  {errors.message}
-                                </span>
-                              )}
-                            </fieldset>
+                            <FormField
+                              type="textarea"
+                              name="message"
+                              className={styles["form-control"]}
+                              placeholder="Message *"
+                              rows={6}
+                              value={values.message}
+                              onChange={handleInputChange}
+                              error={errors.message}
+                            />
                           </div>
                         </div>
                         <div className="range">

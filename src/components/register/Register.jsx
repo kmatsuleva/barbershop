@@ -57,7 +57,7 @@ export default function Register() {
   );
 
   // handlers
-  const handleFormSubmitClick = async (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
 
     try {
@@ -100,7 +100,7 @@ export default function Register() {
       <section className="section-xl">
         <div className="range range-50">
           <div className="cell-xs-12">
-            <form onSubmit={handleFormSubmitClick}>
+            <form onSubmit={handleRegister}>
               <div className="shell">
                 <div className="range">
                   <div className="cell-md-5 d-none d-lg-flex">
