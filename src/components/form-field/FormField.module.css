@@ -46,8 +46,3 @@ textarea.form-control {
   color: rgba(217, 83, 79, 0.9);
   transition: .3s;
 }
-
-.form-label-outside~.form-validation {
-  top: 31px;
-  right: 4px;
-}
