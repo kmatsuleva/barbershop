@@ -5,6 +5,7 @@ import { auth } from "../../service/firebase";
 import Button from "../button/Button";
 import styles from "./Login.module.css";
 import { useState } from "react";
+import FormField from "../form-field/FormField";
 
 const Login = () => {
   const initialValues = {
@@ -21,7 +22,7 @@ const Login = () => {
         : null,
     password: (value) => (!value ? "Password is required." : null),
   };
-  
+
   const [loginError, setLoginError] = useState("");
 
   const navigate = useNavigate();
@@ -41,7 +42,9 @@ const Login = () => {
 
         switch (error.code) {
           case "auth/invalid-credential":
-            setLoginError("User not found. Please check your email or register.");
+            setLoginError(
+              "User not found. Please check your email or register."
+            );
             break;
           default:
             setLoginError("Login failed. Please try again.");
@@ -77,46 +80,24 @@ const Login = () => {
 
                     <div className="range mt-0">
                       <div className="cell-md-6 mt-1">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.email ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="email"
-                            name="email"
-                            placeholder="Email *"
-                            className={styles["form-control"]}
-                            value={values.email}
-                            onChange={handleInputChange}
-                          />
-                          {errors.email && (
-                            <span className={styles["form-validation"]}>
-                              {errors.email}
-                            </span>
-                          )}
-                        </fieldset>
+                        <FormField
+                          type="email"
+                          name="email"
+                          placeholder="Email *"
+                          value={values.email}
+                          onChange={handleInputChange}
+                          error={errors.email}
+                        />
                       </div>
                       <div className="cell-md-6 mt-1">
-                        <fieldset
-                          className={`${styles["form-group"]} ${
-                            errors.password ? styles["has-error"] : ""
-                          }`}
-                        >
-                          <input
-                            type="password"
-                            name="password"
-                            placeholder="Password *"
-                            className={styles["form-control"]}
-                            value={values.password}
-                            onChange={handleInputChange}
-                          />
-                          {errors.password && (
-                            <span className={styles["form-validation"]}>
-                              {errors.password}
-                            </span>
-                          )}
-                        </fieldset>
+                        <FormField
+                          type="password"
+                          name="password"
+                          placeholder="Password *"
+                          value={values.password}
+                          onChange={handleInputChange}
+                          error={errors.password}
+                        />
                       </div>
                     </div>
 
