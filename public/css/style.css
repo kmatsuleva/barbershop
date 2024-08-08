@@ -30227,7 +30227,7 @@ blockquote .small:before {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .ie-10 .post-single-header,
