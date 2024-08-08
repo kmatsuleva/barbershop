@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -39,10 +38,13 @@ export default function FeaturedBlogs() {
             <h2>Latest blog posts</h2>
             <div className="p text-width-medium">
               <p className="big">
-                Barbershop is not only a place where you can get a first-class haircut. Our barbers also write interesting articles on everything concerning their sphere of interest.
+                Barbershop is not only a place where you can get a first-class
+                haircut. Our barbers also write interesting articles on
+                everything concerning their sphere of interest.
               </p>
             </div>
           </div>
+          {/* TODO: Sort by latest blogs */}
           <div className="cell-xs-12">
             <div className="slider-container">
               <Slider {...settings}>

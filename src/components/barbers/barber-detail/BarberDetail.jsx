@@ -1,19 +1,17 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-
-import { AuthContext } from "../../../contexts/AuthContext";
-import { useGetOneBarber } from "../../../hooks/barbers/useGetOneBarber";
-
+import { useAuth } from "../../../hooks/useAuth";
 import Loader from "../../loader/Loader";
 import Testimonials from "../../testimonials/Testimonials";
 import Button from "../../button/Button";
 import ButtonLink from "../../button-link/ButtonLink";
 import TestimonialCreate from "../../testimonials/testimonial/testimonial-create/TestimonialCreate";
+import { useGetOneBarber } from "../../../hooks/useBarbers";
 
 export default function BarberDetail() {
   const { barberId } = useParams();
-  const { barber, isRequestPending } = useGetOneBarber(barberId);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { barber, loading } = useGetOneBarber(barberId);
+  const { isAuthenticated } = useAuth();
 
   const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
 
@@ -24,7 +22,7 @@ export default function BarberDetail() {
   return (
     <>
       <div>
-        {isRequestPending ? (
+        {loading ? (
           <Loader />
         ) : (
           <div className="range range-sm-center range-75">
@@ -58,17 +56,19 @@ export default function BarberDetail() {
                           marginTop: "9px",
                         }}
                       ></span>
-                      {barber.workExperience} of experience
+                      {/* {barber.workExperience} of experience */}
                     </div>
                     <div>
-                      <span
-                        className="icon icon-xxs icon-primary fa fa-heart-o" // TODO: fa-heart if user added to fav.
-                        style={{
-                          marginRight: "8px",
-                          marginTop: "9px",
-                        }}
-                      ></span>
-                      <span>48</span>
+                      <a href="#">
+                        <span
+                          className="icon icon-xxs icon-primary fa fa-heart-o" // TODO: fa-heart if user added to fav.
+                          style={{
+                            marginRight: "8px",
+                            marginTop: "9px",
+                          }}
+                        ></span>
+                        <span style={{ color: "#014d55" }}>48</span>
+                      </a>
                     </div>
                   </div>
                 </div>

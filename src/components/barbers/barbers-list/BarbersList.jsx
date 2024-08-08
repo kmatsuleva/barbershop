@@ -1,29 +1,33 @@
-import { useGetAllBarbers } from "../../../hooks/barbers/useGetAllBarbers";
 
+import { useGetAllBarbers } from "../../../hooks/useBarbers";
 import Loader from "../../loader/Loader";
 import ThumbnailCard from "../../cards/thumbnail-card/ThumbnailCard";
 import ButtonLink from "../../button-link/ButtonLink";
 
 export default function BarbersList({ size }) {
-  const { barbersList, isRequestPending } = useGetAllBarbers();
+  const { barbersList, loading } = useGetAllBarbers();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const displayedBarbers = size ? barbersList.slice(0, size) : barbersList;
 
   return (
     <>
-      {isRequestPending ? (
+      {loading ? (
         <Loader />
       ) : barbersList.length > 0 ? (
         <>
           <div className="range range-30">
             {displayedBarbers.map((barber) => (
-              <div className="cell-sm-6 cell-md-4 height-fill" key={barber._id}>
+              <div className="cell-sm-6 cell-md-4 height-fill" key={barber.id}>
                 <ThumbnailCard
                   image={barber.photoUrl}
                   header={`${barber.firstName} ${barber.lastName}`}
                   body={barber.summary}
-                  footer={barber.workExperience}
-                  detailsUrl={`/barbers/${barber._id}/details`}
+                  // footer={barber.workExperience}
+                  detailsUrl={`/barbers/${barber.id}/details`}
                 />
               </div>
             ))}
