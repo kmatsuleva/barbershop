@@ -1,5 +1,12 @@
 .dashboard-body {
-  margin-left: auto;
-  width: calc(100% - 250px);
+  margin-left: 0;
+  width: 100%;
   background-color: #fff;
+}
+
+@media (min-width: 1200px) {
+  .dashboard-body {
+    margin-left: auto;
+    width: calc(100% - 250px);
+  }
 }
