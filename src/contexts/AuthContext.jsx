@@ -1,22 +1,26 @@
-import { createContext, useState, useEffect } from "react";
-import { auth, onAuthStateChanged } from "../service/firebase";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const userData = localStorage.getItem("user");
+    return userData ? JSON.parse(userData) : null;
+  });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+  const handleUser = (user) => {
+    setUser(user);
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user?.accessToken, user, loading }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: !!user?.uid,
+        user,
+        userRole: user?.role,
+        handleUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

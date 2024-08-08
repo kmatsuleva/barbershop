@@ -3,10 +3,10 @@ import styles from "./Sidebar.module.css";
 
 export default function Sidebar({ navigation }) {
   return (
-    <aside className={`${styles["dashboard-sidebar"]}`}>
-      <ul className={styles["dashboard-sidebar-list"]}>
+    <aside className={`${styles["sidebar"]}`}>
+      <ul className={styles["sidebar-list"]}>
         {navigation.map((page) => (
-          <li key={page.url} className={styles["dashboard-sidebar-item"]}>
+          <li key={page.url} className={styles["sidebar-item"]}>
             <Link to={page.url}>
               {page.title}
             </Link>
