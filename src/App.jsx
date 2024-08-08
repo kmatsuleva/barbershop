@@ -19,7 +19,7 @@ import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import BlogManagement from "./components/dashboard/admin-dashboard/blogs/BlogManagement";
-import ClientManagement from "./components/dashboard/admin-dashboard/clients/ClientManagement";
+import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
@@ -54,8 +54,8 @@ function App() {
               <Route path="/booking" element={<Booking />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route element={<AdminPagesGuard />}>
-                  <Route index element={<ClientManagement />} />
-                  <Route path="clients" element={<ClientManagement />} />
+                  <Route index element={<UserManagement />} />
+                  <Route path="users" element={<UserManagement />} />
                   <Route path="barbers" element={<BarberManagement />} />
                   <Route path="blogs" element={<BlogManagement />} />
                 </Route>
