@@ -51,8 +51,8 @@ const Login = () => {
                 </div>
                 <div className="cell-md-7 mt-0">
                   <div className="flex flex-col h-full justify-center text-center">
-                    <h4>Welcome Back!</h4>
-                    <p className="mb-3">
+                    <h3>Welcome Back!</h3>
+                    <p className="big mb-3">
                       Log in to book your next appointment, manage your favorite
                       barbers, and explore our latest blog posts. Share your
                       experience by writing testimonials and stay connected with
