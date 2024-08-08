@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
+import { useGetOneBarber } from "../../../hooks/useBarbers";
 import Loader from "../../loader/Loader";
-import Testimonials from "../../testimonials/Testimonials";
 import Button from "../../button/Button";
 import ButtonLink from "../../button-link/ButtonLink";
+import Icon from "../../icons/Star";
+import Testimonials from "../../testimonials/Testimonials";
 import TestimonialCreate from "../../testimonials/testimonial/testimonial-create/TestimonialCreate";
-import { useGetOneBarber } from "../../../hooks/useBarbers";
+import { useGetBarberTestimonials } from "../../../hooks/useTestimonials";
 
 export default function BarberDetail() {
+  const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
+
   const { barberId } = useParams();
   const { barber, loading } = useGetOneBarber(barberId);
   const { isAuthenticated } = useAuth();
-
-  const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
+  const { testimonials } = useGetBarberTestimonials(barberId);
 
   const handleWriteReviewClick = () => {
     setReviewButtonClicked(true);
@@ -77,7 +80,7 @@ export default function BarberDetail() {
           </div>
         )}
 
-        <section className="section-xl bg-periglacial-blue text-center">
+        <section className="section-xl bg-periglacial-blue text-center pb-0">
           <div className="shell">
             <div className="range range-sm-center range-75">
               <div className="cell-xs-12">
@@ -91,31 +94,45 @@ export default function BarberDetail() {
                 </div>
               </div>
 
-              {isAuthenticated ? (
-                isReviewButtonClicked ? (
+              {isReviewButtonClicked ? (
+                <div className="cell-xs-7">
                   <TestimonialCreate barberId={barberId} />
-                ) : (
-                  <Button
-                    text="Write a review"
-                    size="sm"
-                    btnStyle="circle"
-                    className="mt-3"
-                    onClick={handleWriteReviewClick}
-                  />
-                )
+                </div>
               ) : (
-                <ButtonLink
-                  text="Log in to write a review"
-                  url="/login"
-                  size="sm"
-                  btnStyle="circle"
-                  className="mt-3"
-                />
+                <div className="unit unit-spacimg-md unit-xs-horizontal unit-align-center unit-middle">
+                  <div className="unit-left text-sm-right">
+                    <div className="list-rating">
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <Icon key={index} size="xxs" icon="star" />
+                      ))}
+                    </div>
+                    <p className="small">Your feedback is Valuable!</p>
+                  </div>
+                  <div className="unit-body">
+                    {isAuthenticated ? (
+                      <Button
+                        text="Write a review"
+                        size="xs"
+                        btnStyle="circle"
+                        onClick={handleWriteReviewClick}
+                      />
+                    ) : (
+                      <ButtonLink
+                        text="Log in to write a review"
+                        url="/login"
+                        size="xs"
+                        btnStyle="circle"
+                      />
+                    )}
+                  </div>
+                </div>
               )}
 
-              <div className="cell-xs-12">
-                <Testimonials />
-              </div>
+              {testimonials.length > 0 && (
+                <div className="cell-xs-12">
+                  <Testimonials testimonials={testimonials} />
+                </div>
+              )}
             </div>
           </div>
         </section>

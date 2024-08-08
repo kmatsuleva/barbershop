@@ -21,7 +21,6 @@ export function useGetAllBlogs() {
             ...doc.data(),
         }));
         setBlogPosts(blogs);
-        console.log('blogs:', blogs);
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
         setError(error);

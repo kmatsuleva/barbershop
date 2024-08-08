@@ -10880,6 +10880,9 @@ address {
 	height: 14px;
 	font-size: 14px;
 	line-height: 14px;
+	display: inline-block;
+	padding: 0 2px;
+	letter-spacing: 0;
 }
 
 .page .icon-md {
@@ -26767,7 +26770,7 @@ blockquote .small:before {
 
 @media (min-width: 1200px) {
 	.quote-fullwidth {
-		padding: 90px 100px 65px 130px;
+		padding: 90px 100px 90px 130px;
 	}
 }
 
@@ -39867,4 +39870,8 @@ a.pswp__share--download:hover {
   width: 100%;
   height: 0.7px;
   background-color: #000;
+}
+
+.swiper-pagination-bullet-active {
+	background: #014d55 !important;
 }
