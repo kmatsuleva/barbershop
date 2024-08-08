@@ -22,7 +22,7 @@ export default function FeaturedBlogs() {
       },
     ],
     centerMode: true,
-    centerPadding: "60px",
+    centerPadding: 0,
   };
 
   const { blogPosts, loading } = useGetAllBlogs();
