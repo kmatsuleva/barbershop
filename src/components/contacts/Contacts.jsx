@@ -101,6 +101,7 @@ export default function Contacts() {
                         justifyContent: "flex-start",
                         alignContent: "space-between",
                       }}
+                      className="big"
                     >
                       <dl>
                         <dt>Monday – Friday</dt>
@@ -115,12 +116,12 @@ export default function Contacts() {
                 </div>
                 <div className="cell-md-7">
                   <div className="range">
-                    <div className="cell-sm-6">
+                    <div className="cell-sm-6 big">
                       <h3>Phone number</h3>
                       <address>010-020-0340</address>
                     </div>
 
-                    <div className="cell-sm-6">
+                    <div className="cell-sm-6 big">
                       <h3>Address</h3>
                       <address>
                         123 Street W, Seattle WA 99999 United States
@@ -152,7 +153,6 @@ export default function Contacts() {
                             <FormField
                               type="text"
                               name="name"
-                              id="name"
                               placeholder="Name *"
                               className={styles["form-control"]}
                               value={values.name}
@@ -164,7 +164,6 @@ export default function Contacts() {
                             <FormField
                               type="text"
                               name="subject"
-                              id="subject"
                               placeholder="Subject"
                               className={styles["form-control"]}
                               value={values.subject}
@@ -177,7 +176,6 @@ export default function Contacts() {
                             <FormField
                               type="email"
                               name="email"
-                              id="email"
                               placeholder="Email *"
                               className={styles["form-control"]}
                               value={values.email}
@@ -189,7 +187,6 @@ export default function Contacts() {
                             <FormField
                               type="text"
                               name="phoneNumber"
-                              id="phoneNumber"
                               placeholder="Phone number"
                               className={styles["form-control"]}
                               value={values.phoneNumber}
