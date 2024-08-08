@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, db } from "../service/firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -46,8 +46,7 @@ export const useRegister = () => {
         values.password
       );
       const user = userCredential.user;
-      const usersCollectionRef = collection(db, "users");
-      const userDocRef = doc(usersCollectionRef, user.uid);
+      const userDocRef = doc(db, "users", user.uid);
 
       await setDoc(userDocRef, {
         firstName: values.firstName,
@@ -88,4 +87,4 @@ export const useLogout = () => {
   };
 
   return { logout, logoutError };
-}
+};
