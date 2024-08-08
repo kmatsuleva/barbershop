@@ -1,0 +1,5 @@
+.dashboard-body {
+  margin-left: auto;
+  width: calc(100% - 250px);
+  background-color: #fff;
+}

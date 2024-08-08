@@ -1007,7 +1007,7 @@ th {
 	padding: 5px;
 }
 
-.table-bordered {
+.table-bordered, tbody {
 	border: 1px solid #eff3f1;
 }
 
