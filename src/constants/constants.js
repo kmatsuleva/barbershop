@@ -14,3 +14,13 @@ export const UNAUTHENTICATED_NAVIGATION = [
   { title: "Login", url: "/login" },
   { title: "Register", url: "/register" },
 ];
+
+export const CLIENT_DASHBOARD_NAVIGATION = [
+  { title: "Appointments", url: "/dashboard/appointments" },
+];
+
+export const ADMIN_DASHBOARD_NAVIGATION = [
+  { title: "Clients", url: "/dashboard/clients" },
+  { title: "Barbers", url: "/dashboard/barbers" },
+  { title: "Blogs", url: "/dashboard/blogs" },
+];
