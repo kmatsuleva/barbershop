@@ -113,10 +113,6 @@ export default function Register() {
                             error={errors.phoneNumber}
                           />
                         </div>
-                        <div className="cell-md-6 mt-1"></div>
-                      </div>
-
-                      <div className="range mt-0">
                         <div className="cell-md-6 mt-1">
                           <FormField
                             type="email"
@@ -127,6 +123,9 @@ export default function Register() {
                             error={errors.email}
                           />
                         </div>
+                      </div>
+
+                      <div className="range mt-0">
                         <div className="cell-md-6 mt-1">
                           <FormField
                             type="password"
