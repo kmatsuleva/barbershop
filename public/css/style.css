@@ -225,6 +225,12 @@ select {
 	text-transform: none;
 }
 
+select {
+	padding: 5px 10px 5px;
+	border: 1px solid #d0dbd7;
+	color: #555;
+}
+
 button,
 html input[type="button"],
 input[type="reset"],
