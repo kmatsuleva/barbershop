@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 export default function Sidebar({ navigation }) {
@@ -7,9 +7,16 @@ export default function Sidebar({ navigation }) {
       <ul className={styles["sidebar-list"]}>
         {navigation.map((page) => (
           <li key={page.url} className={styles["sidebar-item"]}>
-            <Link to={page.url}>
+            <NavLink
+              to={page.url}
+              className={({ isActive }) =>
+                `${styles["sidebar-link"]} ${
+                  isActive ? styles["sidebar-active-link"] : ""
+                }`
+              }
+            >
               {page.title}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>
