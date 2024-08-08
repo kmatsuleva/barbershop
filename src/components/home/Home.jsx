@@ -3,7 +3,7 @@ import AboutUs from "./about-us/AboutUs";
 import FeaturedServices from "./services/FeaturedServices";
 import BookNow from "./booking/BookNow";
 import FeaturedBarbers from "./barbers/FeaturedBarbers";
-import Blogs from "../blogs/Blogs";
+import FeaturedBlogs from "./blogs/FeaturedBlogs";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <FeaturedServices />
       <BookNow />
       <FeaturedBarbers />
-      <Blogs />
+      <FeaturedBlogs />
     </>
   );
 }

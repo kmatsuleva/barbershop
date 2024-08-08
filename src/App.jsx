@@ -13,7 +13,7 @@ import Home from "./components/home/Home";
 import Barbers from "./components/barbers/Barbers";
 import BarbersList from "./components/barbers/barbers-list/BarbersList";
 import BarberDetail from "./components/barbers/barber-detail/BarberDetail";
-import BlogPostDetail from "./components/blogs/blog-post-detail/BlogPostDetail";
+import BlogPostDetail from "./components/home/blogs/blog-post-detail/BlogPostDetail";
 import Contacts from "./components/contacts/Contacts";
 import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";

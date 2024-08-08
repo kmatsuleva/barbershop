@@ -30,7 +30,6 @@ export default function UserManagement() {
               <td>{user.lastName}</td>
               <td>{user.email}</td>
               <td>{user.phoneNumber}</td>
-              {console.log('role', user.role)}
               <td>
                 <FormField
                   type="select"

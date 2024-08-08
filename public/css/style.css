@@ -30222,6 +30222,14 @@ blockquote .small:before {
 	background-color: #242423;
 }
 
+.post-single-header:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
 .ie-10 .post-single-header,
 .ie-11 .post-single-header {
 	display: block;

@@ -42,7 +42,6 @@ export default function Header() {
   const buttonClass = isMenuOpen ? styles["show"] : "";
   const mobileButtonClass = isMenuOpen ? styles["open"] : "";
 
-  // TODO: Remove navigation blink on refresh
   return (
     <header className={styles["header"]}>
       <Logo />
