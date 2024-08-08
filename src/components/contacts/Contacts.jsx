@@ -154,7 +154,6 @@ export default function Contacts() {
                               type="text"
                               name="name"
                               placeholder="Name *"
-                              className={styles["form-control"]}
                               value={values.name}
                               onChange={handleInputChange}
                               error={errors.name}
@@ -165,7 +164,6 @@ export default function Contacts() {
                               type="text"
                               name="subject"
                               placeholder="Subject"
-                              className={styles["form-control"]}
                               value={values.subject}
                               onChange={handleInputChange}
                             />
@@ -177,7 +175,6 @@ export default function Contacts() {
                               type="email"
                               name="email"
                               placeholder="Email *"
-                              className={styles["form-control"]}
                               value={values.email}
                               onChange={handleInputChange}
                               error={errors.email}
@@ -188,7 +185,6 @@ export default function Contacts() {
                               type="text"
                               name="phoneNumber"
                               placeholder="Phone number"
-                              className={styles["form-control"]}
                               value={values.phoneNumber}
                               onChange={handleInputChange}
                             />
@@ -199,7 +195,6 @@ export default function Contacts() {
                             <FormField
                               type="textarea"
                               name="message"
-                              className={styles["form-control"]}
                               placeholder="Message *"
                               rows={6}
                               value={values.message}
