@@ -19,7 +19,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    padding: 38px 20px 20px;
+    padding: 40px 20px 40px 0;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -30,10 +30,20 @@
     text-align: center;
   }
 
+  .sidebar-link {
+    display: block;
+  }
+
   .sidebar-item a {
-    font: 400 12px / 18px "Arvo", Helvetica, Arial, sans-serif;
+    font: 400 12px / 18px Helvetica;
     text-transform: uppercase;
-    letter-spacing: .1em;
+    letter-spacing: .2em;
     color: #242423;
+  }
+
+  .sidebar-item a.sidebar-active-link {
+    border-left: 4px solid #014d55;
+    color: #014d55;
+    font-weight: 700;
   }
 }

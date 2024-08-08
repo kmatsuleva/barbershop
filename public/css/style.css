@@ -28841,8 +28841,13 @@ blockquote .small:before {
 
 .table-custom th {
 	padding: 14px 24px 11px;
-	font: 400 12px/24px "Arvo", Helvetica, Arial, sans-serif;
+	font: 400 12px/24px Helvetica;
 	text-transform: uppercase;
+	letter-spacing: .2em;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) td {
+	background-color: #f9f9f9;
 }
 
 .table-custom td {
@@ -28851,7 +28856,9 @@ blockquote .small:before {
 
 .table-custom tbody td {
 	border-bottom: 1px solid #eff3f1;
-	font-size: 13px;
+	font-size: 14px;
+	font-weight: 300;
+	color: #6c6c6c;
 }
 
 .table-custom tfoot td {
