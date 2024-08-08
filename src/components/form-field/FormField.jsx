@@ -8,6 +8,7 @@ export default function FormField({
   onChange,
   error,
   rows,
+  options, 
 }) {
   return (
     <fieldset
@@ -22,6 +23,19 @@ export default function FormField({
           onChange={onChange}
           rows={rows}
         ></textarea>
+      ) : type === "select" ? (
+        <select
+          name={name}
+          className={styles["form-control"]}
+          value={value}
+          onChange={onChange}
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       ) : (
         <input
           type={type}
