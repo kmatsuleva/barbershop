@@ -1,5 +1,8 @@
 import { useAuth } from "../../../../hooks/useAuth";
-import { useFavoriteBarbers } from "../../../../hooks/useBarbers";
+import {
+  useFavoriteBarbers,
+  useToggleFavoriteBarbers,
+} from "../../../../hooks/useBarbers";
 import ThumbnailCard from "../../../cards/thumbnail-card/ThumbnailCard";
 import Icon from "../../../icon/Icon";
 import Loader from "../../../loader/Loader";
@@ -7,9 +10,23 @@ import Loader from "../../../loader/Loader";
 export default function FavoriteBarbers() {
   const { user } = useAuth();
   const { favoriteBarbers, loading, error } = useFavoriteBarbers(user.uid);
+  const { handleLikeToggle } = useToggleFavoriteBarbers(user.uid);
+
+  const handleRemoveBarber = (barberId, barberName) => {
+    const isConfirmed = window.confirm(
+      `Are you sure you want to remove ${barberName} from your favorites?`
+    );
+    if (isConfirmed) {
+      handleLikeToggle(barberId);
+    }
+  };
 
   if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
+  if (favoriteBarbers.length === 0)
+    return (
+      <p className="big">You haven&apos;t added any favorite barbers yet.</p>
+    );
 
   return (
     <div className="cell-xs-12">
@@ -22,7 +39,15 @@ export default function FavoriteBarbers() {
               body={barber.summary}
               footer={
                 <>
-                  <button className="mt-2 no-button">
+                  <button
+                    className="mt-2 no-button"
+                    onClick={() =>
+                      handleRemoveBarber(
+                        barber.id,
+                        `${barber.firstName} ${barber.lastName}`
+                      )
+                    }
+                  >
                     <Icon
                       size="xxs"
                       color="primary"

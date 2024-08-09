@@ -1,5 +1,14 @@
-import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
-import { useReducer, useEffect } from "react";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+} from "firebase/firestore";
+import { useReducer, useEffect, useCallback } from "react";
 import { db } from "../service/firebase";
 
 function barberReducer(state, action) {
@@ -99,6 +108,7 @@ export function useFavoriteBarbers(userId) {
   useEffect(() => {
     if (!userId) return;
 
+    // TODO: fetch favorite barbers after successful removal
     const fetchFavoriteBarbers = async () => {
       dispatch({ type: "REQUEST" });
 
@@ -143,5 +153,74 @@ export function useFavoriteBarbers(userId) {
     favoriteBarbers: state.data,
     loading: state.loading,
     error: state.error,
+  };
+}
+
+// TODO: remove user Id from barbers likes 
+export function useToggleFavoriteBarbers(userId) {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: true,
+    error: null,
+    data: [],
+  });
+
+  const handleLikeToggle = useCallback(
+    async (barberId) => {
+      try {
+        const userDocRef = doc(db, "users", userId);
+        const barberDocRef = doc(db, "barbers", barberId);
+
+        const userDocSnapshot = await getDoc(userDocRef);
+        if (!userDocSnapshot.exists()) {
+          throw new Error("User document does not exist.");
+        }
+
+        const userData = userDocSnapshot.data();
+        const isLiked = userData.favoriteBarbers.some(
+          (favBarber) => favBarber.id === barberId
+        );
+
+        if (isLiked) {
+          await updateDoc(userDocRef, {
+            favoriteBarbers: arrayRemove(barberDocRef),
+          });
+          await updateDoc(barberDocRef, {
+            likes: arrayRemove(userId),
+          });
+        } else {
+          await updateDoc(userDocRef, {
+            favoriteBarbers: arrayUnion(barberDocRef),
+          });
+          await updateDoc(barberDocRef, {
+            likes: arrayUnion(userId),
+          });
+        }
+
+        dispatch({
+          type: "SUCCESS",
+          data: state.data.map((barber) =>
+            barber.id === barberId
+              ? {
+                  ...barber,
+                  likes: isLiked
+                    ? barber.likes.filter((id) => id !== userId)
+                    : [...barber.likes, userId],
+                }
+              : barber
+          ),
+        });
+      } catch (error) {
+        console.error("Error toggling like:", error);
+        dispatch({ type: "FAILURE", error: error.message });
+      }
+    },
+    [userId, state.data]
+  );
+
+  return {
+    favoriteBarbers: state.data,
+    loading: state.loading,
+    error: state.error,
+    handleLikeToggle,
   };
 }
