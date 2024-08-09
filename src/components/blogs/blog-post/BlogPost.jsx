@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetOneBlog } from "../../../hooks/useBlogs";
 import { formatDate } from "../../../utils/formatDate";
 import Loader from "../../loader/Loader";
@@ -14,9 +14,9 @@ export default function BlogPost() {
 
   return (
     <>
-      <a className="link link-primary link-return" href="/blogs">
+      <Link className="link link-primary link-return" to="/blogs">
         Back
-      </a>
+      </Link>
       <article className="post-single">
         <div
           className="post-single-header"

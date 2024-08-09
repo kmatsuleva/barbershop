@@ -1,77 +1,90 @@
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import { db } from "../service/firebase";
 
+function barberReducer(state, action) {
+  switch (action.type) {
+    case "REQUEST":
+      return { ...state, loading: true, error: null };
+    case "SUCCESS":
+      return { ...state, loading: false, data: action.data };
+    case "FAILURE":
+      return { ...state, loading: false, error: action.error };
+    default:
+      return state;
+  }
+}
+
 export function useGetAllBarbers() {
-  const [loading, setLoading] = useState(true);
-  const [barbersList, setBarbersList] = useState([]);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: true,
+    error: null,
+    data: [],
+  });
 
   useEffect(() => {
-    setError(null);
-
-    (async () => {
+    const fetchBarbers = async () => {
+      dispatch({ type: "REQUEST" });
       try {
-        setLoading(true);
         const q = query(collection(db, "barbers"));
         const snapshot = await getDocs(q);
-
         const barbers = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
+          id: doc.id,
+          ...doc.data(),
         }));
-        setBarbersList(barbers);
+        dispatch({ type: "SUCCESS", data: barbers });
       } catch (error) {
         console.error("Failed to fetch barbers:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        dispatch({ type: "FAILURE", error });
       }
-    })();
+    };
+
+    fetchBarbers();
   }, []);
 
   return {
-    barbersList,
-    loading,
-    error,
+    barbersList: state.data,
+    loading: state.loading,
+    error: state.error,
   };
 }
 
 export function useGetOneBarber(barberId) {
-  const [loading, setLoading] = useState(true);
-  const [barber, setBarber] = useState([]);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: true,
+    error: null,
+    data: null,
+  });
 
   useEffect(() => {
-    setError(null);
+    if (!barberId) return;
 
-    (async () => {
+    const fetchBarber = async () => {
+      dispatch({ type: "REQUEST" });
       try {
-        setLoading(true);
         const docRef = doc(db, "barbers", barberId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setBarber({
-            id: docSnap.id,
-            ...docSnap.data(),
+          dispatch({
+            type: "SUCCESS",
+            data: { id: docSnap.id, ...docSnap.data() },
           });
         } else {
-          setError("No such barber exists");
+          dispatch({ type: "FAILURE", error: "No such barber exists" });
         }
       } catch (error) {
         console.error("Failed to fetch barber info:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        dispatch({ type: "FAILURE", error });
       }
-    })();
+    };
+
+    fetchBarber();
   }, [barberId]);
 
   return {
-    barber,
-    loading,
-    error,
+    barber: state.data,
+    loading: state.loading,
+    error: state.error,
   };
 }
-

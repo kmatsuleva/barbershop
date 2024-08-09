@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { useGetOneBarber } from "../../../hooks/useBarbers";
+import { useGetBarberTestimonials } from "../../../hooks/useTestimonials";
 import Loader from "../../loader/Loader";
 import Button from "../../button/Button";
 import ButtonLink from "../../button-link/ButtonLink";
 import Icon from "../../icon/Icon";
 import Testimonials from "../../testimonials/Testimonials";
-import TestimonialCreate from "../../testimonials/testimonial/testimonial-create/TestimonialCreate";
-import { useGetBarberTestimonials } from "../../../hooks/useTestimonials";
+import TestimonialCreate from "../../testimonials/testimonial-create/TestimonialCreate";
 
 export default function BarberDetail() {
   const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
@@ -16,7 +16,8 @@ export default function BarberDetail() {
   const { barberId } = useParams();
   const { barber, loading } = useGetOneBarber(barberId);
   const { isAuthenticated } = useAuth();
-  const { testimonials } = useGetBarberTestimonials(barberId);
+  const { testimonials, refetchTestimonials } =
+    useGetBarberTestimonials(barberId);
 
   const handleWriteReviewClick = () => {
     setReviewButtonClicked(true);
@@ -93,15 +94,23 @@ export default function BarberDetail() {
               </div>
 
               {isReviewButtonClicked ? (
-                <div className="cell-xs-7">
-                  <TestimonialCreate barberId={barberId} />
+                <div className="cell-md-9 cell-lg-7">
+                  <TestimonialCreate
+                    barberId={barberId}
+                    refetchTestimonials={refetchTestimonials}
+                  />
                 </div>
               ) : (
                 <div className="unit unit-spacimg-md unit-xs-horizontal unit-align-center unit-middle">
                   <div className="unit-left text-sm-right">
                     <div className="list-rating">
                       {Array.from({ length: 5 }, (_, index) => (
-                        <Icon key={index} size="xxs" icon="star" color="primary" />
+                        <Icon
+                          key={index}
+                          size="xxs"
+                          icon="star"
+                          color="primary"
+                        />
                       ))}
                     </div>
                     <p className="small">Your feedback is Valuable!</p>

@@ -1,8 +1,8 @@
+import { memo } from "react";
 import { Outlet } from "react-router-dom";
-
 import Banner from "../banner/Banner";
 
-export default function Barbers() {
+const Barbers = () => {
   return (
     <div>
       <Banner heading="Our Barbers" />
@@ -14,4 +14,6 @@ export default function Barbers() {
       </section>
     </div>
   );
-}
+};
+
+export default memo(Barbers);

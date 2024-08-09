@@ -54,7 +54,10 @@ export default function FeaturedServices() {
             </div>
           </div>
           <div className="cell-md-6 cell-md-6-mod-2 image-wrap-right bg-gray-dark bg-image">
-            <GridCard collection={collection} />
+            <GridCard
+              collection={collection}
+              image="images/home-three-3-1011x800.jpg"
+            />
           </div>
         </div>
       </div>

@@ -82,7 +82,6 @@ export const useRegister = () => {
         email: values.email,
         role: "client",
       });
-
       
       handleUser({
         uid: user.uid,

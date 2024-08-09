@@ -3,6 +3,7 @@ export const NAVIGATION = [
   { title: "Services", url: "/services" },
   { title: "Barbers", url: "/barbers" },
   { title: "Contacts", url: "/contacts" },
+  { title: "Blogs", url: "/blogs" },
 ];
 
 export const AUTHENTICATED_NAVIGATION = [

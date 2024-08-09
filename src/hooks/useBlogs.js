@@ -1,77 +1,87 @@
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import { db } from "../service/firebase";
 
+function blogReducer(state, action) {
+  switch (action.type) {
+    case 'REQUEST':
+      return { ...state, loading: true, error: null };
+    case 'SUCCESS':
+      return { ...state, loading: false, data: action.data };
+    case 'FAILURE':
+      return { ...state, loading: false, error: action.error };
+    default:
+      return state;
+  }
+}
+
 export function useGetAllBlogs() {
-  const [loading, setLoading] = useState(true);
-  const [blogPosts, setBlogPosts] = useState([]);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(blogReducer, {
+    loading: true,
+    error: null,
+    data: [],
+  });
 
   useEffect(() => {
-    setError(null);
-
-    (async () => {
+    const fetchBlogs = async () => {
+      dispatch({ type: 'REQUEST' });
       try {
-        setLoading(true);
         const q = query(collection(db, "blogs"));
         const snapshot = await getDocs(q);
-
         const blogs = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
+          id: doc.id,
+          ...doc.data(),
         }));
-        setBlogPosts(blogs);
+        dispatch({ type: 'SUCCESS', data: blogs });
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        dispatch({ type: 'FAILURE', error });
       }
-    })();
+    };
+
+    fetchBlogs();
   }, []);
 
   return {
-    blogPosts,
-    loading,
-    error,
+    blogPosts: state.data,
+    loading: state.loading,
+    error: state.error,
   };
 }
 
 export function useGetOneBlog(blogId) {
-  const [loading, setLoading] = useState(true);
-  const [blogPost, setBlogPost] = useState([]);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(blogReducer, {
+    loading: true,
+    error: null,
+    data: null,
+  });
 
   useEffect(() => {
-    setError(null);
-
-    (async () => {
+    const fetchBlog = async () => {
+      dispatch({ type: 'REQUEST' });
       try {
-        setLoading(true);
         const docRef = doc(db, "blogs", blogId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setBlogPost({
-            id: docSnap.id,
-            ...docSnap.data(),
-          });
+          dispatch({ type: 'SUCCESS', data: { id: docSnap.id, ...docSnap.data() } });
         } else {
-          setError("No such blog exists");
+          dispatch({ type: 'FAILURE', error: "No such blog exists" });
         }
       } catch (error) {
         console.error("Failed to fetch blog:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        dispatch({ type: 'FAILURE', error });
       }
-    })();
+    };
+
+    if (blogId) {
+      fetchBlog();
+    }
   }, [blogId]);
 
   return {
-    blogPost,
-    loading,
-    error,
+    blogPost: state.data,
+    loading: state.loading,
+    error: state.error,
   };
 }
-
