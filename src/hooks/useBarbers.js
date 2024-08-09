@@ -88,3 +88,60 @@ export function useGetOneBarber(barberId) {
     error: state.error,
   };
 }
+
+export function useFavoriteBarbers(userId) {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: true,
+    error: null,
+    data: [],
+  });
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchFavoriteBarbers = async () => {
+      dispatch({ type: "REQUEST" });
+
+      try {
+        const userDocRef = doc(db, "users", userId);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (!userDocSnapshot.exists()) {
+          throw new Error("No user found with this document ID.");
+        }
+
+        const userDoc = userDocSnapshot.data();
+        const favoriteBarbersDoc = userDoc.favoriteBarbers;
+
+        if (!Array.isArray(favoriteBarbersDoc)) {
+          throw new Error("favoriteBarbersDoc is not an array or is undefined");
+        }
+
+        const barberDetailsPromises = favoriteBarbersDoc.map(
+          async (barberRef) => {
+            const barberDocSnapshot = await getDoc(barberRef);
+            if (barberDocSnapshot.exists()) {
+              return { id: barberRef.id, ...barberDocSnapshot.data() };
+            } else {
+              return { id: barberRef.id, error: "Barber not found" };
+            }
+          }
+        );
+
+        const favoriteBarbers = await Promise.all(barberDetailsPromises);
+
+        dispatch({ type: "SUCCESS", data: favoriteBarbers });
+      } catch (error) {
+        dispatch({ type: "FAILURE", error: error.message });
+      }
+    };
+
+    fetchFavoriteBarbers();
+  }, [userId]);
+
+  return {
+    favoriteBarbers: state.data,
+    loading: state.loading,
+    error: state.error,
+  };
+}

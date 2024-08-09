@@ -30,7 +30,9 @@ export default function ThumbnailCard({
             <p>{body}</p>
           </div>
         )}
-        {footer && <p className={styles["thumbnail-card-footer"]}>{footer}</p>}
+        {footer && (
+          <div className={styles["thumbnail-card-footer"]}>{footer}</div>
+        )}
       </div>
     </div>
   );

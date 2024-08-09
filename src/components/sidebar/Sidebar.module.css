@@ -33,9 +33,9 @@
   }
 
   .sidebar-item a {
-    font: 400 12px / 18px Helvetica;
+    font: 400 11px / 18px Helvetica;
     text-transform: uppercase;
-    letter-spacing: .2em;
+    letter-spacing: .18em;
     color: #242423;
     padding: 12px 20px;
   }

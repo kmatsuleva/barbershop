@@ -127,7 +127,7 @@
 }
 
 .mt-2 {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 .mt-3 {
@@ -461,7 +461,30 @@
   display: inline-block;
 }
 
-/* Media queries for larger screens */
+.no-button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: none;
+  box-shadow: none;
+}
+
+.no-button:hover,
+.no-button:focus {
+  outline: none; 
+}
 
 @media (min-width: 600px) {
   .pt-sm-0 {
