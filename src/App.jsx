@@ -13,7 +13,9 @@ import Home from "./components/home/Home";
 import Barbers from "./components/barbers/Barbers";
 import BarbersList from "./components/barbers/barbers-list/BarbersList";
 import BarberDetail from "./components/barbers/barber-detail/BarberDetail";
-import BlogPostDetail from "./components/home/blogs/blog-post-detail/BlogPostDetail";
+import BlogsList from "./components/blogs/blogs-list/BlogsList";
+import Blogs from "./components/blogs/Blogs";
+import BlogPost from "./components/blogs/blog-post/BlogPost";
 import Contacts from "./components/contacts/Contacts";
 import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -27,7 +29,9 @@ import NotFound from "./components/404/NotFound";
 function App() {
   const location = useLocation();
   const hideFooterPaths = ["/dashboard"];
-  const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
+  const shouldHideFooter = hideFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <AuthProvider>
@@ -40,7 +44,10 @@ function App() {
               <Route index element={<BarbersList />} />
               <Route path=":barberId/details" element={<BarberDetail />} />
             </Route>
-            <Route path="/blogs/:blogId/details" element={<BlogPostDetail />} />
+            <Route path="/blogs" element={<Blogs />}>
+              <Route index element={<BlogsList />} />
+              <Route path=":blogId/details" element={<BlogPost />} />
+            </Route>
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/forbidden" element={<Forbidden />} />
             <Route path="/*" element={<NotFound />} />
@@ -49,7 +56,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>
-            
+
             <Route element={<PrivatePagesGuard />}>
               <Route path="/booking" element={<Booking />} />
               <Route path="/dashboard" element={<Dashboard />}>

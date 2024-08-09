@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-
 import { NAVIGATION } from "../../constants/constants";
-
 import Logo from "../logo/Logo";
 
 export default function Footer() {

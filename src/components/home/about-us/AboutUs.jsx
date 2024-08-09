@@ -18,36 +18,18 @@ export default function AboutUs() {
           </div>
           <div className="cell-md-7 cell-lg-6">
             <div className="row row-gutter-custom range-15">
-              <div className="col-xs-4">
-                <figure className="figure-fullwidth">
-                  <img
-                    src="images/about-1-300x460.jpg"
-                    alt=""
-                    width="300"
-                    height="460"
-                  />
-                </figure>
-              </div>
-              <div className="col-xs-4">
-                <figure className="figure-fullwidth">
-                  <img
-                    src="images/about-2-300x460.jpg"
-                    alt=""
-                    width="300"
-                    height="460"
-                  />
-                </figure>
-              </div>
-              <div className="col-xs-4">
-                <figure className="figure-fullwidth">
-                  <img
-                    src="images/about-3-300x460.jpg"
-                    alt=""
-                    width="300"
-                    height="460"
-                  />
-                </figure>
-              </div>
+              {["about-1", "about-2", "about-3"].map((img, idx) => (
+                <div className="col-xs-4" key={idx}>
+                  <figure className="figure-fullwidth">
+                    <img
+                      src={`images/${img}-300x460.jpg`}
+                      alt={`Barbershop image ${idx + 1}`}
+                      width="300"
+                      height="460"
+                    />
+                  </figure>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -4,25 +4,25 @@ import GridCard from "../../cards/grid-card/GridCard";
 export default function FeaturedServices() {
   const collection = [
     {
-      _id: 1,
+      id: 1,
       iconUrl: "images/icon-service-light-3-70x62.png",
       title: "Beard trim",
       summary: "Well-trimmed beard is a must-have element of every men’s image",
     },
     {
-      _id: 2,
+      id: 2,
       iconUrl: "images/icon-service-light-4-70x62.png",
       title: "Mustache trim",
       summary: "Mustaches also need to be trimmed regularly",
     },
     {
-      _id: 3,
+      id: 3,
       iconUrl: "images/icon-service-light-1-70x62.png",
       title: "Traditional haircuts",
       summary: "One of the most popular services our barbers provide",
     },
     {
-      _id: 4,
+      id: 4,
       iconUrl: "images/icon-service-light-2-70x62.png",
       title: "Shaves",
       summary: "Our shaving services will make you look really handsome",

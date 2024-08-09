@@ -1,4 +1,3 @@
-
 import { useGetAllBarbers } from "../../../hooks/useBarbers";
 import Loader from "../../loader/Loader";
 import ThumbnailCard from "../../cards/thumbnail-card/ThumbnailCard";
@@ -15,9 +14,7 @@ export default function BarbersList({ size }) {
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : barbersList.length > 0 ? (
+      {displayedBarbers.length > 0 ? (
         <>
           <div className="range range-30">
             {displayedBarbers.map((barber) => (

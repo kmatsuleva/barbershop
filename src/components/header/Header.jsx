@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { NAVIGATION } from "../../constants/constants";
-
 import Logo from "../logo/Logo";
 import ButtonLink from "../button-link/ButtonLink";
 import AuthLinks from "./auth-links/AuthLinks";
-
 import styles from "./Header.module.css";
 
 export default function Header() {
