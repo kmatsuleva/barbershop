@@ -44,8 +44,7 @@ const Login = () => {
                 <div className="cell-md-5 d-none d-lg-flex">
                   <img
                     src="/images/home-three-3-1011x800.jpg"
-                    className="w-full h-full"
-                    style={{ objectFit: "cover" }}
+                    className="w-full h-full object-cover"
                     alt="Background"
                   />
                 </div>

@@ -5,7 +5,7 @@ import { useGetOneBarber } from "../../../hooks/useBarbers";
 import Loader from "../../loader/Loader";
 import Button from "../../button/Button";
 import ButtonLink from "../../button-link/ButtonLink";
-import Icon from "../../icons/Star";
+import Icon from "../../icon/Icon";
 import Testimonials from "../../testimonials/Testimonials";
 import TestimonialCreate from "../../testimonials/testimonial/testimonial-create/TestimonialCreate";
 import { useGetBarberTestimonials } from "../../../hooks/useTestimonials";
@@ -52,25 +52,23 @@ export default function BarberDetail() {
                     }}
                   >
                     <div>
-                      <span
-                        className="icon icon-xxs icon-primary fa fa-calendar"
-                        style={{
-                          marginRight: "8px",
-                          marginTop: "9px",
-                        }}
-                      ></span>
+                      <Icon
+                        size="xxs"
+                        icon="calendar"
+                        color="primary"
+                        className="mr-2 pt-1"
+                      />
                       {/* {barber.workExperience} of experience */}
                     </div>
                     <div>
                       <a href="#">
-                        <span
-                          className="icon icon-xxs icon-primary fa fa-heart-o" // TODO: fa-heart if user added to fav.
-                          style={{
-                            marginRight: "8px",
-                            marginTop: "9px",
-                          }}
-                        ></span>
-                        <span style={{ color: "#014d55" }}>48</span>
+                        <Icon
+                          size="xxs"
+                          icon="heart-o"
+                          color="primary"
+                          className="mr-2 pt-1"
+                        />
+                        <span className="text-primary">48</span>
                       </a>
                     </div>
                   </div>
@@ -103,7 +101,7 @@ export default function BarberDetail() {
                   <div className="unit-left text-sm-right">
                     <div className="list-rating">
                       {Array.from({ length: 5 }, (_, index) => (
-                        <Icon key={index} size="xxs" icon="star" />
+                        <Icon key={index} size="xxs" icon="star" color="primary" />
                       ))}
                     </div>
                     <p className="small">Your feedback is Valuable!</p>

@@ -453,6 +453,10 @@
   display: none;
 }
 
+.object-cover {
+  object-fit: cover; 
+}
+
 /* Media queries for larger screens */
 
 @media (min-width: 600px) {

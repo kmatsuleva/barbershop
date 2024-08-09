@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetOneBlog } from "../../../hooks/useBlogs";
 import { formatDate } from "../../../utils/formatDate";
 import Loader from "../../loader/Loader";
+import Icon from "../../icon/Icon";
 
 export default function BlogPost() {
   const { blogId } = useParams();
@@ -26,8 +27,8 @@ export default function BlogPost() {
             <ul className="post-single-meta">
               <li>
                 <a href="#">
-                  <span className="icon icon-xxs fa fa-heart-o"></span>{" "}
-                  {/* TODO: fa-heart if user added to fav.*/}
+                  <Icon size="xxs" icon="heart-o" className="mr-1 pt-1" />
+                  {/* TODO: icon=heart if user added to fav.*/}
                   <span>{blogPost.likes}</span>
                 </a>
               </li>

@@ -65,8 +65,7 @@ export default function Register() {
                   <div className="cell-md-5 d-none d-lg-flex">
                     <img
                       src="/images/home-three-3-1011x800.jpg"
-                      className="w-full h-full"
-                      style={{ objectFit: "cover" }}
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="cell-md-7 mt-0">
@@ -89,7 +88,6 @@ export default function Register() {
                             error={errors.firstName}
                           />
                         </div>
-
                         <div className="cell-md-6 mt-1">
                           <FormField
                             type="text"
@@ -101,7 +99,6 @@ export default function Register() {
                           />
                         </div>
                       </div>
-
                       <div className="range mt-0">
                         <div className="cell-md-6 mt-1">
                           <FormField
@@ -124,7 +121,6 @@ export default function Register() {
                           />
                         </div>
                       </div>
-
                       <div className="range mt-0">
                         <div className="cell-md-6 mt-1">
                           <FormField
