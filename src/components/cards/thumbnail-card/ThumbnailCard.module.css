@@ -1,0 +1,81 @@
+.thumbnail-card {
+	background: #fff;
+	text-align: center;
+}
+
+.thumbnail-card * + .inline-list {
+	margin-top: 25px;
+}
+
+.thumbnail-card-body {
+	padding: 40px 30px;
+}
+
+.thumbnail-card-image {
+	height: auto;
+	width: 100%;
+}
+
+.thumbnail-card-header {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: "Arvo", Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	color: #000;
+	font-size: 14px;
+	line-height: 2.14286;
+	text-transform: uppercase;
+	letter-spacing: .05em;
+}
+
+.thumbnail-card-header a {
+	display: inline;
+	font: inherit;
+	letter-spacing: inherit;
+}
+
+.thumbnail-card-header a, .thumbnail-card-header a:active, .thumbnail-card-header a:focus {
+	color: inherit;
+}
+
+.thumbnail-card-header a:hover {
+	color: #014d55;
+}
+
+.thumbnail-card-text {
+	color: #999;
+}
+
+* + .thumbnail-card-text {
+	margin-top: 10px;
+}
+
+.thumbnail-card,
+.thumbnail-fullwidth {
+	transition: .33s all ease;
+}
+
+.thumbnail-card:hover,
+.thumbnail-fullwidth:hover {
+	background: #fafafa;
+}
+
+.thumbnail-card-footer {
+  color: black;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+	.thumbnail-card * + .inline-list {
+		margin-top: 40px;
+	}
+	.thumbnail-card-body {
+		padding: 40px 20px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.thumbnail-card-body {
+		padding: 40px 30px;
+	}
+}

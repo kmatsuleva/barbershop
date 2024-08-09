@@ -22739,72 +22739,7 @@ address {
 	height: auto;
 }
 
-.thumbnail-card {
-	background: #fff;
-	text-align: center;
-}
 
-.thumbnail-card * + .inline-list {
-	margin-top: 25px;
-}
-
-.thumbnail-card-body {
-	padding: 40px 30px;
-}
-
-.thumbnail-card-image {
-	height: auto;
-	width: 100%;
-}
-
-.thumbnail-card-header {
-	margin-top: 0;
-	margin-bottom: 0;
-	font-family: "Arvo", Helvetica, Arial, sans-serif;
-	font-weight: 400;
-	color: #000;
-	font-size: 14px;
-	line-height: 2.14286;
-	text-transform: uppercase;
-	letter-spacing: .05em;
-}
-
-.thumbnail-card-header a {
-	display: inline;
-	font: inherit;
-	letter-spacing: inherit;
-}
-
-.thumbnail-card-header a, .thumbnail-card-header a:active, .thumbnail-card-header a:focus {
-	color: inherit;
-}
-
-.thumbnail-card-header a:hover {
-	color: #014d55;
-}
-
-.thumbnail-card-text {
-	color: #999;
-}
-
-* + .thumbnail-card-text {
-	margin-top: 10px;
-}
-
-@media (min-width: 768px) {
-	.thumbnail-card * + .inline-list {
-		margin-top: 40px;
-	}
-	.thumbnail-card-body {
-		padding: 40px 20px;
-	}
-}
-
-@media (min-width: 1200px) {
-	.thumbnail-card-body {
-		padding: 40px 30px;
-	}
-}
 
 .thumbnail-fullwidth {
 	width: 100%;
@@ -22902,62 +22837,6 @@ address {
 
 .thumbnail-fullwidth + .thumbnail-fullwidth {
 	margin-top: 30px;
-}
-
-@media (min-width: 768px) {
-	.thumbnail-fullwidth {
-		display: -ms-flexbox;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-flex-direction: row;
-		-ms-flex-direction: row;
-		flex-direction: row;
-		-webkit-align-items: stretch;
-		-ms-flex-align: stretch;
-		align-items: stretch;
-	}
-	.thumbnail-fullwidth * + .inline-list {
-		margin-top: 40px;
-	}
-	.thumbnail-fullwidth-left {
-		position: relative;
-		-webkit-flex-shrink: 0;
-		-ms-flex-negative: 0;
-		flex-shrink: 0;
-		width: 40%;
-		max-width: 400px;
-		overflow: hidden;
-	}
-	.thumbnail-fullwidth-left img {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		-webkit-transform: translate(-50%, -50%);
-		transform: translate(-50%, -50%);
-		width: auto;
-		height: auto;
-		min-height: 100%;
-		min-width: 100%;
-	}
-	.thumbnail-fullwidth-body {
-		padding: 35px 50px;
-	}
-}
-
-@media (min-width: 1200px) {
-	.thumbnail-fullwidth-body {
-		padding: 80px 100px;
-	}
-}
-
-.thumbnail-card,
-.thumbnail-fullwidth {
-	transition: .33s all ease;
-}
-
-.thumbnail-card:hover,
-.thumbnail-fullwidth:hover {
-	background: #fafafa;
 }
 
 .thumbnail-option {
@@ -23059,11 +22938,58 @@ address {
 	}
 }
 
+@media (min-width: 768px) {
+	.thumbnail-fullwidth {
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-webkit-align-items: stretch;
+		-ms-flex-align: stretch;
+		align-items: stretch;
+	}
+	.thumbnail-fullwidth * + .inline-list {
+		margin-top: 40px;
+	}
+	.thumbnail-fullwidth-left {
+		position: relative;
+		-webkit-flex-shrink: 0;
+		-ms-flex-negative: 0;
+		flex-shrink: 0;
+		width: 40%;
+		max-width: 400px;
+		overflow: hidden;
+	}
+	.thumbnail-fullwidth-left img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		width: auto;
+		height: auto;
+		min-height: 100%;
+		min-width: 100%;
+	}
+	.thumbnail-fullwidth-body {
+		padding: 35px 50px;
+	}
+}
+
 @media (min-width: 992px) {
 	.thumbnail-option-body {
 		padding: 35px 45px 40px 60px;
 	}
 }
+
+@media (min-width: 1200px) {
+	.thumbnail-fullwidth-body {
+		padding: 80px 100px;
+	}
+}
+
 
 [class*='thumbnail'] [data-toggle='modal'] {
 	display: inline-block;
