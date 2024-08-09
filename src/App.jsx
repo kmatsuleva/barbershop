@@ -19,7 +19,7 @@ import BlogPost from "./components/blogs/blog-post/BlogPost";
 import Contacts from "./components/contacts/Contacts";
 import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
-import StartDashboard from "./components/dashboard/start-dashboard/StartDashboard";
+import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import BlogManagement from "./components/dashboard/admin-dashboard/blogs/BlogManagement";
 import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
@@ -61,7 +61,7 @@ function App() {
             <Route element={<PrivatePagesGuard />}>
               <Route path="/booking" element={<Booking />} />
               <Route path="/dashboard" element={<Dashboard />}>
-                <Route index element={<StartDashboard />} />
+                <Route index element={<WelcomeDashboard />} />
                 <Route element={<AdminPagesGuard />}>
                   <Route path="users" element={<UserManagement />} />
                   <Route path="barbers" element={<BarberManagement />} />
