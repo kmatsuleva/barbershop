@@ -21,8 +21,8 @@ export default function Dashboard() {
       />
 
       <div className={styles["dashboard-body"]}>
-        <section className="section-sm">
-          <div className="shell">
+        <section className="section-sm h-full">
+          <div className="shell h-full">
             <Outlet />
           </div>
         </section>

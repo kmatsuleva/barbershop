@@ -454,7 +454,11 @@
 }
 
 .object-cover {
-  object-fit: cover; 
+  object-fit: cover;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 /* Media queries for larger screens */
@@ -1031,5 +1035,9 @@
 
   .d-lg-none {
     display: none;
+  }
+
+  .justify-lg-center {
+    justify-content: center;
   }
 }

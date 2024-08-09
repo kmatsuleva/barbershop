@@ -7,7 +7,7 @@
     position: fixed;
     top: 81px;
     left: 0;
-    height: 100%;
+    height: calc(100% - 81px);
     width: 250px;
     background-color: #f5f8f9;
     color: #000;

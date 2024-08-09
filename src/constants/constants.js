@@ -17,7 +17,7 @@ export const UNAUTHENTICATED_NAVIGATION = [
 ];
 
 export const CLIENT_DASHBOARD_NAVIGATION = [
-  { title: "Profile", url: "/dashboard/[rofile]" },
+  { title: "Profile", url: "/dashboard/profile" },
   { title: "Appointments", url: "/dashboard/appointments" },
   { title: "Testimonials", url: "/dashboard/testimonials" },
   { title: "Favorite barbers", url: "/dashboard/favorite-barbers" },
