@@ -15,7 +15,7 @@ export default function BarberDetail() {
 
   const { barberId } = useParams();
   const { barber, loading } = useGetOneBarber(barberId);
-  const { isAuthenticated } = useAuth();
+  const { user: isAuthenticated } = useAuth();
   const { testimonials, refetchTestimonials } =
     useGetBarberTestimonials(barberId);
 

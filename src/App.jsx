@@ -22,6 +22,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import BlogManagement from "./components/dashboard/admin-dashboard/blogs/BlogManagement";
 import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
+import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
@@ -57,7 +58,7 @@ function App() {
               <Route path="/register" element={<Register />} />
             </Route>
 
-            <Route element={<PrivatePagesGuard />}>
+            {/* <Route element={<PrivatePagesGuard />}>
               <Route path="/booking" element={<Booking />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route element={<AdminPagesGuard />}>
@@ -70,8 +71,16 @@ function App() {
                   <Route path="appointments" element={<Booking />} />
                 </Route>
               </Route>
-              <Route path="/logout" element={<Logout />} />
+            </Route> */}
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="users" element={<UserManagement />} />
+              <Route path="barbers" element={<BarberManagement />} />
+              <Route path="blogs" element={<BlogManagement />} />
+              <Route path="appointments" element={<Booking />} />
+              <Route path="favorite-barbers" element={<FavoriteBarbers />} />
             </Route>
+            <Route path="/logout" element={<Logout />} />
+
           </Routes>
         </main>
         {!shouldHideFooter && <Footer />}

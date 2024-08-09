@@ -23,10 +23,16 @@ export const useForm = (initialValues, validators) => {
     return Object.keys(errorsList).length === 0;
   };
 
+  const resetForm = () => {
+    setValues(initialValues);
+    setErrors({});
+  };
+
   return {
     values,
     handleInputChange,
     handleFormValidation,
     errors,
+    resetForm
   };
 };

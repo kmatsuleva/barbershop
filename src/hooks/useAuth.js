@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, db } from "../service/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -23,26 +23,8 @@ export const useLogin = () => {
         values.password
       );
       const user = userCredential.user;
-      const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
-      let userDetails;
-
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        userDetails = {
-          uid: user.uid,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          phoneNumber: userData.phoneNumber,
-          email: userData.email,
-          role: userData.role,
-        };
-      } else {
-        console.log("No such document!");
-      }
-
-      handleUser(userDetails);
-      localStorage.setItem("user", JSON.stringify(userDetails));
+      handleUser({ uid: user });
+      localStorage.setItem("user", user.uid);
       navigate("/");
     } catch (error) {
       console.error("Login error:", error.message);
@@ -82,7 +64,7 @@ export const useRegister = () => {
         email: values.email,
         role: "client",
       });
-      
+
       handleUser({
         uid: user.uid,
         firstName: values.firstName,
@@ -92,14 +74,7 @@ export const useRegister = () => {
         role: "client",
       });
 
-      localStorage.setItem("user", JSON.stringify({
-        uid: user.uid,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        email: values.email,
-        role: "client",
-      }));
+      localStorage.setItem("user", user.uid);
       navigate("/");
     } catch (error) {
       console.log(error.message);

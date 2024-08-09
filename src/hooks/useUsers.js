@@ -4,16 +4,20 @@ import {
   query,
   getDocs,
   doc,
-  deleteDoc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
-import { auth, db } from "../service/firebase";
-import { deleteUser } from "firebase/auth";
+import { db } from "../service/firebase";
+import { useAuth } from "./useAuth";
 
 export function useUsers() {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userDetails, setUserDetails] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -39,21 +43,49 @@ export function useUsers() {
     })();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "users", id));
-      // admin.auth().deleteUser(id);
-      await deleteUser(auth.currentUser);
+  const handleDelete = () => {};
 
-      // const userRecord = await auth.getUser(id);
-      // if (userRecord) {
-      // await deleteUser(id);
-      // }
-      setUsers(users.filter((user) => user.id !== id));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
+  // const getUserRole = async () => {
+  //   console.log('user:', user);
+
+  //   const userDocRef = doc(db, "users", user);
+  //   try {
+  //     const userDoc = await getDoc(userDocRef);
+
+  //     if (userDoc.exists()) {
+  //       setUserRole(userDoc.data().role);
+  //     } else {
+  //       console.error("No such user!");
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user role:", error);
+  //     return null;
+  //   }
+  // };
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        const userDocRef = doc(db, "users", user);
+        try {
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            setUserRole(userDoc.data().role);
+          } else {
+            console.error("No such user!");
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          return null;
+        }
+      }
+    };
+
+    fetchUserRole();
+  }, [user]);
 
   const handleRoleChange = async (id, newRole) => {
     try {
@@ -68,5 +100,33 @@ export function useUsers() {
     }
   };
 
-  return { users, roles, loading, handleDelete, handleRoleChange };
+  const fetchUserDetails = async (userId) => {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        setUserDetails(userDoc.data());
+        return userDoc.data();
+      } else {
+        console.error("No such user!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      return null;
+    }
+  };
+
+  console.log("userRole ==:", userRole);
+  return {
+    users,
+    roles,
+    loading,
+    handleDelete,
+    handleRoleChange,
+    userDetails,
+    fetchUserDetails,
+    userRole,
+  };
 }

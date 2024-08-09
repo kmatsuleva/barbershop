@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function PublicPagesGuard() {
-  const { isAuthenticated, loading } = useAuth();
+  const { user: isAuthenticated, loading } = useAuth();
 
   if (loading || !isAuthenticated) {
     return <Outlet />;

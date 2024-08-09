@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const userData = localStorage.getItem("user");
-    return userData ? JSON.parse(userData) : null;
+    return userData ? userData : null;
   });
 
   const handleUser = (user) => {
@@ -15,9 +15,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!user?.uid,
         user,
-        userRole: user?.role,
         handleUser,
       }}
     >
