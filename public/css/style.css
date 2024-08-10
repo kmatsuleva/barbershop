@@ -26681,7 +26681,7 @@ blockquote .small:before {
 	}
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
 	.quote-fullwidth {
 		padding: 90px 60px 45px 90px;
 	}

@@ -1,109 +1,164 @@
 import { useState } from "react";
-import { useAuth } from "../../../../hooks/useAuth";
-import { useGetUserTestimonials } from "../../../../hooks/useTestimonials";
-import TestimonialEdit from "../../../testimonials/testimonial-edit/TestimonialEdit";
-import Loader from "../../../loader/Loader";
-import { useForm } from "../../../../hooks/useForm";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../../hooks/useAuth";
+import {
+  useDeleteTestimonial,
+  useGetUserTestimonials,
+} from "../../../../hooks/useTestimonials";
+import Loader from "../../../loader/Loader";
+import FormField from "../../../form-field/FormField";
 
 export default function UserTestimonials() {
   const { user } = useAuth();
-  const { userTestimonials, loading } = useGetUserTestimonials(user.uid);
-  const [renderTestimonialEdit, setRenderTestimonialEdit] = useState(false);
-  const [renderTestimonialsList, setRenderTestimonialsList] = useState(true);
+  const { userTestimonials, loading, refetchTestimonials } =
+    useGetUserTestimonials(user.uid);
+  const { handleDeleteTestimonial } = useDeleteTestimonial();
 
-  const { handleFormValidation } = useForm();
+  const [editMode, setEditMode] = useState(false);
+  const [editedReview, setEditedReview] = useState("");
 
-  const handleRenderTestimonialEdit = () => {
-    setRenderTestimonialEdit(true);
-    setRenderTestimonialsList(false);
+  const handleRenderTestimonialEdit = (testimonialId, review) => {
+    setEditMode(testimonialId);
+    setEditedReview(review);
   };
 
-  const handleRenderTestimonialsList = () => {
-    setRenderTestimonialsList(true);
-    setRenderTestimonialEdit(false);
+  const handleReviewChange = (event) => {
+    setEditedReview(event.target.value);
   };
 
-  const handleTestimonialEdit = (event) => {
+  const handleTestimonialEdit = (testimonialId, event) => {
     event.preventDefault();
+
+    setEditMode(false);
+    setEditedReview("");
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setEditedReview("");
+  };
 
-  if (userTestimonials.length === 0)
+  const handleTestimonialDelete = async (id) => {
+    try {
+      const isConfirmed = window.confirm(
+        `Are you sure you want to delete this testimonial?`
+      );
+      if (isConfirmed) {
+        await handleDeleteTestimonial(id);
+        refetchTestimonials();
+      }
+    } catch (error) {
+      console.error("Failed to delete testimonial:", error);
+    }
+  };
+
+  if (loading) return <Loader />;
+
+  if (userTestimonials.length === 0) {
     return (
       <p className="big">You haven&apos;t submitted any testimonials yet.</p>
     );
-
-  if (renderTestimonialEdit) {
-    return (
-      <TestimonialEdit
-        handleRenderTestimonialsList={handleRenderTestimonialsList}
-        handleTestimonialEdit={handleTestimonialEdit}
-      />
-    );
   }
 
-  if (renderTestimonialsList) {
-    return (
-      <>
-        <div className="cell-xs-12">
-          <div className="range range-30 justify-center">
-            {userTestimonials.map((testimonial) => (
-              <div className="cell-xs-12 height-fill" key={testimonial.id}>
-                <div className="item">
-                  <blockquote className="flex flex-row quote-fullwidth bg-gray p-3">
-                    <div className="quote-fullwidth-left mr-3">
-                      <div className="quote-fullwidth-avatar">
-                        <img
-                          src={testimonial.barberPhoto}
-                          alt=""
-                          width="100"
-                          height="100"
-                          className="object-cover"
-                        />
-                      </div>
+  return (
+    <div className="cell-xs-12">
+      <div className="range range-30 justify-center">
+        {userTestimonials.map(
+          ({ id, barberPhoto, barberId, barberName, review }) => (
+            <div className="cell-xs-12 height-fill" key={id}>
+              <div className="item">
+                <blockquote className="flex flex-row quote-fullwidth bg-gray p-4">
+                  <div className="mr-5">
+                    <div className="quote-fullwidth-avatar">
+                      <img
+                        src={barberPhoto}
+                        alt="Barber"
+                        width="100"
+                        height="100"
+                        className="object-cover"
+                      />
                     </div>
-                    <div className="quote-fullwidth-body">
-                      <div className="quote-fullwidth-header">
-                        <cite>
-                          <Link to={`/barbers/${testimonial.barberId}/details`}>
-                            {testimonial.barberName}
-                          </Link>
-                        </cite>
-                      </div>
-                      <p className="quote-fullwidth-text">
-                        <q>{testimonial.review}</q>
-                      </p>
-                      <ul className="inline-list inline-list-md">
-                        <li>
-                          {/* <Button size="xs" text="Edit review" /> */}
-                          <button
-                            className="btn btn-xs btn-primary"
-                            onClick={handleRenderTestimonialEdit}
-                          >
-                            Edit review
-                          </button>
-                        </li>
-                        <li>
-                          {/* <Button size="xs" text="Delete" /> */}
-                          <button className="btn btn-xs btn-primary">
-                            Delete
-                          </button>
-                        </li>
-                      </ul>
+                  </div>
+                  <div className="w-full">
+                    <div className="quote-fullwidth-header">
+                      <cite>
+                        <Link to={`/barbers/${barberId}/details`}>
+                          {barberName}
+                        </Link>
+                      </cite>
                     </div>
-                  </blockquote>
-                </div>
+                    {editMode === id ? (
+                      <>
+                        <div className="mt-2">
+                          <FormField
+                            type="textarea"
+                            name="review"
+                            placeholder="Review *"
+                            rows={5}
+                            value={editedReview}
+                            onChange={handleReviewChange}
+                            className="quote-fullwidth-input"
+                            // error={errors.review}
+                          />
+                        </div>
+                        <ul className="inline-list inline-list-md">
+                          <li>
+                            <button
+                              className="btn btn-xs btn-secondary"
+                              onClick={handleCancelEdit}
+                            >
+                              Cancel
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="btn btn-xs btn-primary"
+                              onClick={(event) =>
+                                handleTestimonialEdit(id, event)
+                              }
+                              disabled={
+                                editedReview === review || !editedReview
+                              }
+                            >
+                              Save
+                            </button>
+                          </li>
+                        </ul>
+                      </>
+                    ) : (
+                      <>
+                        <p className="quote-fullwidth-text mt-2">
+                          <q>{review}</q>
+                        </p>
+                        <ul className="inline-list inline-list-md">
+                          <li>
+                            <button
+                              className="btn btn-xs btn-primary"
+                              onClick={() =>
+                                handleRenderTestimonialEdit(id, review)
+                              }
+                            >
+                              Edit review
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="btn btn-xs btn-primary"
+                              onClick={() => handleTestimonialDelete(id)}
+                            >
+                              Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                </blockquote>
               </div>
-            ))}
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  return null;
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
 }
