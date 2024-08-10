@@ -1,7 +1,7 @@
-export default function Testimonial({ authorPhotoUrl, author, review }) {
+export default function Testimonial({ authorPhotoUrl, author, review, color }) {
   return (
     <div className="item">
-      <blockquote className="quote-fullwidth">
+      <blockquote className={`quote-fullwidth ${color ? `bg-${color}` : ""}`}>
         <div className="quote-fullwidth-left">
           <div className="quote-fullwidth-avatar">
             <img src={authorPhotoUrl} alt="" width="100" height="100" />

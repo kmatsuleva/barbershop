@@ -20,6 +20,7 @@ import Contacts from "./components/contacts/Contacts";
 import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
+import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
@@ -71,6 +72,7 @@ function App() {
                 </Route>
                 <Route element={<ClientPagesGuard />}>
                   <Route path="appointments" element={<Booking />} />
+                  <Route path="testimonials" element={<UserTestimonials />} />
                   <Route path="favorite-barbers" element={<FavoriteBarbers />} />
                   <Route path="favorite-blogs" element={<FavoriteBlogs />} />
                 </Route>

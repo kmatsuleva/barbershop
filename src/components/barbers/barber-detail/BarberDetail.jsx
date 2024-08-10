@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import {
-  useFavoriteBarbers,
+  useGetFavoriteBarbers,
   useGetOneBarber,
   useToggleFavoriteBarbers,
 } from "../../../hooks/useBarbers";
@@ -21,7 +21,7 @@ export default function BarberDetail() {
   const { user, isAuthenticated } = useAuth();
   const { testimonials, refetchTestimonials } =
     useGetBarberTestimonials(barberId);
-  const { isBarberLiked, refreshFavoriteBarbers } = useFavoriteBarbers(
+  const { isBarberLiked, refreshFavoriteBarbers } = useGetFavoriteBarbers(
     user.uid,
     barberId
   );

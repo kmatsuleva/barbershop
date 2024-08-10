@@ -11,11 +11,11 @@ import { db } from "../service/firebase";
 
 const testimonialReducer = (state, action) => {
   switch (action.type) {
-    case 'REQUEST':
+    case "REQUEST":
       return { ...state, loading: true, error: null, success: false };
-    case 'SUCCESS':
+    case "SUCCESS":
       return { ...state, loading: false, success: true };
-    case 'FAILURE':
+    case "FAILURE":
       return { ...state, loading: false, error: action.error, success: false };
     default:
       return state;
@@ -63,7 +63,7 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
 
   const createTestimonial = useCallback(
     async (authorId, testimonialData) => {
-      dispatch({ type: 'REQUEST' });
+      dispatch({ type: "REQUEST" });
 
       try {
         await addDoc(collection(db, "testimonials"), {
@@ -72,10 +72,10 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
           barberId: doc(db, "barbers", barberId),
         });
         await refetchTestimonials();
-        
-        dispatch({ type: 'SUCCESS' });
+
+        dispatch({ type: "SUCCESS" });
       } catch (error) {
-        dispatch({ type: 'FAILURE', error });
+        dispatch({ type: "FAILURE", error });
         console.error("Failed to create testimonial:", error);
       }
     },
@@ -87,5 +87,34 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
     loading: state.loading,
     error: state.error,
     success: state.success,
+  };
+}
+
+export function useGetUserTestimonials(userId) {
+  const [userTestimonials, setUserTestimonials] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const q = query(
+          collection(db, "testimonials"),
+          where("authorId", "==", doc(db, "users", userId))
+        );
+        const snapshot = await getDocs(q);
+
+        const testimonialsList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setUserTestimonials(testimonialsList);
+      } catch (error) {
+        console.error("Failed to fetch testimonials:", error);
+      }
+    })();
+  }, [userId]);
+
+  return {
+    userTestimonials,
   };
 }

@@ -99,7 +99,7 @@ export function useGetOneBarber(barberId) {
   };
 }
 
-export function useFavoriteBarbers(userId, barberId) {
+export function useGetFavoriteBarbers(userId, barberId) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: true,
     error: null,

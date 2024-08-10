@@ -1,6 +1,6 @@
 import { useAuth } from "../../../../hooks/useAuth";
 import {
-  useFavoriteBarbers,
+  useGetFavoriteBarbers,
   useToggleFavoriteBarbers,
 } from "../../../../hooks/useBarbers";
 import ThumbnailCard from "../../../cards/thumbnail-card/ThumbnailCard";
@@ -10,7 +10,7 @@ import Loader from "../../../loader/Loader";
 export default function FavoriteBarbers() {
   const { user } = useAuth();
   const { favoriteBarbers, refreshFavoriteBarbers, loading, error } =
-    useFavoriteBarbers(user.uid);
+    useGetFavoriteBarbers(user.uid);
   const { handleLikeToggle } = useToggleFavoriteBarbers(
     user.uid,
     refreshFavoriteBarbers
