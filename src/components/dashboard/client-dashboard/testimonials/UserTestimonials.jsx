@@ -4,6 +4,7 @@ import { useAuth } from "../../../../hooks/useAuth";
 import {
   useDeleteTestimonial,
   useGetUserTestimonials,
+  useUpdateTestimonial,
 } from "../../../../hooks/useTestimonials";
 import Loader from "../../../loader/Loader";
 import FormField from "../../../form-field/FormField";
@@ -13,24 +14,29 @@ export default function UserTestimonials() {
   const { userTestimonials, loading, refetchTestimonials } =
     useGetUserTestimonials(user.uid);
   const { handleDeleteTestimonial } = useDeleteTestimonial();
+  const { updateTestimonial } = useUpdateTestimonial();
 
   const [editMode, setEditMode] = useState(false);
   const [editedReview, setEditedReview] = useState("");
 
-  const handleRenderTestimonialEdit = (testimonialId, review) => {
-    setEditMode(testimonialId);
+  const handleTestimonialEditClick = (testimonialId, review) => {
     setEditedReview(review);
+    setEditMode(true);
   };
 
   const handleReviewChange = (event) => {
     setEditedReview(event.target.value);
   };
 
-  const handleTestimonialEdit = (testimonialId, event) => {
-    event.preventDefault();
-
-    setEditMode(false);
-    setEditedReview("");
+  const handleTestimonialEdit = async (testimonialId, editedReview) => {
+    try {
+      await updateTestimonial(testimonialId, { review: editedReview });
+      setEditMode(false);
+      setEditedReview("");
+      refetchTestimonials();
+    } catch (error) {
+      console.error("Failed to update testimonial:", error);
+    }
   };
 
   const handleCancelEdit = () => {
@@ -87,7 +93,7 @@ export default function UserTestimonials() {
                         </Link>
                       </cite>
                     </div>
-                    {editMode === id ? (
+                    {editMode ? (
                       <>
                         <div className="mt-2">
                           <FormField
@@ -98,7 +104,6 @@ export default function UserTestimonials() {
                             value={editedReview}
                             onChange={handleReviewChange}
                             className="quote-fullwidth-input"
-                            // error={errors.review}
                           />
                         </div>
                         <ul className="inline-list inline-list-md">
@@ -113,8 +118,8 @@ export default function UserTestimonials() {
                           <li>
                             <button
                               className="btn btn-xs btn-primary"
-                              onClick={(event) =>
-                                handleTestimonialEdit(id, event)
+                              onClick={() =>
+                                handleTestimonialEdit(id, editedReview)
                               }
                               disabled={
                                 editedReview === review || !editedReview
@@ -135,7 +140,7 @@ export default function UserTestimonials() {
                             <button
                               className="btn btn-xs btn-primary"
                               onClick={() =>
-                                handleRenderTestimonialEdit(id, review)
+                                handleTestimonialEditClick(id, review)
                               }
                             >
                               Edit review

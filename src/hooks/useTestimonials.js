@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../service/firebase";
@@ -158,6 +159,37 @@ export function useGetUserTestimonials(userId) {
     error: state.error,
     success: state.success,
     refetchTestimonials: fetchUserTestimonials,
+  };
+}
+
+export function useUpdateTestimonial() {
+  const [state, dispatch] = useReducer(testimonialReducer, {
+    loading: false,
+    error: null,
+    success: false,
+  });
+
+  const updateTestimonial = useCallback(
+    async (testimonialId, updatedData) => {
+      dispatch({ type: "REQUEST" });
+
+      try {
+        const testimonialRef = doc(db, "testimonials", testimonialId);
+        await updateDoc(testimonialRef, updatedData);
+        dispatch({ type: "SUCCESS" });
+      } catch (error) {
+        dispatch({ type: "FAILURE", error });
+        console.error("Failed to update testimonial:", error);
+      }
+    },
+    []
+  );
+
+  return {
+    loading: state.loading,
+    error: state.error,
+    success: state.success,
+    updateTestimonial,
   };
 }
 
