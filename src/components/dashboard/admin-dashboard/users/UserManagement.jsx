@@ -10,6 +10,15 @@ export default function UserManagement() {
     return <Loader />;
   }
 
+  const handleRemoveBarber = (user, newRole) => {
+    const isConfirmed = window.confirm(
+      `Are you sure you want to change the role of ${user.firstName} ${user.lastName} to ${newRole}?`
+    );
+    if (isConfirmed) {
+      handleRoleChange(user.id, newRole);
+    }
+  };
+
   return (
     <>
       {users.length > 0 ? (
@@ -36,9 +45,7 @@ export default function UserManagement() {
                     <FormField
                       type="select"
                       value={user.role}
-                      onChange={(e) =>
-                        handleRoleChange(user.id, e.target.value)
-                      }
+                      onChange={(e) => handleRemoveBarber(user, e.target.value)}
                       options={roles}
                     />
                   </td>
