@@ -69,7 +69,9 @@ export default function BarberDetail() {
                           color="primary"
                           className="mr-2 pt-1"
                         />
-                        <span className="text-primary">48</span>
+                        <span className="text-primary">
+                          {barber.likes.length}
+                        </span>
                       </a>
                     </div>
                   </div>

@@ -176,27 +176,22 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
         if (!userDocSnapshot.exists()) {
           throw new Error("User document does not exist.");
         }
-
+        
         const userData = userDocSnapshot.data();
         const isLiked = userData.favoriteBarbers.some(
           (favBarber) => favBarber.id === barberId
         );
 
-        if (isLiked) {
-          await updateDoc(userDocRef, {
-            favoriteBarbers: arrayRemove(barberDocRef),
-          });
-          await updateDoc(barberDocRef, {
-            likes: arrayRemove(userId),
-          });
-        } else {
-          await updateDoc(userDocRef, {
-            favoriteBarbers: arrayUnion(barberDocRef),
-          });
-          await updateDoc(barberDocRef, {
-            likes: arrayUnion(userId),
-          });
-        }
+        const userFavoriteBarbersUpdate = isLiked
+          ? { favoriteBarbers: arrayRemove(barberDocRef) }
+          : { favoriteBarbers: arrayUnion(barberDocRef) };
+
+        const barberLikesUpdate = isLiked
+          ? { likes: arrayRemove(userDocRef) }
+          : { likes: arrayUnion(userDocRef) };
+
+        await updateDoc(userDocRef, userFavoriteBarbersUpdate);
+        await updateDoc(barberDocRef, barberLikesUpdate);
 
         await refreshFavoriteBarbers();
 
