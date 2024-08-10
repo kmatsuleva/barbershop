@@ -1,7 +1,7 @@
-import React from 'react'
+import CommingSoon from '../../../comming-soon/CommingSoon'
 
 export default function BlogManagement() {
   return (
-    <div>BlogManagement</div>
+    <CommingSoon />
   )
 }
