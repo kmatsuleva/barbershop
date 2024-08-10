@@ -1,13 +1,10 @@
 import { useAuth } from "../../../hooks/useAuth";
 import { useForm } from "../../../hooks/useForm";
-import {
-  useCreateTestimonial,
-  useGetBarberTestimonials,
-} from "../../../hooks/useTestimonials";
+import { useCreateTestimonial } from "../../../hooks/useTestimonials";
 import Button from "../../button/Button";
 import FormField from "../../form-field/FormField";
 
-export default function TestimonialCreate({ barberId }) {
+export default function TestimonialCreate({ barberId, refetchTestimonials }) {
   const initialValues = { review: "" };
   const validators = {
     review: (value) => (!value ? "Field is required." : null),
@@ -17,11 +14,7 @@ export default function TestimonialCreate({ barberId }) {
     initialValues,
     validators
   );
-  const { refetchTestimonials } = useGetBarberTestimonials(barberId);
-  const { createTestimonial } = useCreateTestimonial(
-    barberId,
-    refetchTestimonials
-  );
+  const { createTestimonial } = useCreateTestimonial(barberId);
   const { user } = useAuth();
 
   const handleFormSubmitClick = async (event) => {
@@ -37,6 +30,7 @@ export default function TestimonialCreate({ barberId }) {
       try {
         await createTestimonial(user.uid, testimonialData);
         handleInputChange({ target: { name: "review", value: "" } });
+        refetchTestimonials();
       } catch (error) {
         console.error("Failed to create testimonial:", error);
       }

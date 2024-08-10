@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   where,
@@ -54,7 +55,7 @@ export function useGetBarberTestimonials(barberId) {
   };
 }
 
-export function useCreateTestimonial(barberId, refetchTestimonials) {
+export function useCreateTestimonial(barberId) {
   const [state, dispatch] = useReducer(testimonialReducer, {
     loading: false,
     error: null,
@@ -71,7 +72,6 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
           authorId: doc(db, "users", authorId),
           barberId: doc(db, "barbers", barberId),
         });
-        await refetchTestimonials();
 
         dispatch({ type: "SUCCESS" });
       } catch (error) {
@@ -79,7 +79,7 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
         console.error("Failed to create testimonial:", error);
       }
     },
-    [barberId, refetchTestimonials]
+    [barberId]
   );
 
   return {
@@ -91,24 +91,57 @@ export function useCreateTestimonial(barberId, refetchTestimonials) {
 }
 
 export function useGetUserTestimonials(userId) {
+  const [state, dispatch] = useReducer(testimonialReducer, {
+    loading: false,
+    error: null,
+    success: false,
+  });
+
   const [userTestimonials, setUserTestimonials] = useState([]);
 
   useEffect(() => {
     (async () => {
+      dispatch({ type: "REQUEST" });
+  
       try {
         const q = query(
           collection(db, "testimonials"),
           where("authorId", "==", doc(db, "users", userId))
         );
         const snapshot = await getDocs(q);
-
-        const testimonialsList = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
+  
+        const fetchBarberDetails = async (barberRef) => {
+          const barberDoc = await getDoc(barberRef);
+          if (barberDoc.exists()) {
+            const barberData = barberDoc.data();
+            return {
+              id: barberRef.id, 
+              name: `${barberData.firstName} ${barberData.lastName}` || "",
+              photoUrl: barberData.photoUrl
+            };
+          }
+          return null;
+        };
+  
+        const testimonialsList = await Promise.all(
+          snapshot.docs.map(async (doc) => {
+            const testimonialData = doc.data();
+            const barberDetails = await fetchBarberDetails(testimonialData.barberId);
+  
+            return {
+              id: doc.id,
+              ...testimonialData,
+              barberId: barberDetails?.id || "",
+              barberName: barberDetails?.name || "",
+              barberPhoto: barberDetails?.photoUrl || ""
+            };
+          })
+        );
+  
         setUserTestimonials(testimonialsList);
+        dispatch({ type: "SUCCESS" });
       } catch (error) {
+        dispatch({ type: "FAILURE", error });
         console.error("Failed to fetch testimonials:", error);
       }
     })();
@@ -116,5 +149,8 @@ export function useGetUserTestimonials(userId) {
 
   return {
     userTestimonials,
+    loading: state.loading,
+    error: state.error,
+    success: state.success,
   };
 }

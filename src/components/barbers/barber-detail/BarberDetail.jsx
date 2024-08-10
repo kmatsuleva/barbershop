@@ -22,13 +22,13 @@ export default function BarberDetail() {
   const { testimonials, refetchTestimonials } =
     useGetBarberTestimonials(barberId);
   const { isBarberLiked, refreshFavoriteBarbers } = useGetFavoriteBarbers(
-    user.uid,
+    user?.uid,
     barberId
   );
   const { handleLikeToggle } = useToggleFavoriteBarbers(
-    user.uid,
+    user?.uid,
     refreshFavoriteBarbers,
-    fetchBarber,
+    fetchBarber
   );
 
   const handleWriteReviewClick = () => {
@@ -36,6 +36,10 @@ export default function BarberDetail() {
   };
 
   const handleLikeClick = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to like this barber.");
+      return;
+    }
     try {
       await handleLikeToggle(barberId);
     } catch (error) {

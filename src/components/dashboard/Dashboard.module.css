@@ -14,5 +14,6 @@
     height: calc(100% - 81px);
     margin-left: auto;
     width: calc(100% - 250px);
+    overflow-y: auto;
   }
 }
