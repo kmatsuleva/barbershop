@@ -54,7 +54,7 @@ export function useGetBarberTestimonials(barberId) {
   };
 }
 
-export function useCreateTestimonial(barberId) {
+export function useCreateTestimonial(barberId, refetchTestimonials) {
   const [state, dispatch] = useReducer(testimonialReducer, {
     loading: false,
     error: null,
@@ -71,13 +71,15 @@ export function useCreateTestimonial(barberId) {
           authorId: doc(db, "users", authorId),
           barberId: doc(db, "barbers", barberId),
         });
+        await refetchTestimonials();
+        
         dispatch({ type: 'SUCCESS' });
       } catch (error) {
         dispatch({ type: 'FAILURE', error });
         console.error("Failed to create testimonial:", error);
       }
     },
-    [barberId]
+    [barberId, refetchTestimonials]
   );
 
   return {
