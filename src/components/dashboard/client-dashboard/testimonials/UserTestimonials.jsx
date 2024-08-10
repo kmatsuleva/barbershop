@@ -67,9 +67,9 @@ export default function UserTestimonials() {
           ({ id, barberPhoto, barberId, barberName, review }) => (
             <div className="cell-xs-12 height-fill" key={id}>
               <div className="item">
-                <blockquote className="flex flex-row quote-fullwidth bg-gray p-4">
-                  <div className="mr-5">
-                    <div className="quote-fullwidth-avatar">
+                <blockquote className="flex flex-col flex-xl-row quote-fullwidth bg-gray p-4">
+                  <div className="mr-5 mb-2 mb-xl-0">
+                    <div className="quote-fullwidth-avatar mx-0">
                       <img
                         src={barberPhoto}
                         alt="Barber"
@@ -104,7 +104,7 @@ export default function UserTestimonials() {
                         <ul className="inline-list inline-list-md">
                           <li>
                             <button
-                              className="btn btn-xs btn-secondary"
+                              className="btn btn-xs btn-kangaroo-outline"
                               onClick={handleCancelEdit}
                             >
                               Cancel
