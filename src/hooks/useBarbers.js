@@ -65,40 +65,41 @@ export function useGetOneBarber(barberId) {
     data: null,
   });
 
-  useEffect(() => {
+  const fetchBarber = useCallback(async () => {
     if (!barberId) return;
+    dispatch({ type: "REQUEST" });
 
-    const fetchBarber = async () => {
-      dispatch({ type: "REQUEST" });
-      try {
-        const docRef = doc(db, "barbers", barberId);
-        const docSnap = await getDoc(docRef);
+    try {
+      const docRef = doc(db, "barbers", barberId);
+      const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          dispatch({
-            type: "SUCCESS",
-            data: { id: docSnap.id, ...docSnap.data() },
-          });
-        } else {
-          dispatch({ type: "FAILURE", error: "No such barber exists" });
-        }
-      } catch (error) {
-        console.error("Failed to fetch barber info:", error);
-        dispatch({ type: "FAILURE", error });
+      if (docSnap.exists()) {
+        dispatch({
+          type: "SUCCESS",
+          data: { id: docSnap.id, ...docSnap.data() },
+        });
+      } else {
+        dispatch({ type: "FAILURE", error: "No such barber exists" });
       }
-    };
-
-    fetchBarber();
+    } catch (error) {
+      console.error("Failed to fetch barber info:", error);
+      dispatch({ type: "FAILURE", error });
+    }
   }, [barberId]);
+
+  useEffect(() => {
+    fetchBarber();
+  }, [barberId, fetchBarber]);
 
   return {
     barber: state.data,
     loading: state.loading,
     error: state.error,
+    fetchBarber
   };
 }
 
-export function useFavoriteBarbers(userId) {
+export function useFavoriteBarbers(userId, barberId) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: true,
     error: null,
@@ -151,15 +152,20 @@ export function useFavoriteBarbers(userId) {
     fetchFavoriteBarbers();
   }, [userId, fetchFavoriteBarbers]);
 
+  const isBarberLiked = state.data.some(
+    (favBarber) => favBarber.id === barberId
+  );
+
   return {
     favoriteBarbers: state.data,
     loading: state.loading,
     error: state.error,
     refreshFavoriteBarbers: fetchFavoriteBarbers,
+    isBarberLiked,
   };
 }
 
-export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
+export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers, fetchBarber) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: true,
     error: null,
@@ -176,7 +182,7 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
         if (!userDocSnapshot.exists()) {
           throw new Error("User document does not exist.");
         }
-        
+
         const userData = userDocSnapshot.data();
         const isLiked = userData.favoriteBarbers.some(
           (favBarber) => favBarber.id === barberId
@@ -194,7 +200,8 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
         await updateDoc(barberDocRef, barberLikesUpdate);
 
         await refreshFavoriteBarbers();
-
+        await fetchBarber();
+        
         dispatch({
           type: "SUCCESS",
           data: state.data.map((barber) =>
@@ -213,7 +220,7 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
         dispatch({ type: "FAILURE", error: error.message });
       }
     },
-    [userId, refreshFavoriteBarbers, state.data]
+    [userId, refreshFavoriteBarbers, fetchBarber, state.data]
   );
 
   return {

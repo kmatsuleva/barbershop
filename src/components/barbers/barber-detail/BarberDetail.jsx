@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
-import { useGetOneBarber } from "../../../hooks/useBarbers";
+import {
+  useFavoriteBarbers,
+  useGetOneBarber,
+  useToggleFavoriteBarbers,
+} from "../../../hooks/useBarbers";
 import { useGetBarberTestimonials } from "../../../hooks/useTestimonials";
-import Loader from "../../loader/Loader";
 import Button from "../../button/Button";
 import ButtonLink from "../../button-link/ButtonLink";
 import Icon from "../../icon/Icon";
@@ -14,72 +17,89 @@ export default function BarberDetail() {
   const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
 
   const { barberId } = useParams();
-  const { barber, loading } = useGetOneBarber(barberId);
-  const { isAuthenticated } = useAuth();
+  const { barber, fetchBarber, error } = useGetOneBarber(barberId);
+  const { user, isAuthenticated } = useAuth();
   const { testimonials, refetchTestimonials } =
     useGetBarberTestimonials(barberId);
+  const { isBarberLiked, refreshFavoriteBarbers } = useFavoriteBarbers(
+    user.uid,
+    barberId
+  );
+  const { handleLikeToggle } = useToggleFavoriteBarbers(
+    user.uid,
+    refreshFavoriteBarbers,
+    fetchBarber,
+  );
 
   const handleWriteReviewClick = () => {
     setReviewButtonClicked(true);
   };
 
+  const handleLikeClick = async () => {
+    try {
+      await handleLikeToggle(barberId);
+    } catch (error) {
+      console.error("Failed:", error);
+    }
+  };
+
+  if (error) {
+    return <div>Error loading barber details: {error}</div>;
+  }
+
   return (
     <>
       <div>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="range range-sm-center range-75">
-            <div className="cell-xs-12">
-              <div className="thumbnail-fullwidth">
-                <div className="thumbnail-fullwidth-left">
-                  <img src={barber.photoUrl} alt="" width="400" height="480" />
-                </div>
-                <div className="thumbnail-fullwidth-body">
-                  <p className="thumbnail-fullwidth-header">
-                    {barber.firstName} {barber.lastName}
-                  </p>
+        <div className="range range-sm-center range-75">
+          <div className="cell-xs-12">
+            <div className="thumbnail-fullwidth">
+              <div className="thumbnail-fullwidth-left">
+                <img src={barber?.photoUrl} alt="" width="400" height="480" />
+              </div>
+              <div className="thumbnail-fullwidth-body">
+                <p className="thumbnail-fullwidth-header">
+                  {barber?.firstName} {barber?.lastName}
+                </p>
 
-                  <div className="thumbnail-fullwidth-text">
-                    <p>{barber.bio}</p>
+                <div className="thumbnail-fullwidth-text">
+                  <p>{barber?.bio}</p>
+                </div>
+                <div
+                  className="reveal-flex"
+                  style={{
+                    marginTop: "25px",
+                    columnGap: "30px",
+                    color: "black",
+                    fontWeight: 500,
+                  }}
+                >
+                  <div>
+                    <Icon
+                      size="xxs"
+                      icon="calendar"
+                      color="primary"
+                      className="mr-2 pt-1"
+                    />
+                    {/* {barber.workExperience} of experience */}
                   </div>
-                  <div
-                    className="reveal-flex"
-                    style={{
-                      marginTop: "25px",
-                      columnGap: "30px",
-                      color: "black",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <div>
+                  <div>
+                    <button className="no-button" onClick={handleLikeClick}>
                       <Icon
                         size="xxs"
-                        icon="calendar"
+                        icon={isBarberLiked ? "heart" : "heart-o"}
                         color="primary"
                         className="mr-2 pt-1"
                       />
-                      {/* {barber.workExperience} of experience */}
-                    </div>
-                    <div>
-                      <a href="#">
-                        <Icon
-                          size="xxs"
-                          icon="heart-o"
-                          color="primary"
-                          className="mr-2 pt-1"
-                        />
-                        <span className="text-primary">
-                          {barber.likes.length}
-                        </span>
-                      </a>
-                    </div>
+                      <span className="text-primary">
+                        {barber?.likes.length}
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         <section className="section-xl bg-periglacial-blue text-center pb-0">
           <div className="shell">
@@ -115,7 +135,7 @@ export default function BarberDetail() {
                         />
                       ))}
                     </div>
-                    <p className="small">Your feedback is Valuable!</p>
+                    <p className="small">Your feedback is valuable!</p>
                   </div>
                   <div className="unit-body">
                     {isAuthenticated ? (

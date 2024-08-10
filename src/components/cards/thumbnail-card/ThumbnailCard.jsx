@@ -7,9 +7,14 @@ export default function ThumbnailCard({
   body,
   footer,
   detailsUrl,
+  color,
 }) {
   return (
-    <div className={styles["thumbnail-card"]}>
+    <div
+      className={`${styles["thumbnail-card"]} ${
+        color ? styles[`thumbnail-card-${color}`] : ""
+      }`}
+    >
       <img
         className={styles["thumbnail-card-image"]}
         src={image}

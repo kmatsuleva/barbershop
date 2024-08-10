@@ -9,7 +9,8 @@ import Loader from "../../../loader/Loader";
 
 export default function FavoriteBarbers() {
   const { user } = useAuth();
-  const { favoriteBarbers, refreshFavoriteBarbers, loading, error } = useFavoriteBarbers(user.uid);
+  const { favoriteBarbers, refreshFavoriteBarbers, loading, error } =
+    useFavoriteBarbers(user.uid);
   const { handleLikeToggle } = useToggleFavoriteBarbers(
     user.uid,
     refreshFavoriteBarbers
@@ -37,6 +38,7 @@ export default function FavoriteBarbers() {
         {favoriteBarbers.map((barber) => (
           <div className="cell-sm-6 cell-md-4 height-fill" key={barber.id}>
             <ThumbnailCard
+              color="gray"
               image={barber.photoUrl}
               header={`${barber.firstName} ${barber.lastName}`}
               body={barber.summary}
