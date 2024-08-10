@@ -9,8 +9,11 @@ import Loader from "../../../loader/Loader";
 
 export default function FavoriteBarbers() {
   const { user } = useAuth();
-  const { favoriteBarbers, loading, error } = useFavoriteBarbers(user.uid);
-  const { handleLikeToggle } = useToggleFavoriteBarbers(user.uid);
+  const { favoriteBarbers, refreshFavoriteBarbers, loading, error } = useFavoriteBarbers(user.uid);
+  const { handleLikeToggle } = useToggleFavoriteBarbers(
+    user.uid,
+    refreshFavoriteBarbers
+  );
 
   const handleRemoveBarber = (barberId, barberName) => {
     const isConfirmed = window.confirm(

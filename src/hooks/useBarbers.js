@@ -105,59 +105,61 @@ export function useFavoriteBarbers(userId) {
     data: [],
   });
 
-  useEffect(() => {
+  const fetchFavoriteBarbers = useCallback(async () => {
     if (!userId) return;
+    dispatch({ type: "REQUEST" });
 
-    // TODO: fetch favorite barbers after successful removal
-    const fetchFavoriteBarbers = async () => {
-      dispatch({ type: "REQUEST" });
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userDocSnapshot = await getDoc(userDocRef);
 
-      try {
-        const userDocRef = doc(db, "users", userId);
-        const userDocSnapshot = await getDoc(userDocRef);
-
-        if (!userDocSnapshot.exists()) {
-          throw new Error("No user found with this document ID.");
-        }
-
-        const userDoc = userDocSnapshot.data();
-        const favoriteBarbersDoc = userDoc.favoriteBarbers;
-
-        if (!Array.isArray(favoriteBarbersDoc)) {
-          throw new Error("favoriteBarbersDoc is not an array or is undefined");
-        }
-
-        const barberDetailsPromises = favoriteBarbersDoc.map(
-          async (barberRef) => {
-            const barberDocSnapshot = await getDoc(barberRef);
-            if (barberDocSnapshot.exists()) {
-              return { id: barberRef.id, ...barberDocSnapshot.data() };
-            } else {
-              return { id: barberRef.id, error: "Barber not found" };
-            }
-          }
-        );
-
-        const favoriteBarbers = await Promise.all(barberDetailsPromises);
-
-        dispatch({ type: "SUCCESS", data: favoriteBarbers });
-      } catch (error) {
-        dispatch({ type: "FAILURE", error: error.message });
+      if (!userDocSnapshot.exists()) {
+        throw new Error("No user found with this document ID.");
       }
-    };
 
-    fetchFavoriteBarbers();
+      const userDoc = userDocSnapshot.data();
+      const favoriteBarbersDoc = userDoc.favoriteBarbers || [];
+
+      if (!Array.isArray(favoriteBarbersDoc)) {
+        throw new Error("favoriteBarbersDoc is not an array or is undefined");
+      }
+
+      if (favoriteBarbersDoc.length === 0) {
+        dispatch({ type: "SUCCESS", data: [] });
+        return;
+      }
+
+      const barberDetailsPromises = favoriteBarbersDoc.map(
+        async (barberRef) => {
+          const barberDocSnapshot = await getDoc(barberRef);
+          if (barberDocSnapshot.exists()) {
+            return { id: barberRef.id, ...barberDocSnapshot.data() };
+          } else {
+            return { id: barberRef.id, error: "Barber not found" };
+          }
+        }
+      );
+
+      const favoriteBarbers = await Promise.all(barberDetailsPromises);
+      dispatch({ type: "SUCCESS", data: favoriteBarbers });
+    } catch (error) {
+      dispatch({ type: "FAILURE", error: error.message });
+    }
   }, [userId]);
+
+  useEffect(() => {
+    fetchFavoriteBarbers();
+  }, [userId, fetchFavoriteBarbers]);
 
   return {
     favoriteBarbers: state.data,
     loading: state.loading,
     error: state.error,
+    refreshFavoriteBarbers: fetchFavoriteBarbers,
   };
 }
 
-// TODO: remove user Id from barbers likes 
-export function useToggleFavoriteBarbers(userId) {
+export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: true,
     error: null,
@@ -196,6 +198,8 @@ export function useToggleFavoriteBarbers(userId) {
           });
         }
 
+        await refreshFavoriteBarbers();
+
         dispatch({
           type: "SUCCESS",
           data: state.data.map((barber) =>
@@ -214,7 +218,7 @@ export function useToggleFavoriteBarbers(userId) {
         dispatch({ type: "FAILURE", error: error.message });
       }
     },
-    [userId, state.data]
+    [userId, refreshFavoriteBarbers, state.data]
   );
 
   return {
