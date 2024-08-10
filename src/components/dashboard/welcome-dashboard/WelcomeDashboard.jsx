@@ -5,7 +5,7 @@ export default function WelcomeDashboard() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-lg-center text-center h-full">
+      <div className="text-center h-full">
         <h5 className="mb-3">Hello, {`${user.firstName} ${user.lastName}!`}</h5>
 
         {userRole === "client" ? (

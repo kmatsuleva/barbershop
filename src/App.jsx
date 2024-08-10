@@ -21,6 +21,7 @@ import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
+import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import BlogManagement from "./components/dashboard/admin-dashboard/blogs/BlogManagement";
 import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
@@ -71,6 +72,7 @@ function App() {
                 <Route element={<ClientPagesGuard />}>
                   <Route path="appointments" element={<Booking />} />
                   <Route path="favorite-barbers" element={<FavoriteBarbers />} />
+                  <Route path="favorite-blogs" element={<FavoriteBlogs />} />
                 </Route>
               </Route>
               <Route path="/logout" element={<Logout />} />
