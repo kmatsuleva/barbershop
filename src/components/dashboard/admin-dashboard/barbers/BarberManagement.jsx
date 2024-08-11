@@ -56,7 +56,7 @@ export default function BarberManagement() {
                       header={`${barber.firstName} ${barber.lastName}`}
                       body={barber.summary}
                       footer={
-                        <ul className="flex justify-center cta pr-2 pb-3 pl-2 w-full gap-2 flex-wrap">
+                        <ul className="flex justify-center cta w-full gap-2 flex-wrap">
                           <li>
                             <Button
                               text="Edit"
