@@ -26,23 +26,18 @@ export default function UserManagement() {
           <table className="table-striped table-custom table-custom-primary">
             <thead>
               <tr>
-                <th>Image</th>
-                <th>Name</th>
+                <th>First name</th>
+                <th>Last name</th>
                 <th>Email</th>
                 <th>Phone number</th>
                 <th>Role</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td>
-                    <img src={user.photoUrl} className="img-circle" />
-                  </td>
-                  <td>
-                    {user.firstName} {user.lastName}
-                  </td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.phoneNumber}</td>
                   <td>
@@ -51,14 +46,6 @@ export default function UserManagement() {
                       value={user.role}
                       onChange={(e) => handleRemoveBarber(user, e.target.value)}
                       options={roles}
-                    />
-                  </td>
-                  <td>
-                    <Button
-                      onClick={() => handleDelete(user.id)}
-                      text="Delete"
-                      size="xs"
-                      btnStyle="kangaroo-outline"
                     />
                   </td>
                 </tr>

@@ -5,16 +5,11 @@ export const useForm = (initialValues, validators) => {
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
-    const { name, type, checked, files, value } = e.target;
+    const { name, type, checked, value } = e.target;
 
     setValues((prevValues) => ({
       ...prevValues,
-      [name]:
-        type === "checkbox"
-          ? checked 
-          : type === "file"
-          ? files 
-          : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
