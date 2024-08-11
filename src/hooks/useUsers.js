@@ -11,8 +11,8 @@ import { auth, db } from "../service/firebase";
 import { deleteUser } from "firebase/auth";
 
 export function useUsers() {
+  const roles = ["admin", "client"];
   const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,11 +26,6 @@ export function useUsers() {
           ...doc.data(),
         }));
         setUsers(usersList);
-
-        const uniqueRoles = Array.from(
-          new Set(usersList.map((user) => user.role).filter(Boolean))
-        );
-        setRoles(uniqueRoles);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {

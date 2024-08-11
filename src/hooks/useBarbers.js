@@ -1,14 +1,15 @@
+import { useReducer, useEffect, useCallback } from "react";
 import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   query,
   updateDoc,
 } from "firebase/firestore";
-import { useReducer, useEffect, useCallback } from "react";
 import { db } from "../service/firebase";
 
 function barberReducer(state, action) {
@@ -31,30 +32,31 @@ export function useGetAllBarbers() {
     data: [],
   });
 
-  useEffect(() => {
-    const fetchBarbers = async () => {
-      dispatch({ type: "REQUEST" });
-      try {
-        const q = query(collection(db, "barbers"));
-        const snapshot = await getDocs(q);
-        const barbers = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        dispatch({ type: "SUCCESS", data: barbers });
-      } catch (error) {
-        console.error("Failed to fetch barbers:", error);
-        dispatch({ type: "FAILURE", error });
-      }
-    };
-
-    fetchBarbers();
+  const fetchBarbers = useCallback(async () => {
+    dispatch({ type: "REQUEST" });
+    try {
+      const q = query(collection(db, "barbers"));
+      const snapshot = await getDocs(q);
+      const barbers = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      dispatch({ type: "SUCCESS", data: barbers });
+    } catch (error) {
+      console.error("Failed to fetch barbers:", error);
+      dispatch({ type: "FAILURE", error });
+    }
   }, []);
+
+  useEffect(() => {
+    fetchBarbers();
+  }, [fetchBarbers]);
 
   return {
     barbersList: state.data,
     loading: state.loading,
     error: state.error,
+    refetchBarbers: fetchBarbers,
   };
 }
 
@@ -95,7 +97,7 @@ export function useGetOneBarber(barberId) {
     barber: state.data,
     loading: state.loading,
     error: state.error,
-    fetchBarber
+    fetchBarber,
   };
 }
 
@@ -165,7 +167,11 @@ export function useGetFavoriteBarbers(userId, barberId) {
   };
 }
 
-export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers, fetchBarber) {
+export function useToggleFavoriteBarbers(
+  userId,
+  refreshFavoriteBarbers,
+  fetchBarber
+) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: true,
     error: null,
@@ -201,7 +207,7 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers, fetchBa
 
         await refreshFavoriteBarbers();
         await fetchBarber();
-        
+
         dispatch({
           type: "SUCCESS",
           data: state.data.map((barber) =>
@@ -228,5 +234,32 @@ export function useToggleFavoriteBarbers(userId, refreshFavoriteBarbers, fetchBa
     loading: state.loading,
     error: state.error,
     handleLikeToggle,
+  };
+}
+
+export function useDeleteBarber() {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: false,
+    error: null,
+    success: false,
+  });
+
+  const handleDeleteBarber = async (barberId) => {
+    dispatch({ type: "REQUEST" });
+
+    try {
+      const barberRef = doc(db, "barbers", barberId);
+      await deleteDoc(barberRef);
+      dispatch({ type: "SUCCESS" });
+    } catch (error) {
+      dispatch({ type: "FAILURE", error });
+      console.error("Failed to delete barber:", error);
+    }
+  };
+
+  return {
+    loading: state.loading,
+    error: state.error,
+    handleDeleteBarber,
   };
 }

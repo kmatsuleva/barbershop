@@ -10,7 +10,7 @@ export default function Button({
   return (
     <button
       className={`btn ${size ? `btn-${size}` : ""} ${
-        btnStyle ? `btn-${btnStyle}` : "btn-style-1"
+        btnStyle ? `btn-${btnStyle}` : ""
       } btn-primary ${className ? className : ""}`}
       type={type}
       onClick={onClick}

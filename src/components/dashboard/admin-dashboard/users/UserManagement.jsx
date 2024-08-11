@@ -26,8 +26,8 @@ export default function UserManagement() {
           <table className="table-striped table-custom table-custom-primary">
             <thead>
               <tr>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>Image</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Phone number</th>
                 <th>Role</th>
@@ -37,8 +37,12 @@ export default function UserManagement() {
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
+                  <td>
+                    <img src={user.photoUrl} className="img-circle" />
+                  </td>
+                  <td>
+                    {user.firstName} {user.lastName}
+                  </td>
                   <td>{user.email}</td>
                   <td>{user.phoneNumber}</td>
                   <td>

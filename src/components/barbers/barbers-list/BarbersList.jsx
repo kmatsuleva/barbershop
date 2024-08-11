@@ -23,7 +23,6 @@ export default function BarbersList({ size }) {
                   image={barber.photoUrl}
                   header={`${barber.firstName} ${barber.lastName}`}
                   body={barber.summary}
-                  // footer={barber.workExperience}
                   detailsUrl={`/barbers/${barber.id}/details`}
                 />
               </div>

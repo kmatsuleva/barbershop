@@ -77,28 +77,15 @@ export default function BarberDetail() {
                     fontWeight: 500,
                   }}
                 >
-                  <div>
+                  <button className="no-button" onClick={handleLikeClick}>
                     <Icon
                       size="xxs"
-                      icon="calendar"
+                      icon={isBarberLiked ? "heart" : "heart-o"}
                       color="primary"
-                      className="mr-2 pt-1"
+                      className="mr-1 pt-1"
                     />
-                    {/* {barber.workExperience} of experience */}
-                  </div>
-                  <div>
-                    <button className="no-button" onClick={handleLikeClick}>
-                      <Icon
-                        size="xxs"
-                        icon={isBarberLiked ? "heart" : "heart-o"}
-                        color="primary"
-                        className="mr-2 pt-1"
-                      />
-                      <span className="text-primary">
-                        {barber?.likes.length}
-                      </span>
-                    </button>
-                  </div>
+                    <span className="text-primary">{barber?.likes.length}</span>
+                  </button>
                 </div>
               </div>
             </div>
