@@ -1,8 +1,10 @@
+import { useState } from "react";
+import { useForm } from "../../../hooks/useForm";
+import { useAddBarber } from "../../../hooks/useBarbers";
 import FormField from "../../form-field/FormField";
 import Button from "../../button/Button";
-import { useForm } from "../../../hooks/useForm";
 
-export default function BarberAdd() {
+export default function BarberAdd({ handleFormClose }) {
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -18,20 +20,30 @@ export default function BarberAdd() {
     summary: (value) => (!value ? "Summary is required." : ""),
   };
 
+  const [file, setFile] = useState(null);
+
   // hooks
-  const { values, handleInputChange, handleFormValidation, errors } = useForm(
-    initialValues,
-    validators
-  );
+  const { values, handleInputChange, handleFormValidation, resetForm, errors } =
+    useForm(initialValues, validators);
+  const { addBarber } = useAddBarber();
 
-  const handleFormSubmitClick = (e) => {
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  };
+
+  const handleFormSubmitClick = async (e) => {
     e.preventDefault();
+    
+    if ((handleFormValidation())) {
+      const success = await addBarber(values, file);
 
-    if (handleFormValidation()) {
-      handleFormSubmit();
+      if (success) {
+        resetForm();
+        handleFormClose();
+      }
     }
   };
-  const handleFormSubmit = () => {};
 
   return (
     <form onSubmit={handleFormSubmitClick}>
@@ -73,8 +85,7 @@ export default function BarberAdd() {
             <FormField
               type="file"
               name="photoUrl"
-              value={values.photoUrl}
-              onChange={handleInputChange}
+              onChange={handleFileChange}
             />
           </div>
         </div>

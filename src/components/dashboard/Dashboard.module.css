@@ -1,9 +1,6 @@
 .dashboard-body {
-  margin-left: 0;
   width: 100%;
   background-color: #fff;
-  height: 100vh;
-  box-sizing: border-box;
 }
 
 @media (min-width: 1200px) {
@@ -13,6 +10,7 @@
     left: 255px;
     height: calc(100% - 81px);
     margin-left: auto;
+    height: 100vh;
     width: calc(100% - 250px);
     overflow-y: auto;
   }

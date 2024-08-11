@@ -5,9 +5,16 @@ export const useForm = (initialValues, validators) => {
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
+    const { name, type, checked, files, value } = e.target;
+
     setValues((prevValues) => ({
       ...prevValues,
-      [e.target.name]: e.target.value,
+      [name]:
+        type === "checkbox"
+          ? checked 
+          : type === "file"
+          ? files 
+          : value,
     }));
   };
 
@@ -23,10 +30,16 @@ export const useForm = (initialValues, validators) => {
     return Object.keys(errorsList).length === 0;
   };
 
+  const resetForm = () => {
+    setValues(initialValues);
+    setErrors({});
+  };
+
   return {
     values,
     handleInputChange,
     handleFormValidation,
     errors,
+    resetForm
   };
 };

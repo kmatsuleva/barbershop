@@ -1,23 +1,31 @@
 .thumbnail-card {
 	background: #fff;
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 450px;
+	height: 100%;
+	transition: .33s all ease;
 }
 
 .thumbnail-card-gray {
 	background: #fafafa;
 }
 
-.thumbnail-card * + .inline-list {
+.thumbnail-card *+.inline-list {
 	margin-top: 25px;
 }
 
 .thumbnail-card-body {
 	padding: 40px 30px;
+	flex: 1;
 }
 
 .thumbnail-card-image {
-	height: auto;
+	height: 310px;
 	width: 100%;
+	object-fit: cover;
 }
 
 .thumbnail-card-header {
@@ -38,7 +46,9 @@
 	letter-spacing: inherit;
 }
 
-.thumbnail-card-header a, .thumbnail-card-header a:active, .thumbnail-card-header a:focus {
+.thumbnail-card-header a,
+.thumbnail-card-header a:active,
+.thumbnail-card-header a:focus {
 	color: inherit;
 }
 
@@ -50,7 +60,7 @@
 	color: #999;
 }
 
-* + .thumbnail-card-text {
+*+.thumbnail-card-text {
 	margin-top: 10px;
 }
 
@@ -65,14 +75,16 @@
 }
 
 .thumbnail-card-footer {
-  color: black;
-  font-weight: 500;
+	color: black;
+	font-weight: 500;
+	margin-top: auto;
+}
+
+.thumbnail-card:hover {
+	background: #fafafa;
 }
 
 @media (min-width: 768px) {
-	.thumbnail-card * + .inline-list {
-		margin-top: 40px;
-	}
 	.thumbnail-card-body {
 		padding: 40px 20px;
 	}

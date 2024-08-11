@@ -1,5 +1,7 @@
 import { useReducer, useEffect, useCallback } from "react";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
+  addDoc,
   arrayRemove,
   arrayUnion,
   collection,
@@ -10,7 +12,7 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../service/firebase";
+import { db, storage } from "../service/firebase";
 
 function barberReducer(state, action) {
   switch (action.type) {
@@ -237,6 +239,60 @@ export function useToggleFavoriteBarbers(
   };
 }
 
+export const useAddBarber = () => {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: false,
+    error: null,
+    success: false,
+  });
+
+  const uploadImage = async (file) => {
+    if (!file) return null;
+
+    const fileRef = ref(storage, `barbers/${file.name}`);
+
+    try {
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+      return url;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
+  };
+
+  const addBarber = async (barberData, file) => {
+    dispatch({ type: "REQUEST" });
+
+    try {
+      let photoUrl = barberData.photoUrl;
+
+      if (file) {
+        photoUrl = await uploadImage(file);
+      }
+
+      await addDoc(collection(db, "barbers"), {
+        ...barberData,
+        photoUrl,
+      });
+
+      dispatch({ type: "SUCCESS" });
+      return true;
+    } catch (error) {
+      dispatch({ type: "FAILURE", error });
+      console.error("Failed to create barber:", error);
+      return false;
+    }
+  };
+
+  return {
+    addBarber,
+    loading: state.loading,
+    error: state.error,
+    success: state.success,
+  };
+};
+
 export function useDeleteBarber() {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: false,
@@ -244,22 +300,38 @@ export function useDeleteBarber() {
     success: false,
   });
 
-  const handleDeleteBarber = async (barberId) => {
-    dispatch({ type: "REQUEST" });
+const handleDeleteBarber = async (barberId) => {
+  dispatch({ type: "REQUEST" });
 
-    try {
-      const barberRef = doc(db, "barbers", barberId);
-      await deleteDoc(barberRef);
-      dispatch({ type: "SUCCESS" });
-    } catch (error) {
-      dispatch({ type: "FAILURE", error });
-      console.error("Failed to delete barber:", error);
+  try {
+    const barberRef = doc(db, "barbers", barberId);
+    const barberSnap = await getDoc(barberRef);
+
+    const barberData = barberSnap.data();
+    const photoUrl = barberData.photoUrl;
+
+    if (photoUrl) {
+      const imageRef = ref(storage, photoUrl);
+
+      try {
+        await deleteObject(imageRef);
+        console.log("Image deleted successfully");
+      } catch (error) {
+        console.error("Failed to delete image:", error);
+      }
     }
-  };
 
-  return {
-    loading: state.loading,
-    error: state.error,
-    handleDeleteBarber,
-  };
+    await deleteDoc(barberRef);
+    dispatch({ type: "SUCCESS" });
+  } catch (error) {
+    dispatch({ type: "FAILURE", error });
+    console.error("Failed to delete barber:", error);
+  }
+};
+
+return {
+  loading: state.loading,
+  error: state.error,
+  handleDeleteBarber,
+};
 }

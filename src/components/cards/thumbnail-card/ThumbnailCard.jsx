@@ -17,7 +17,7 @@ export default function ThumbnailCard({
     >
       <img
         className={styles["thumbnail-card-image"]}
-        src={image}
+        src={image ? image : "/images/missing-img.png"}
         alt=""
         width="370"
         height="310"
@@ -35,10 +35,10 @@ export default function ThumbnailCard({
             <p>{body}</p>
           </div>
         )}
-        {footer && (
-          <div className={styles["thumbnail-card-footer"]}>{footer}</div>
-        )}
       </div>
+      {footer && (
+        <div className={styles["thumbnail-card-footer"]}>{footer}</div>
+      )}
     </div>
   );
 }
