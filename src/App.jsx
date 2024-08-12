@@ -17,9 +17,10 @@ import BlogsList from "./components/blogs/blogs-list/BlogsList";
 import Blogs from "./components/blogs/Blogs";
 import BlogPost from "./components/blogs/blog-post/BlogPost";
 import Contacts from "./components/contacts/Contacts";
-import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
+import Profile from "./components/dashboard/client-dashboard/profile/Profile";
+import Booking from "./components/booking/Booking";
 import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
@@ -71,6 +72,7 @@ function App() {
                   <Route path="blogs" element={<BlogManagement />} />
                 </Route>
                 <Route element={<ClientPagesGuard />}>
+                  <Route path="profile" element={<Profile />} />
                   <Route path="appointments" element={<Booking />} />
                   <Route path="testimonials" element={<UserTestimonials />} />
                   <Route path="favorite-barbers" element={<FavoriteBarbers />} />

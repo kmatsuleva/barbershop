@@ -57,7 +57,7 @@ export default function FavoriteBarbers() {
                       size="xxs"
                       color="primary"
                       icon="heart"
-                      className="mr-2"
+                      className="mr-1"
                     />
                     <span>{barber.likes.length}</span>
                   </button>
