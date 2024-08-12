@@ -1,7 +1,8 @@
 import Jumbotron from "./jumbotron/Jumbotron";
 import AboutUs from "./about-us/AboutUs";
 import FeaturedServices from "./services/FeaturedServices";
-import BookNow from "./booking/BookNow";
+import ExperienceHighlight from "./experience-highlight/ExperienceHighlight";
+// import BookNow from "./booking/BookNow";
 import FeaturedBarbers from "./barbers/FeaturedBarbers";
 import FeaturedBlogs from "./blogs/LatestBlogs";
 
@@ -11,7 +12,8 @@ export default function Home() {
       <Jumbotron />
       <AboutUs />
       <FeaturedServices />
-      <BookNow />
+      {/* <BookNow /> */}
+      <ExperienceHighlight />
       <FeaturedBarbers />
       <FeaturedBlogs />
     </>

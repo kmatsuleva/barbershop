@@ -21,12 +21,12 @@ export default function Services() {
       <section className="section-lg bg-periglacial-blue text-center">
         <div className="shell">
           <ServicesList servicesList={servicesList} />
-          <ButtonLink
+          {/* <ButtonLink
             size="sm"
             url={`/booking`}
             text={isAuthenticated ? "Book now" : "Log in to Book"}
             className="mt-6"
-          />
+          /> */}
         </div>
       </section>
     </div>

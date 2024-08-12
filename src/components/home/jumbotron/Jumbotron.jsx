@@ -16,7 +16,7 @@ export default function Jumbotron() {
                 haircuts to hot shaves, you can experience the best level of
                 barbering in the area.
               </p>
-              <ButtonLink url="/booking" text="Book now" />
+              {/* <ButtonLink url="/booking" text="Book now" /> */}
             </div>
           </div>
         </div>
