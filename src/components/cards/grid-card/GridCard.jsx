@@ -10,9 +10,14 @@ export default function GridCard({ image, collection }) {
           {collection.map((card) => (
             <div className="cell-xs-6" key={card.id}>
               <article className="box-icon">
-                {card.iconUrl && (
+                {(card.iconLight || card.iconDark) && (
                   <figure className="box-icon-image">
-                    <img src={card.iconUrl} alt="" width="70" height="62" />
+                    <img
+                      src={card.iconLight || card.iconLight}
+                      alt=""
+                      width="70"
+                      height="62"
+                    />
                   </figure>
                 )}
                 {card.title && <p className="box-icon-header">{card.title}</p>}

@@ -31,6 +31,8 @@ import UserManagement from "./components/dashboard/admin-dashboard/users/UserMan
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
+import ServicesList from "./components/services/service-list/ServiceList";
+import Appointments from "./components/appointments/Appointments";
 
 function App() {
   const location = useLocation();
@@ -46,7 +48,9 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/services" element={<Services />}>
+              <Route index element={<ServicesList />} />
+            </Route>
             <Route path="/barbers" element={<Barbers />}>
               <Route index element={<BarbersList />} />
               <Route path=":barberId/details" element={<BarberDetail />} />
@@ -69,13 +73,13 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<WelcomeDashboard />} />
                 <Route element={<AdminPagesGuard />}>
-                  <Route path="users" element={<UserManagement />} />
+                  <Route path="clients" element={<UserManagement />} />
                   <Route path="barbers" element={<BarberManagement />} />
                   <Route path="blogs" element={<BlogManagement />} />
                 </Route>
                 <Route element={<ClientPagesGuard />}>
                   <Route path="profile" element={<Profile />} />
-                  <Route path="appointments" element={<Booking />} />
+                  <Route path="appointments" element={<Appointments />} />
                   <Route path="testimonials" element={<UserTestimonials />} />
                   <Route path="favorite-barbers" element={<FavoriteBarbers />} />
                   <Route path="favorite-blogs" element={<FavoriteBlogs />} />

@@ -14,7 +14,7 @@ export default function BlogsList({ size }) {
 
   return (
     <>
-      {displayedBlogs.length > 0 ? (
+      {displayedBlogs && displayedBlogs.length > 0 ? (
         <>
           <div className="range range-30">
             {displayedBlogs.map((blog) => (

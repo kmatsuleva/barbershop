@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback, useState } from "react";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   addDoc,
@@ -11,6 +11,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db, storage } from "../service/firebase";
 
@@ -334,4 +335,45 @@ return {
   error: state.error,
   handleDeleteBarber,
 };
+}
+
+
+export function useGetBarbersByService(serviceId) {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: false,
+    error: null,
+    data: [],
+  });
+
+  const fetchBarbersByService = useCallback(async () => {
+    dispatch({ type: "REQUEST" });
+
+    try {
+      const q = query(
+        collection(db, "barbers"),
+        where("services", "array-contains", doc(db, "services", serviceId))
+      );
+      const snapshot = await getDocs(q);
+      const barbersList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      dispatch({ type: "SUCCESS", data: barbersList });
+    } catch (error) {
+      dispatch({ type: "FAILURE", error: error.message });
+    }
+  }, [serviceId]);
+
+  useEffect(() => {
+    if (serviceId) {
+      fetchBarbersByService();
+    }
+  }, [serviceId, fetchBarbersByService]);
+
+  return {
+    barberServices: state.data,
+    loading: state.loading,
+    error: state.error,
+  };
 }

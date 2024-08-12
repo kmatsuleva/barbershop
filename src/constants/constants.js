@@ -25,7 +25,7 @@ export const CLIENT_DASHBOARD_NAVIGATION = [
 ];
 
 export const ADMIN_DASHBOARD_NAVIGATION = [
-  { title: "Users", url: "/dashboard/users" },
+  { title: "Clients", url: "/dashboard/clients" },
   { title: "Barbers", url: "/dashboard/barbers" },
   { title: "Blogs", url: "/dashboard/blogs" },
 ];

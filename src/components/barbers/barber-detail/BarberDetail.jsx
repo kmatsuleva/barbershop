@@ -148,7 +148,7 @@ export default function BarberDetail() {
                 </div>
               )}
 
-              {testimonials.length > 0 && (
+              {testimonials && testimonials.length > 0 && (
                 <div className="cell-xs-12">
                   <Testimonials testimonials={testimonials} />
                 </div>

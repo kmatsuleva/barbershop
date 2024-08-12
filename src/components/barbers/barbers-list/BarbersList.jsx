@@ -14,7 +14,7 @@ export default function BarbersList({ size }) {
 
   return (
     <>
-      {displayedBarbers.length > 0 ? (
+      {displayedBarbers && displayedBarbers.length > 0 ? (
         <>
           <div className="range range-30">
             {displayedBarbers.map((barber) => (

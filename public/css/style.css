@@ -89,7 +89,7 @@ html {
 
 body {
 	margin: 0;
-	padding-top: 81px;
+	padding-top: 65px;
 }
 
 article,
@@ -27636,10 +27636,11 @@ blockquote .small:before {
 }
 
 .card-service {
-	padding: 40px 15px 0;
+	padding: 40px 15px;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+	background-color: white;
 }
 
 .card-service-title {
@@ -27751,26 +27752,14 @@ blockquote .small:before {
 	.card-service {
 		position: relative;
 	}
-	.card-service:after {
-		content: '';
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background: #fff;
-		z-index: -1;
-	}
+
 	.card-service:after,
 	.card-service .card-service-control {
 		opacity: 0;
 		visibility: hidden;
 		transition: .44s all ease;
 	}
-	.card-service:hover:after {
-		top: -20px;
-		bottom: -70px;
-	}
+	
 	.card-service:hover:after,
 	.card-service:hover .card-service-control {
 		visibility: visible;
@@ -28622,134 +28611,6 @@ blockquote .small:before {
 
 [data-toggle='modal'] {
 	cursor: pointer;
-}
-
-.custom-progress {
-	width: 100%;
-	height: 6px;
-	background: #242423;
-}
-
-.custom-progress-body {
-	height: 100%;
-	width: 0;
-	background: #014d55;
-}
-
-.rd-navbar-sidebar-linked .custom-progress {
-	position: absolute;
-	z-index: 1000;
-	top: 73px;
-	left: 0;
-	right: 0;
-}
-
-.rd-navbar-fixed-linked .custom-progress {
-	position: fixed;
-	z-index: 1000;
-	top: 56px;
-	left: 0;
-	right: 0;
-}
-
-.step-progress {
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-direction: column;
-	-ms-flex-direction: column;
-	flex-direction: column;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	-webkit-align-items: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-justify-content: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	font-family: "Arvo", Helvetica, Arial, sans-serif;
-	font-weight: 400;
-	color: #242423;
-	text-align: center;
-	white-space: normal;
-}
-
-.step-progress-top {
-	font-size: 10px;
-	line-height: 1.2;
-	letter-spacing: .1em;
-}
-
-.step-progress-bottom {
-	letter-spacing: .45em;
-	text-transform: uppercase;
-}
-
-.step-progress-number {
-	font-size: 14px;
-	padding: 0 9px;
-}
-
-.step-progress-number:first-child {
-	padding-left: 5px;
-}
-
-.step-progress-caption {
-	max-width: 85px;
-	text-transform: uppercase;
-	letter-spacing: .2em;
-}
-
-@media (min-width: 480px) {
-	.step-progress-caption {
-		white-space: nowrap;
-		max-width: 150px;
-	}
-}
-
-.step-progress-caption > * {
-	display: inline-block;
-	vertical-align: baseline;
-}
-
-.step-progress-caption > * + * {
-	margin-left: 5px;
-}
-
-.step-progress-caption img {
-	position: relative;
-	top: 1px;
-}
-
-@media (min-width: 480px) {
-	.step-progress-top {
-		font-size: 14px;
-		letter-spacing: .2em;
-	}
-	.step-progress-number {
-		font-size: 18px;
-	}
-	.step-progress-bottom {
-		letter-spacing: .9em;
-	}
-	.step-progress-caption {
-		font-size: 14px;
-	}
-}
-
-.rd-navbar-fixed-linked .step-progress {
-	position: fixed;
-	right: 8px;
-	top: 8px;
-	z-index: 10001;
-	padding-bottom: 2px;
-}
-
-@media (min-width: 480px) {
-	.rd-navbar-fixed-linked .step-progress {
-		top: 7px;
-	}
 }
 
 .table-custom {
@@ -39800,4 +39661,10 @@ a.pswp__share--download:hover {
 
 .swiper-pagination-bullet-active {
 	background: #014d55 !important;
+}
+
+@media (min-width: 1200px) {
+	body {
+		padding-top: 81px;
+	}
 }

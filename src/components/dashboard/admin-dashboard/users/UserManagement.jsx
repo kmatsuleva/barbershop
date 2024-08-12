@@ -21,7 +21,7 @@ export default function UserManagement() {
 
   return (
     <>
-      {users.length > 0 ? (
+      {users && users.length > 0 ? (
         <div className="table-custom-responsive table-round">
           <table className="table-striped table-custom table-custom-primary">
             <thead>

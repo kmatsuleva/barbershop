@@ -6,6 +6,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { auth, db } from "../service/firebase";
 import { deleteUser } from "firebase/auth";
@@ -18,7 +19,7 @@ export function useUsers() {
   useEffect(() => {
     (async () => {
       try {
-        const q = query(collection(db, "users"));
+        const q = query(collection(db, "users"), where("role", "==", "client"));
         const snapshot = await getDocs(q);
 
         const usersList = snapshot.docs.map((doc) => ({
