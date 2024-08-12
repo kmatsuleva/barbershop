@@ -1,33 +1,14 @@
+import { useGetAllServices } from "../../../hooks/useServices";
 import ButtonLink from "../../button-link/ButtonLink";
 import GridCard from "../../cards/grid-card/GridCard";
+import Loader from "../../loader/Loader";
 
 export default function FeaturedServices() {
-  const collection = [
-    {
-      id: 1,
-      iconUrl: "images/icon-service-light-3-70x62.png",
-      title: "Beard trim",
-      summary: "Well-trimmed beard is a must-have element of every men’s image",
-    },
-    {
-      id: 2,
-      iconUrl: "images/icon-service-light-4-70x62.png",
-      title: "Mustache trim",
-      summary: "Mustaches also need to be trimmed regularly",
-    },
-    {
-      id: 3,
-      iconUrl: "images/icon-service-light-1-70x62.png",
-      title: "Traditional haircuts",
-      summary: "One of the most popular services our barbers provide",
-    },
-    {
-      id: 4,
-      iconUrl: "images/icon-service-light-2-70x62.png",
-      title: "Shaves",
-      summary: "Our shaving services will make you look really handsome",
-    },
-  ];
+  const { servicesList, loading } = useGetAllServices();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <section className="bg-white">
@@ -55,7 +36,7 @@ export default function FeaturedServices() {
           </div>
           <div className="cell-md-6 cell-md-6-mod-2 image-wrap-right bg-gray-dark bg-image">
             <GridCard
-              collection={collection}
+              collection={servicesList}
               image="images/home-three-3-1011x800.jpg"
             />
           </div>

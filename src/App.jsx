@@ -10,6 +10,7 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
 import Home from "./components/home/Home";
+import Services from "./components/services/Services";
 import Barbers from "./components/barbers/Barbers";
 import BarbersList from "./components/barbers/barbers-list/BarbersList";
 import BarberDetail from "./components/barbers/barber-detail/BarberDetail";
@@ -17,10 +18,10 @@ import BlogsList from "./components/blogs/blogs-list/BlogsList";
 import Blogs from "./components/blogs/Blogs";
 import BlogPost from "./components/blogs/blog-post/BlogPost";
 import Contacts from "./components/contacts/Contacts";
+import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
 import Profile from "./components/dashboard/client-dashboard/profile/Profile";
-import Booking from "./components/booking/Booking";
 import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
@@ -45,6 +46,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/barbers" element={<Barbers />}>
               <Route index element={<BarbersList />} />
               <Route path=":barberId/details" element={<BarberDetail />} />
