@@ -1,5 +1,10 @@
 import { useReducer, useEffect, useCallback, useState } from "react";
-import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import {
   addDoc,
   arrayRemove,
@@ -301,79 +306,130 @@ export function useDeleteBarber() {
     success: false,
   });
 
-const handleDeleteBarber = async (barberId) => {
-  dispatch({ type: "REQUEST" });
+  const handleDeleteBarber = async (barberId) => {
+    dispatch({ type: "REQUEST" });
 
-  try {
-    const barberRef = doc(db, "barbers", barberId);
-    const barberSnap = await getDoc(barberRef);
+    try {
+      const barberRef = doc(db, "barbers", barberId);
+      const barberSnap = await getDoc(barberRef);
 
-    const barberData = barberSnap.data();
-    const photoUrl = barberData.photoUrl;
+      const barberData = barberSnap.data();
+      const photoUrl = barberData.photoUrl;
 
-    if (photoUrl) {
-      const imageRef = ref(storage, photoUrl);
+      if (photoUrl) {
+        const imageRef = ref(storage, photoUrl);
 
-      try {
-        await deleteObject(imageRef);
-        console.log("Image deleted successfully");
-      } catch (error) {
-        console.error("Failed to delete image:", error);
+        try {
+          await deleteObject(imageRef);
+          console.log("Image deleted successfully");
+        } catch (error) {
+          console.error("Failed to delete image:", error);
+        }
       }
+
+      await deleteDoc(barberRef);
+      dispatch({ type: "SUCCESS" });
+    } catch (error) {
+      dispatch({ type: "FAILURE", error });
+      console.error("Failed to delete barber:", error);
     }
+  };
 
-    await deleteDoc(barberRef);
-    dispatch({ type: "SUCCESS" });
-  } catch (error) {
-    dispatch({ type: "FAILURE", error });
-    console.error("Failed to delete barber:", error);
-  }
-};
-
-return {
-  loading: state.loading,
-  error: state.error,
-  handleDeleteBarber,
-};
+  return {
+    loading: state.loading,
+    error: state.error,
+    handleDeleteBarber,
+  };
 }
 
+// export function useGetBarbersByService(serviceId) {
+//   const [state, dispatch] = useReducer(barberReducer, {
+//     loading: false,
+//     error: null,
+//     data: [],
+//   });
 
-export function useGetBarbersByService(serviceId) {
+//   const fetchBarbersByService = useCallback(async () => {
+//     dispatch({ type: "REQUEST" });
+
+//     try {
+//       const q = query(
+//         collection(db, "barbers"),
+//         where("services", "array-contains", doc(db, "services", serviceId))
+//       );
+//       const snapshot = await getDocs(q);
+//       const barbersList = snapshot.docs.map((doc) => ({
+//         id: doc.id,
+//         ...doc.data(),
+//       }));
+
+//       dispatch({ type: "SUCCESS", data: barbersList });
+//     } catch (error) {
+//       dispatch({ type: "FAILURE", error: error.message });
+//     }
+//   }, [serviceId]);
+
+//   useEffect(() => {
+//     if (serviceId) {
+//       fetchBarbersByService();
+//     }
+//   }, [serviceId, fetchBarbersByService]);
+
+//   return {
+//     barberServices: state.data,
+//     loading: state.loading,
+//     error: state.error,
+//   };
+// }
+
+export function useGetBarbersServices(barberId) {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: false,
     error: null,
     data: [],
   });
 
-  const fetchBarbersByService = useCallback(async () => {
+  const fetchServices = useCallback(async () => {
     dispatch({ type: "REQUEST" });
 
     try {
-      const q = query(
-        collection(db, "barbers"),
-        where("services", "array-contains", doc(db, "services", serviceId))
-      );
-      const snapshot = await getDocs(q);
-      const barbersList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const barberDocRef = doc(db, "barbers", barberId);
+      const barberDoc = await getDoc(barberDocRef);
 
-      dispatch({ type: "SUCCESS", data: barbersList });
+      if (!barberDoc.exists()) {
+        throw new Error("Barber not found");
+      }
+
+      const barberData = barberDoc.data();
+      const serviceRefs = barberData.services;
+
+      const servicePromises = serviceRefs.map(async (serviceRef) => {
+        const serviceDoc = await getDoc(serviceRef);
+        if (!serviceDoc.exists()) {
+          throw new Error("Service not found");
+        }
+        return { id: serviceDoc.id, ...serviceDoc.data() };
+      });
+  
+      const services = await Promise.all(servicePromises);
+
+      dispatch({ type: "SUCCESS", data: services });
     } catch (error) {
       dispatch({ type: "FAILURE", error: error.message });
+
+      console.error("Failed to fetch services:", error);
     }
-  }, [serviceId]);
+  }, [barberId]);
 
   useEffect(() => {
-    if (serviceId) {
-      fetchBarbersByService();
-    }
-  }, [serviceId, fetchBarbersByService]);
+    fetchServices();
+  }, [fetchServices]);
 
+  
   return {
     barberServices: state.data,
     loading: state.loading,
     error: state.error,
+    refetchTestimonials: fetchServices,
   };
 }
