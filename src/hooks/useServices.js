@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useCallback, useState } from "react";
 import { collection, getDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../service/firebase";
+import { useGetAllBarbers } from "./useBarbers";
 
 function serviceReducer(state, action) {
   switch (action.type) {
@@ -21,28 +22,12 @@ export function useGetServicesByBarbers() {
     error: null,
     data: [],
   });
-  const [barbers, setBarbers] = useState([]);
-
-  const fetchBarbers = useCallback(async () => {
-    dispatch({ type: "REQUEST" });
-    try {
-      const q = query(collection(db, "barbers"));
-      const snapshot = await getDocs(q);
-      const barbersData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setBarbers(barbersData);
-    } catch (error) {
-      console.error("Failed to fetch barbers:", error);
-      dispatch({ type: "FAILURE", error });
-    }
-  }, []);
+  const { barbersList, refetchBarbers } = useGetAllBarbers();
 
   const fetchServicesByBarbers = useCallback(async () => {
     dispatch({ type: "REQUEST" });
     try {
-      const servicesPromises = barbers.map(async (barber) => {
+      const servicesPromises = barbersList.map(async (barber) => {
         if (barber.services) {
           const servicesPromises = barber.services.map(async (serviceRef) => {
             const serviceDoc = await getDoc(serviceRef);
@@ -65,17 +50,17 @@ export function useGetServicesByBarbers() {
       dispatch({ type: "FAILURE", error });
       console.error("Failed to fetch services by barbers:", error);
     }
-  }, [barbers]);
+  }, [barbersList]);
 
   useEffect(() => {
-    fetchBarbers();
-  }, [fetchBarbers]);
+    refetchBarbers();
+  }, [refetchBarbers]);
 
   useEffect(() => {
-    if (barbers.length > 0) {
+    if (barbersList.length > 0) {
       fetchServicesByBarbers();
     }
-  }, [barbers, fetchServicesByBarbers]);
+  }, [barbersList, fetchServicesByBarbers]);
 
   return {
     servicesList: state.data,
