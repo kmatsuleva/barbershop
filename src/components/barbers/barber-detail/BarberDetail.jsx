@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import {
+  useGetBarbersServices,
   useGetFavoriteBarbers,
   useGetOneBarber,
   useToggleFavoriteBarbers,
@@ -12,6 +13,7 @@ import ButtonLink from "../../button-link/ButtonLink";
 import Icon from "../../icon/Icon";
 import Testimonials from "../../testimonials/Testimonials";
 import TestimonialCreate from "../../testimonials/testimonial-create/TestimonialCreate";
+import ButtonIcon from "../../button-icon/ButtonIcon";
 
 export default function BarberDetail() {
   const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
@@ -19,17 +21,22 @@ export default function BarberDetail() {
   const { barberId } = useParams();
   const { barber, fetchBarber, error } = useGetOneBarber(barberId);
   const { user, isAuthenticated } = useAuth();
+
   const { testimonials, refetchTestimonials } =
     useGetBarberTestimonials(barberId);
+
   const { isBarberLiked, refreshFavoriteBarbers } = useGetFavoriteBarbers(
     user?.uid,
     barberId
   );
+
   const { handleLikeToggle } = useToggleFavoriteBarbers(
     user?.uid,
     refreshFavoriteBarbers,
     fetchBarber
   );
+
+  const { barberServices } = useGetBarbersServices(barberId);
 
   const handleWriteReviewClick = () => {
     setReviewButtonClicked(true);
@@ -84,9 +91,35 @@ export default function BarberDetail() {
                       color="primary"
                       className="mr-1 pt-1"
                     />
-                    <span className="text-primary">{barber?.likes.length}</span>
+                    <span className="text-primary">
+                      {barber?.likes?.length}
+                    </span>
                   </button>
                 </div>
+
+                {barberServices && barberServices.length > 0 && (
+                  <div
+                    className="reveal-flex"
+                    style={{
+                      marginTop: "25px",
+                      columnGap: "30px",
+                      color: "black",
+                      fontWeight: 500,
+                    }}
+                  >
+                    <div className="flex flex-wrap gap-2">
+                      {barberServices.map((service) => (
+                        <ButtonIcon
+                          text={service.title}
+                          size="xs"
+                          key={service.id}
+                          className="mt-0 cursor-auto"
+                          icon="label"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -511,6 +511,10 @@
   cursor: pointer;
 }
 
+.cursor-auto {
+  cursor: auto;
+}
+
 @media (min-width: 600px) {
   .pt-sm-0 {
     padding-top: 0;
