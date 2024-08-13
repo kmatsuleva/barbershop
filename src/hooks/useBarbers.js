@@ -277,9 +277,14 @@ export const useAddBarber = () => {
         photoUrl = await uploadImage(file);
       }
 
+      const serviceRefs = (barberData.services || []).map((serviceId) =>
+        doc(db, "services", serviceId)
+      );
+
       await addDoc(collection(db, "barbers"), {
         ...barberData,
         photoUrl,
+        services: serviceRefs,
       });
 
       dispatch({ type: "SUCCESS" });
@@ -342,45 +347,45 @@ export function useDeleteBarber() {
   };
 }
 
-// export function useGetBarbersByService(serviceId) {
-//   const [state, dispatch] = useReducer(barberReducer, {
-//     loading: false,
-//     error: null,
-//     data: [],
-//   });
+export function useGetBarbersByService(serviceId) {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: false,
+    error: null,
+    data: [],
+  });
 
-//   const fetchBarbersByService = useCallback(async () => {
-//     dispatch({ type: "REQUEST" });
+  const fetchBarbersByService = useCallback(async () => {
+    dispatch({ type: "REQUEST" });
 
-//     try {
-//       const q = query(
-//         collection(db, "barbers"),
-//         where("services", "array-contains", doc(db, "services", serviceId))
-//       );
-//       const snapshot = await getDocs(q);
-//       const barbersList = snapshot.docs.map((doc) => ({
-//         id: doc.id,
-//         ...doc.data(),
-//       }));
+    try {
+      const q = query(
+        collection(db, "barbers"),
+        where("services", "array-contains", doc(db, "services", serviceId))
+      );
+      const snapshot = await getDocs(q);
+      const barbersList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-//       dispatch({ type: "SUCCESS", data: barbersList });
-//     } catch (error) {
-//       dispatch({ type: "FAILURE", error: error.message });
-//     }
-//   }, [serviceId]);
+      dispatch({ type: "SUCCESS", data: barbersList });
+    } catch (error) {
+      dispatch({ type: "FAILURE", error: error.message });
+    }
+  }, [serviceId]);
 
-//   useEffect(() => {
-//     if (serviceId) {
-//       fetchBarbersByService();
-//     }
-//   }, [serviceId, fetchBarbersByService]);
+  useEffect(() => {
+    if (serviceId) {
+      fetchBarbersByService();
+    }
+  }, [serviceId, fetchBarbersByService]);
 
-//   return {
-//     barberServices: state.data,
-//     loading: state.loading,
-//     error: state.error,
-//   };
-// }
+  return {
+    barberServices: state.data,
+    loading: state.loading,
+    error: state.error,
+  };
+}
 
 export function useGetBarbersServices(barberId) {
   const [state, dispatch] = useReducer(barberReducer, {

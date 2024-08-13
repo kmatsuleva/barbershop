@@ -3,6 +3,7 @@ import { useForm } from "../../../hooks/useForm";
 import { useAddBarber } from "../../../hooks/useBarbers";
 import FormField from "../../form-field/FormField";
 import Button from "../../button/Button";
+import { useGetServicesByBarbers } from "../../../hooks/useServices";
 
 export default function BarberAdd({ handleFormClose }) {
   const initialValues = {
@@ -11,6 +12,7 @@ export default function BarberAdd({ handleFormClose }) {
     bio: "",
     photoUrl: "",
     summary: "",
+    services: [],
   };
 
   const validators = {
@@ -26,16 +28,27 @@ export default function BarberAdd({ handleFormClose }) {
   const { values, handleInputChange, handleFormValidation, resetForm, errors } =
     useForm(initialValues, validators);
   const { addBarber } = useAddBarber();
+  const { servicesList } = useGetServicesByBarbers();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
   };
 
+  const handleServiceChange = (e) => {
+    const { checked, value } = e.target;
+
+    const updatedServices = checked
+      ? [...values.services, value]
+      : values.services.filter((service) => service !== value);
+
+    handleInputChange({ target: { name: "services", value: updatedServices } });
+  };
+
   const handleFormSubmitClick = async (e) => {
     e.preventDefault();
-    
-    if ((handleFormValidation())) {
+
+    if (handleFormValidation()) {
       const success = await addBarber(values, file);
 
       if (success) {
@@ -100,6 +113,29 @@ export default function BarberAdd({ handleFormClose }) {
               onChange={handleInputChange}
               error={errors.summary}
             />
+          </div>
+        </div>
+        <div className="range mt-2">
+          <div className="cell-md-12">
+            <p className="big">Services:</p>
+            <div className="range mt-1">
+              {servicesList.map((service) => (
+                <div
+                  className="cell-sm-6 flex mt-0"
+                  key={service.id}
+                >
+                  <input
+                    type="checkbox"
+                    id={service.id}
+                    name="services"
+                    value={service.id}
+                    checked={values.services.includes(service.id)}
+                    onChange={handleServiceChange}
+                  />
+                  <label htmlFor={service.id} className="pl-2">{service.title}</label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="range">

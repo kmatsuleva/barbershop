@@ -54,11 +54,11 @@ export default function Header() {
           {isMenuOpen && (
             <>
               <AuthLinks onLinkClick={closeMenu} />
-              {/* <li className={styles["nav-item"]}>
+              <li className={styles["nav-item"]}>
                 <Link to="/booking" onClick={closeMenu}>
                   Book now
                 </Link>
-              </li> */}
+              </li>
             </>
           )}
         </ul>
@@ -66,13 +66,13 @@ export default function Header() {
 
       <ul className={styles["user-actions"]}>
         <AuthLinks onLinkClick={closeMenu} />
-        {/* <ButtonLink
+        <ButtonLink
           url="booking"
           size="xs"
           text="Book now"
           className={styles["mt-0"]}
           btnStyle="circle"
-        /> */}
+        />
       </ul>
 
       <div className={styles["mobile-menu"]}>

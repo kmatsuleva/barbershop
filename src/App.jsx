@@ -69,20 +69,17 @@ function App() {
             </Route>
 
             <Route element={<PrivatePagesGuard />}>
-              {/* <Route path="/booking" element={<Booking />} /> */}
+              <Route path="/booking" element={<Booking />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<WelcomeDashboard />} />
                 <Route element={<AdminPagesGuard />}>
                   <Route path="clients" element={<UserManagement />} />
                   <Route path="barbers" element={<BarberManagement />} />
-                  {/* <Route path="blogs" element={<BlogManagement />} /> */}
                 </Route>
                 <Route element={<ClientPagesGuard />}>
                   <Route path="profile" element={<Profile />} />
-                  {/* <Route path="appointments" element={<Appointments />} /> */}
                   <Route path="testimonials" element={<UserTestimonials />} />
                   <Route path="favorite-barbers" element={<FavoriteBarbers />} />
-                  {/* <Route path="favorite-blogs" element={<FavoriteBlogs />} /> */}
                 </Route>
               </Route>
               <Route path="/logout" element={<Logout />} />
