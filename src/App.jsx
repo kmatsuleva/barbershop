@@ -27,7 +27,7 @@ import UserTestimonials from "./components/dashboard/client-dashboard/testimonia
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
-import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
+import ClientsManagement from "./components/dashboard/admin-dashboard/clients/ClientsManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
@@ -82,7 +82,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />}>
                   <Route index element={<WelcomeDashboard />} />
                   <Route element={<AdminPagesGuard />}>
-                    <Route path="clients" element={<UserManagement />} />
+                    <Route path="clients" element={<ClientsManagement />} />
                     <Route path="barbers" element={<BarberManagement />} />
                   </Route>
                   <Route element={<ClientPagesGuard />}>

@@ -5,7 +5,7 @@ import Button from "../../button/Button";
 import NoImage from "../../no-image/NoImage";
 import { useEditBarber } from "../../../hooks/useBarbers";
 
-export default function BarberEdit({ editingBarber, servicesList = [] }) {
+export default function BarberEdit({ handleFormClose, editingBarber, servicesList = [] }) {
   const initialValues = {
     firstName: editingBarber?.firstName || "",
     lastName: editingBarber?.lastName || "",
@@ -73,6 +73,7 @@ export default function BarberEdit({ editingBarber, servicesList = [] }) {
         setFile(null);
         fileInputRef.current.value = "";
         setSelectedServices([]);
+        handleFormClose();
       }
     }
   };
@@ -127,19 +128,6 @@ export default function BarberEdit({ editingBarber, servicesList = [] }) {
                       />
                     </div>
                   </div>
-                  <div className="range mt-0">
-                    <div className="cell-md-12 mt-1">
-                      <FormField
-                        type="textarea"
-                        name="bio"
-                        label="Bio *"
-                        value={values.bio}
-                        onChange={handleInputChange}
-                        error={errors.bio}
-                        rows={6}
-                      />
-                    </div>
-                  </div>
                   <div className="range mt-1">
                     <div className="cell-md-12">
                       <FormField
@@ -150,6 +138,19 @@ export default function BarberEdit({ editingBarber, servicesList = [] }) {
                         value={values.summary}
                         onChange={handleInputChange}
                         error={errors.summary}
+                      />
+                    </div>
+                  </div>
+                  <div className="range mt-0">
+                    <div className="cell-md-12 mt-1">
+                      <FormField
+                        type="textarea"
+                        name="bio"
+                        label="Bio *"
+                        value={values.bio}
+                        onChange={handleInputChange}
+                        error={errors.bio}
+                        rows={6}
                       />
                     </div>
                   </div>

@@ -20,7 +20,7 @@ export default function FormField({
           {label}
         </label>
       )}
-      {type === "textarea" ? (
+      {type === "textarea" && (
         <textarea
           id={name}
           name={name}
@@ -30,7 +30,8 @@ export default function FormField({
           onChange={onChange}
           rows={rows}
         ></textarea>
-      ) : type === "select" ? (
+      )}
+      {type === "select" && options && (
         <select
           id={name}
           name={name}
@@ -44,7 +45,8 @@ export default function FormField({
             </option>
           ))}
         </select>
-      ) : (
+      )}
+      {type === "text" && (
         <input
           type={type}
           id={name}
