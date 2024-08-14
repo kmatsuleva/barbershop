@@ -18,14 +18,11 @@ export default function ClientsManagement() {
       `Are you sure you want to change the role of ${client.firstName} ${client.lastName} to ${newRole}?`
     );
     if (isConfirmed) {
-      console.log("client.id", client.id);
-      console.log("newRole", newRole);
       handleRoleChange(client.id, newRole);
       refetchClients();
     }
   };
 
-  console.log("clients:", clients);
   const showRoleColumn = clients && clients.some((client) => client.role);
 
   return (
@@ -51,8 +48,6 @@ export default function ClientsManagement() {
                   <td>{client.phoneNumber}</td>
                   {showRoleColumn && (
                     <td>
-                      {console.log("client.role:", client.role)}
-                      {console.log("roles:", roles)}
                       <FormField
                         type="select"
                         value={client.role}
