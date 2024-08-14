@@ -4,12 +4,10 @@ import {
   query,
   getDocs,
   doc,
-  deleteDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../service/firebase";
-import { deleteUser } from "firebase/auth";
+import { db } from "../service/firebase";
 
 export function useUsers() {
   const roles = ["admin", "client"];
@@ -35,22 +33,6 @@ export function useUsers() {
     })();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "users", id));
-      // admin.auth().deleteUser(id);
-      await deleteUser(auth.currentUser);
-
-      // const userRecord = await auth.getUser(id);
-      // if (userRecord) {
-      // await deleteUser(id);
-      // }
-      setUsers(users.filter((user) => user.id !== id));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
-
   const handleRoleChange = async (id, newRole) => {
     try {
       await updateDoc(doc(db, "users", id), { role: newRole });
@@ -64,5 +46,5 @@ export function useUsers() {
     }
   };
 
-  return { users, roles, loading, handleDelete, handleRoleChange };
+  return { users, roles, loading, handleRoleChange };
 }
