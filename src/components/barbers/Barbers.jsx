@@ -7,7 +7,7 @@ const Barbers = () => {
     <div>
       <Banner heading="Our Barbers" />
 
-      <section className="section-xl bg-periglacial-blue text-center">
+      <section className="section-xl bg-periglacial-blue">
         <div className="shell">
           <Outlet />
         </div>

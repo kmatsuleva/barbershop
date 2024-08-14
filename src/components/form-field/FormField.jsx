@@ -11,6 +11,31 @@ export default function FormField({
   rows,
   options,
 }) {
+  const renderOptions = () => {
+    if (Array.isArray(options)) {
+      return options.map((option) => {
+        if (
+          typeof option === "object" &&
+          option !== null &&
+          "title" in option &&
+          "id" in option
+        ) {
+          return (
+            <option key={option.id} value={option.title}>
+              {option.title}
+            </option>
+          );
+        }
+        return (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        );
+      });
+    }
+    return null;
+  };
+
   return (
     <fieldset
       className={`${styles["form-group"]} ${error ? styles["has-error"] : ""}`}
@@ -39,11 +64,8 @@ export default function FormField({
           value={value}
           onChange={onChange}
         >
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+          <option value="">Select</option>
+          {renderOptions()}
         </select>
       )}
       {type === "text" && (

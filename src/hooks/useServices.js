@@ -1,6 +1,5 @@
-import { useReducer, useEffect, useCallback, useState } from "react";
-import { collection, getDoc, getDocs, query } from "firebase/firestore";
-import { db } from "../service/firebase";
+import { useReducer, useEffect, useCallback } from "react";
+import { getDoc } from "firebase/firestore";
 import { useGetAllBarbers } from "./useBarbers";
 
 function serviceReducer(state, action) {
