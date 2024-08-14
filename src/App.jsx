@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "./contexts/AuthContext";
-
 import PrivatePagesGuard from "./components/common/PrivatePagesGuard";
 import PublicPagesGard from "./components/common/PublicPagesGard";
 import AdminPagesGuard from "./components/common/AdminPagesGuard";
@@ -24,15 +24,14 @@ import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDa
 import Profile from "./components/dashboard/client-dashboard/profile/Profile";
 import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
-import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
-import BlogManagement from "./components/dashboard/admin-dashboard/blogs/BlogManagement";
 import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
 import ServicesList from "./components/services/service-list/ServiceList";
 import Appointments from "./components/appointments/Appointments";
+import Maintenance from "./components/maintenance/Maintenance";
 
 function App() {
   const location = useLocation();
@@ -43,51 +42,64 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="page">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />}>
-              <Route index element={<ServicesList />} />
-            </Route>
-            <Route path="/barbers" element={<Barbers />}>
-              <Route index element={<BarbersList />} />
-              <Route path=":barberId/details" element={<BarberDetail />} />
-            </Route>
-            <Route path="/blogs" element={<Blogs />}>
-              <Route index element={<BlogsList />} />
-              <Route path=":blogId/details" element={<BlogPost />} />
-            </Route>
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/forbidden" element={<Forbidden />} />
-            <Route path="/*" element={<NotFound />} />
-
-            <Route element={<PublicPagesGard />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
-
-            <Route element={<PrivatePagesGuard />}>
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/dashboard" element={<Dashboard />}>
-                <Route index element={<WelcomeDashboard />} />
-                <Route element={<AdminPagesGuard />}>
-                  <Route path="clients" element={<UserManagement />} />
-                  <Route path="barbers" element={<BarberManagement />} />
-                </Route>
-                <Route element={<ClientPagesGuard />}>
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="testimonials" element={<UserTestimonials />} />
-                  <Route path="favorite-barbers" element={<FavoriteBarbers />} />
-                </Route>
+      <ErrorBoundary
+        fallback={
+          <div className="page">
+            <Header />
+            <Maintenance />
+            <Footer />
+          </div>
+        }
+      >
+        <div className="page">
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />}>
+                <Route index element={<ServicesList />} />
               </Route>
-              <Route path="/logout" element={<Logout />} />
-            </Route>
-          </Routes>
-        </main>
-        {!shouldHideFooter && <Footer />}
-      </div>
+              <Route path="/barbers" element={<Barbers />}>
+                <Route index element={<BarbersList />} />
+                <Route path=":barberId/details" element={<BarberDetail />} />
+              </Route>
+              <Route path="/blogs" element={<Blogs />}>
+                <Route index element={<BlogsList />} />
+                <Route path=":blogId/details" element={<BlogPost />} />
+              </Route>
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/forbidden" element={<Forbidden />} />
+              <Route path="/*" element={<NotFound />} />
+
+              <Route element={<PublicPagesGard />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Route>
+
+              <Route element={<PrivatePagesGuard />}>
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/dashboard" element={<Dashboard />}>
+                  <Route index element={<WelcomeDashboard />} />
+                  <Route element={<AdminPagesGuard />}>
+                    <Route path="clients" element={<UserManagement />} />
+                    <Route path="barbers" element={<BarberManagement />} />
+                  </Route>
+                  <Route element={<ClientPagesGuard />}>
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="testimonials" element={<UserTestimonials />} />
+                    <Route
+                      path="favorite-barbers"
+                      element={<FavoriteBarbers />}
+                    />
+                  </Route>
+                </Route>
+                <Route path="/logout" element={<Logout />} />
+              </Route>
+            </Routes>
+          </main>
+          {!shouldHideFooter && <Footer />}
+        </div>
+      </ErrorBoundary>
     </AuthProvider>
   );
 }

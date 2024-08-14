@@ -14,6 +14,7 @@ import Icon from "../../icon/Icon";
 import Testimonials from "../../testimonials/Testimonials";
 import TestimonialCreate from "../../testimonials/testimonial-create/TestimonialCreate";
 import ButtonIcon from "../../button-icon/ButtonIcon";
+import NoImage from "../../no-image/NoImage";
 
 export default function BarberDetail() {
   const [isReviewButtonClicked, setReviewButtonClicked] = useState(false);
@@ -65,7 +66,11 @@ export default function BarberDetail() {
           <div className="cell-xs-12">
             <div className="thumbnail-fullwidth">
               <div className="thumbnail-fullwidth-left">
-                <img src={barber?.photoUrl} alt="" width="400" height="480" />
+                {barber?.photoUrl ? (
+                  <img src={barber?.photoUrl} alt="" width="400" height="480" />
+                ) : (
+                  <NoImage />
+                )}
               </div>
               <div className="thumbnail-fullwidth-body">
                 <p className="thumbnail-fullwidth-header">

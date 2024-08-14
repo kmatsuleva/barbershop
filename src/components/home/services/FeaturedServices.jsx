@@ -1,10 +1,10 @@
-import { useGetServicesByBarbers } from "../../../hooks/useServices";
+import { useGetAllServices } from "../../../hooks/useServices";
 import ButtonLink from "../../button-link/ButtonLink";
 import GridCard from "../../cards/grid-card/GridCard";
 import Loader from "../../loader/Loader";
 
 export default function FeaturedServices() {
-  const { servicesList, loading } = useGetServicesByBarbers();
+  const { servicesList, loading } = useGetAllServices();
 
   if (loading) {
     return <Loader />;

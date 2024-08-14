@@ -21,7 +21,7 @@ export default function Dashboard() {
       />
 
       <div className={styles["dashboard-body"]}>
-        <section className="section-sm h-full">
+        <section className="section-sm h-full pt-4">
           <div className="shell h-full">
             <Outlet />
           </div>

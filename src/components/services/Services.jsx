@@ -1,4 +1,4 @@
-import { useGetServicesByBarbers } from "../../hooks/useServices";
+import { useGetAllServices } from "../../hooks/useServices";
 import { useAuth } from "../../hooks/useAuth";
 import Banner from "../banner/Banner";
 import ServicesList from "./service-list/ServiceList";
@@ -6,7 +6,7 @@ import Maintenance from "../maintenance/Maintenance";
 import ButtonLink from "../button-link/ButtonLink";
 
 export default function Services() {
-  const { servicesList, loading } = useGetServicesByBarbers();
+  const { servicesList, loading } = useGetAllServices();
   const { isAuthenticated } = useAuth();
 
   if (!loading && (!servicesList || servicesList.length === 0)) {

@@ -1,6 +1,7 @@
 import styles from "./FormField.module.css";
 
 export default function FormField({
+  label,
   type,
   name,
   placeholder,
@@ -8,14 +9,20 @@ export default function FormField({
   onChange,
   error,
   rows,
-  options, 
+  options,
 }) {
   return (
     <fieldset
       className={`${styles["form-group"]} ${error ? styles["has-error"] : ""}`}
     >
+      {label && (
+        <label className="form-label-outside" htmlFor={name}>
+          {label}
+        </label>
+      )}
       {type === "textarea" ? (
         <textarea
+          id={name}
           name={name}
           placeholder={placeholder}
           className={styles["form-control"]}
@@ -25,6 +32,7 @@ export default function FormField({
         ></textarea>
       ) : type === "select" ? (
         <select
+          id={name}
           name={name}
           className={styles["form-control"]}
           value={value}
@@ -39,6 +47,7 @@ export default function FormField({
       ) : (
         <input
           type={type}
+          id={name}
           name={name}
           placeholder={placeholder}
           className={styles["form-control"]}

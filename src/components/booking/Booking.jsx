@@ -63,8 +63,8 @@ const Booking = () => {
         />
       )}
 
-      {step === 3 && <BookingStepThree handleStepBack={handleStepBack} />}
-      {step === 4 && (
+      {/* {step === 3 && <BookingStepThree handleStepBack={handleStepBack} />} */}
+      {step === 3 && (
         <BookingStepFour
           handleStepBack={handleStepBack}
           barber={selectedBarber}

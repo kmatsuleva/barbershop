@@ -78,7 +78,7 @@
 	color: black;
 	font-weight: 500;
 	margin-top: auto;
-	padding: 40px 30px;
+	padding: 0 30px 40px;
 }
 
 .thumbnail-card:hover {
@@ -86,13 +86,21 @@
 }
 
 @media (min-width: 768px) {
-	.thumbnail-card-body, .thumbnail-card-footer {
+	.thumbnail-card-body {
 		padding: 40px 20px;
+	}
+
+	.thumbnail-card-footer {
+		padding: 0 20px 40px;
 	}
 }
 
 @media (min-width: 1200px) {
-	.thumbnail-card-body, .thumbnail-card-footer {
+	.thumbnail-card-body {
 		padding: 40px 30px;
+	}
+
+	.thumbnail-card-footer {
+		padding: 0 30px 40px;
 	}
 }

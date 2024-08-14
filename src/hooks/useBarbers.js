@@ -304,6 +304,65 @@ export const useAddBarber = () => {
   };
 };
 
+export function useEditBarber() {
+  const [state, dispatch] = useReducer(barberReducer, {
+    loading: false,
+    error: null,
+    success: false,
+  });
+
+  const uploadImage = async (file) => {
+    if (!file) return null;
+
+    const fileRef = ref(storage, `barbers/${file.name}`);
+
+    try {
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+      return url;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
+  };
+
+  const editBarber = async (barberId, barberData, file) => {
+    dispatch({ type: "REQUEST" });
+  
+    try {
+      let photoUrl = barberData.photoUrl;
+  
+      if (file) {
+        photoUrl = await uploadImage(file);
+      }
+  
+      const serviceRefs = (barberData.services || []).map((serviceId) =>
+        doc(db, "services", serviceId)
+      );
+  
+      await updateDoc(doc(db, "barbers", barberId), {
+        ...barberData,
+        photoUrl,
+        services: serviceRefs,
+      });
+  
+      dispatch({ type: "SUCCESS" });
+      return true;
+    } catch (error) {
+      dispatch({ type: "FAILURE", error });
+      console.error("Failed to update barber:", error);
+      return false;
+    }
+  };
+
+  return {
+    editBarber,
+    loading: state.loading,
+    error: state.error,
+    success: state.success,
+  };
+}
+
 export function useDeleteBarber() {
   const [state, dispatch] = useReducer(barberReducer, {
     loading: false,
@@ -415,7 +474,7 @@ export function useGetBarbersServices(barberId) {
         }
         return { id: serviceDoc.id, ...serviceDoc.data() };
       });
-  
+
       const services = await Promise.all(servicePromises);
 
       dispatch({ type: "SUCCESS", data: services });
@@ -430,7 +489,6 @@ export function useGetBarbersServices(barberId) {
     fetchServices();
   }, [fetchServices]);
 
-  
   return {
     barberServices: state.data,
     loading: state.loading,

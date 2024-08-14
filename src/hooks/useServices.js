@@ -16,7 +16,7 @@ function serviceReducer(state, action) {
   }
 }
 
-export function useGetServicesByBarbers() {
+export function useGetAllServices() {
   const [state, dispatch] = useReducer(serviceReducer, {
     loading: true,
     error: null,

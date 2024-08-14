@@ -1,8 +1,8 @@
-import { useGetServicesByBarbers } from "../../../hooks/useServices";
+import { useGetAllServices } from "../../../hooks/useServices";
 import Loader from "../../loader/Loader";
 
 export default function ServicesList({ handleGetService }) {
-  const { servicesList, loading } = useGetServicesByBarbers();
+  const { servicesList, loading } = useGetAllServices();
 
   if (loading) {
     return <Loader />;
