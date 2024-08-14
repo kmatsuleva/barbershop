@@ -7885,7 +7885,7 @@ form {
 @media (min-width: 480px) {
 	.shell,
 	.shell-wide {
-		max-width: 480px;
+		max-width: 600px;
 	}
 }
 
