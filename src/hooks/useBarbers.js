@@ -467,6 +467,11 @@ export function useGetBarbersServices(barberId) {
       const barberData = barberDoc.data();
       const serviceRefs = barberData.services;
 
+      if (!Array.isArray(serviceRefs)) {
+        dispatch({ type: "SUCCESS", data: [] });
+        return;
+      }
+
       const servicePromises = serviceRefs.map(async (serviceRef) => {
         const serviceDoc = await getDoc(serviceRef);
         if (!serviceDoc.exists()) {
