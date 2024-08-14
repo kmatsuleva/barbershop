@@ -22,15 +22,16 @@ import Booking from "./components/booking/Booking";
 import Dashboard from "./components/dashboard/Dashboard";
 import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
 import Profile from "./components/dashboard/client-dashboard/profile/Profile";
+import Appointments from "./components/dashboard/client-dashboard/appointments/Appointments";
 import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
+import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
 import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import UserManagement from "./components/dashboard/admin-dashboard/users/UserManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
 import ServicesList from "./components/services/service-list/ServiceList";
-import Appointments from "./components/appointments/Appointments";
 import Maintenance from "./components/maintenance/Maintenance";
 
 function App() {
@@ -86,11 +87,13 @@ function App() {
                   </Route>
                   <Route element={<ClientPagesGuard />}>
                     <Route path="profile" element={<Profile />} />
+                    <Route path="appointments" element={<Appointments />} />
                     <Route path="testimonials" element={<UserTestimonials />} />
                     <Route
                       path="favorite-barbers"
                       element={<FavoriteBarbers />}
                     />
+                    <Route path="favorite-blogs" element={<FavoriteBlogs />} />
                   </Route>
                 </Route>
                 <Route path="/logout" element={<Logout />} />

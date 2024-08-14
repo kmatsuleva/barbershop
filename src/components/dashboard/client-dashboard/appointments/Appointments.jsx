@@ -1,6 +1,5 @@
+import CommingSoon from "../../../comming-soon/CommingSoon";
 
 export default function Appointments() {
-  return (
-    <div>Appointments</div>
-  )
+  return <CommingSoon />;
 }
