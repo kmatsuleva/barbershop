@@ -33,6 +33,7 @@ import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
 import ServicesList from "./components/services/service-list/ServiceList";
 import Maintenance from "./components/maintenance/Maintenance";
+import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
 
 function App() {
   const location = useLocation();
@@ -52,6 +53,7 @@ function App() {
           </div>
         }
       >
+        <ScrollToTop />
         <div className="page">
           <Header />
           <main>
