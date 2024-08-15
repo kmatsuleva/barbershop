@@ -11,6 +11,7 @@ import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
 import Home from "./components/home/Home";
 import Services from "./components/services/Services";
+import ServicesList from "./components/services/service-list/ServiceList";
 import Barbers from "./components/barbers/Barbers";
 import BarbersList from "./components/barbers/barbers-list/BarbersList";
 import BarberDetail from "./components/barbers/barber-detail/BarberDetail";
@@ -26,12 +27,12 @@ import Appointments from "./components/dashboard/client-dashboard/appointments/A
 import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
 import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
 import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
-import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
 import ClientsManagement from "./components/dashboard/admin-dashboard/clients/ClientsManagement";
+import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
+import BlogsManagement from "./components/dashboard/admin-dashboard/blogs/BlogsManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
-import ServicesList from "./components/services/service-list/ServiceList";
 import Maintenance from "./components/maintenance/Maintenance";
 import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
 
@@ -86,6 +87,7 @@ function App() {
                   <Route element={<AdminPagesGuard />}>
                     <Route path="clients" element={<ClientsManagement />} />
                     <Route path="barbers" element={<BarberManagement />} />
+                    <Route path="blogs" element={<BlogsManagement />} />
                   </Route>
                   <Route element={<ClientPagesGuard />}>
                     <Route path="profile" element={<Profile />} />
