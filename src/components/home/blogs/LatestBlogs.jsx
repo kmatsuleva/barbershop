@@ -15,7 +15,6 @@ export default function FeaturedBlogs() {
               </p>
             </div>
           </div>
-          {/* TODO: Sort by latest blogs */}
           <div className="cell-xs-12">
             <BlogsList size={3} />
           </div>
