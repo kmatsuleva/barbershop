@@ -23,7 +23,7 @@ export default function BarbersList({ size }) {
   )?.id;
   
   const {
-    barbersByServices: filteredBarbers,
+    barbersByService: filteredBarbers,
     loading: loadingFilteredBarbers,
   } = useGetBarbersByService(serviceId);
 

@@ -440,7 +440,7 @@ export function useGetBarbersByService(serviceId) {
   }, [serviceId, fetchBarbersByService]);
 
   return {
-    barbersByServices: state.data,
+    barbersByService: state.data,
     loading: state.loading,
     error: state.error,
   };
