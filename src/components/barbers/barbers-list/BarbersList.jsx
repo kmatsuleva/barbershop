@@ -1,4 +1,7 @@
-import { useGetAllBarbers } from "../../../hooks/useBarbers";
+import {
+  useGetAllBarbers,
+  useGetBarbersByService,
+} from "../../../hooks/useBarbers";
 import { useGetAllServices } from "../../../hooks/useServices";
 import { useForm } from "../../../hooks/useForm";
 import Loader from "../../loader/Loader";
@@ -9,12 +12,17 @@ import FormField from "../../form-field/FormField";
 export default function BarbersList({ size }) {
   const sortBy = ["Most liked", "First name"];
 
-  const { barbersList, loading } = useGetAllBarbers();
   const { servicesList } = useGetAllServices();
   const { values, handleInputChange } = useForm({
     "filter-by-services": "",
     "sort-by": "",
   });
+
+  const serviceId = servicesList?.find(service => service.title === values["filter-by-services"])?.id;
+  const { barbersByServices: filteredBarbers, loading: loadingFilteredBarbers } = useGetBarbersByService(serviceId);
+  const { barbersList: allBarbers, loading: loadingAllBarbers } = useGetAllBarbers();
+
+  const loading = loadingFilteredBarbers || loadingAllBarbers;
 
   const sortBarbers = (barbers, sortBy) => {
     switch (sortBy) {
@@ -29,7 +37,10 @@ export default function BarbersList({ size }) {
     }
   };
 
-  const displayedBarbers = size ? barbersList.slice(0, size) : barbersList;
+  const displayedBarbers = size
+    ? (serviceId ? filteredBarbers : allBarbers).slice(0, size)
+    : serviceId ? filteredBarbers : allBarbers;
+
   const sortedBarbers = sortBarbers(displayedBarbers, values["sort-by"]);
 
   if (loading) {
@@ -38,8 +49,8 @@ export default function BarbersList({ size }) {
 
   return (
     <>
-      <div className="range">
-        <div className="cell-sm-4">
+      <div className="range justify-end">
+        <div className="cell-sm-6 cell-md-4 cell-lg-3">
           {!size && servicesList && servicesList.length > 0 && (
             <FormField
               type="select"
@@ -51,7 +62,7 @@ export default function BarbersList({ size }) {
             />
           )}
         </div>
-        <div className="cell-sm-4">
+        <div className="cell-sm-6 cell-md-4 cell-lg-3">
           <FormField
             type="select"
             name="sort-by"

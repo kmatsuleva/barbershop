@@ -8,9 +8,9 @@ export default function BookingStepTwo({
   handleStepForward,
   handleGetBarber,
 }) {
-  const { barberServices } = useGetBarbersByService(serviceId);
+  const { barbersByService } = useGetBarbersByService(serviceId);
 
-  if (!barberServices || barberServices.length === 0) {
+  if (!barbersByService || barbersByService.length === 0) {
     return (
       <section className="py-6 bg-periglacial-blue one-screen-page-content text-center">
         <p>No barbers available for this service.</p>;
@@ -22,7 +22,7 @@ export default function BookingStepTwo({
     <section className="section-xs bg-periglacial-blue one-screen-page-content text-center">
       <BackLink onClick={handleStepBack} />
 
-      {barberServices && barberServices.length > 0 && (
+      {barbersByService && barbersByService.length > 0 && (
         <div className="shell">
           <h2>CHOOSE a BARBER</h2>
           <div className="p text-width-medium">
@@ -36,7 +36,7 @@ export default function BookingStepTwo({
           <div className="range range-lg-center">
             <div className="cell-lg-10">
               <div className="range range-sm-center range-md-left range-30">
-                {barberServices.map((barber) => (
+                {barbersByService.map((barber) => (
                   <div className="cell-sm-8 cell-md-6" key={barber.id}>
                     <div className="thumbnail-option">
                       <div className="thumbnail-option-left">
