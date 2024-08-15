@@ -2,7 +2,7 @@ import styles from "./FormField.module.css";
 
 export default function FormField({
   label,
-  type,
+  type = "text",
   name,
   placeholder,
   value,
@@ -65,11 +65,11 @@ export default function FormField({
           value={value}
           onChange={onChange}
         >
-           {includeDefaultOption && <option value="">Select</option>}
+          {includeDefaultOption && <option value="">Select</option>}
           {renderOptions()}
         </select>
       )}
-      {type === "text" && (
+      {type !== "select" && type !== "textarea" && (
         <input
           type={type}
           id={name}
