@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -20,21 +21,45 @@ import Blogs from "./components/blogs/Blogs";
 import BlogPost from "./components/blogs/blog-post/BlogPost";
 import Contacts from "./components/contacts/Contacts";
 import Booking from "./components/booking/Booking";
-import Dashboard from "./components/dashboard/Dashboard";
-import WelcomeDashboard from "./components/dashboard/welcome-dashboard/WelcomeDashboard";
-import Profile from "./components/dashboard/client-dashboard/profile/Profile";
-import Appointments from "./components/dashboard/client-dashboard/appointments/Appointments";
-import UserTestimonials from "./components/dashboard/client-dashboard/testimonials/UserTestimonials";
-import FavoriteBarbers from "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers";
-import FavoriteBlogs from "./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs";
-import ClientsManagement from "./components/dashboard/admin-dashboard/clients/ClientsManagement";
-import BarberManagement from "./components/dashboard/admin-dashboard/barbers/BarberManagement";
-import BlogsManagement from "./components/dashboard/admin-dashboard/blogs/BlogsManagement";
 import Footer from "./components/footer/Footer";
 import Forbidden from "./components/403/Forbidden";
 import NotFound from "./components/404/NotFound";
 import Maintenance from "./components/maintenance/Maintenance";
 import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
+import Loader from "./components/loader/Loader";
+
+const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
+const WelcomeDashboard = lazy(() =>
+  import("./components/dashboard/welcome-dashboard/WelcomeDashboard")
+);
+const Profile = lazy(() =>
+  import("./components/dashboard/client-dashboard/profile/Profile")
+);
+const Appointments = lazy(() =>
+  import("./components/dashboard/client-dashboard/appointments/Appointments")
+);
+const UserTestimonials = lazy(() =>
+  import(
+    "./components/dashboard/client-dashboard/testimonials/UserTestimonials"
+  )
+);
+const FavoriteBarbers = lazy(() =>
+  import(
+    "./components/dashboard/client-dashboard/favorite-barbers/FavoriteBarbers"
+  )
+);
+const FavoriteBlogs = lazy(() =>
+  import("./components/dashboard/client-dashboard/favorite-blogs/FavoriteBlogs")
+);
+const ClientsManagement = lazy(() =>
+  import("./components/dashboard/admin-dashboard/clients/ClientsManagement")
+);
+const BarberManagement = lazy(() =>
+  import("./components/dashboard/admin-dashboard/barbers/BarberManagement")
+);
+const BlogsManagement = lazy(() =>
+  import("./components/dashboard/admin-dashboard/blogs/BlogsManagement")
+);
 
 function App() {
   const location = useLocation();
@@ -82,22 +107,89 @@ function App() {
 
               <Route element={<PrivatePagesGuard />}>
                 <Route path="/booking" element={<Booking />} />
-                <Route path="/dashboard" element={<Dashboard />}>
-                  <Route index element={<WelcomeDashboard />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <Dashboard />
+                    </Suspense>
+                  }
+                >
+                  <Route
+                    index
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <WelcomeDashboard />
+                      </Suspense>
+                    }
+                  />
                   <Route element={<AdminPagesGuard />}>
-                    <Route path="clients" element={<ClientsManagement />} />
-                    <Route path="barbers" element={<BarberManagement />} />
-                    <Route path="blogs" element={<BlogsManagement />} />
+                    <Route
+                      path="clients"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <ClientsManagement />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      path="barbers"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <BarberManagement />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      path="blogs"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <BlogsManagement />
+                        </Suspense>
+                      }
+                    />
                   </Route>
                   <Route element={<ClientPagesGuard />}>
-                    <Route path="profile" element={<Profile />} />
-                    <Route path="appointments" element={<Appointments />} />
-                    <Route path="testimonials" element={<UserTestimonials />} />
+                    <Route
+                      path="profile"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <Profile />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      path="appointments"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <Appointments />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      path="testimonials"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <UserTestimonials />
+                        </Suspense>
+                      }
+                    />
                     <Route
                       path="favorite-barbers"
-                      element={<FavoriteBarbers />}
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <FavoriteBarbers />
+                        </Suspense>
+                      }
                     />
-                    <Route path="favorite-blogs" element={<FavoriteBlogs />} />
+                    <Route
+                      path="favorite-blogs"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <FavoriteBlogs />
+                        </Suspense>
+                      }
+                    />
                   </Route>
                 </Route>
                 <Route path="/logout" element={<Logout />} />
