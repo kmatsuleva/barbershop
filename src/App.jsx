@@ -27,6 +27,8 @@ import NotFound from "./components/404/NotFound";
 import Maintenance from "./components/maintenance/Maintenance";
 import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
 import Loader from "./components/loader/Loader";
+import "./assets/css/style.css";
+import "./assets/css/utils.css";
 
 const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
 const WelcomeDashboard = lazy(() =>
