@@ -23139,7 +23139,8 @@ textarea.form-control {
 .has-error.radio label,
 .has-error.checkbox label,
 .has-error.radio-inline label,
-.has-error.checkbox-inline label {
+.has-error.checkbox-inline label,
+.error-text {
 	color: #d9534f;
 }
 

@@ -21,6 +21,8 @@ export default function BarberAdd({ handleFormClose }) {
     lastName: (value) => (!value ? "Field is required." : ""),
     bio: (value) => (!value ? "Bio is required." : ""),
     summary: (value) => (!value ? "Summary is required." : ""),
+    services: (value) =>
+      value.length === 0 ? "At least one service is required." : "",
   };
 
   const [file, setFile] = useState(null);
@@ -159,6 +161,9 @@ export default function BarberAdd({ handleFormClose }) {
                           </div>
                         ))}
                       </div>
+                      {errors.services && (
+                        <p className="error-text mt-1 text-medium"><small>{errors.services}</small></p>
+                      )}
                     </div>
                   </div>
                   <div className="range">
