@@ -21,7 +21,8 @@ This project is a Single Page Application (SPA) built using React.js and Firebas
 - **Firebase**:
   - **Firebase Authentication**: For user authentication and management.
   - **Firebase Firestore**: For database storage and real-time updates.
-  - **Firebase Storage**: For file storage, such as images.
+  - **Firebase Storage**: For file storage.
+  - **Firebase Hosting**: For deploying and hosting web application.
 - **Vite**: Development and build tool.
 - **React Leaflet**: For embedding map in the application.
 - **EmailJS**: For sending and receiving emails.
