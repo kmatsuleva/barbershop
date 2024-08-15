@@ -26,11 +26,9 @@ export default function BlogPost() {
             <p className="post-single-title">{blogPost.title}</p>
             <ul className="post-single-meta">
               <li>
-                <a href="#">
-                  <Icon size="xxs" icon="heart-o" className="mr-1 pt-1" />
-                  {/* TODO: icon=heart if user added to fav.*/}
-                  <span>{blogPost.likes}</span>
-                </a>
+                <Icon size="xxs" icon="heart-o" className="mr-1 pt-1" />
+                {/* TODO: icon=heart if user added to fav.*/}
+                <span>{blogPost.likes}</span>
               </li>
               <li>
                 <span className="icon icon-xxs fa fa-calendar-plus-o"></span>
