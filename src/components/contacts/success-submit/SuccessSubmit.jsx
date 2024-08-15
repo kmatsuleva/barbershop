@@ -2,7 +2,7 @@ import styles from "./SuccessSubmit.module.css";
 
 export default function SuccessSubmit({ height }) {
   return (
-    <div className={styles["thank-you-message"]} style={{ height }}>
+    <div className={styles["thank-you-message"]} style={{ minHeight: height }}>
       <h4>Thank You!</h4>
       <p>We appreciate you reaching out to us.</p>
       <p>
