@@ -14,7 +14,7 @@ export default function BookingStepFour({ handleStepBack, barber, service }) {
             that we could contact you.
           </p>
         </div>
-        <div className="box-contacts box-contacts-vertical box-contacts-vertical-small box-wrap-content-interactive block-centered">
+        <div className="box-contacts box-contacts-vertical box-contacts-vertical-small pointer-auto block-centered">
           <div className="box-contacts-col">
             {service && (
               <div className="box-contacts-block">

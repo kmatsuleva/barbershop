@@ -61,22 +61,6 @@
 	background: #014d55;
 }
 
-.rd-navbar-sidebar-linked .custom-progress {
-	position: absolute;
-	z-index: 1000;
-	top: 73px;
-	left: 0;
-	right: 0;
-}
-
-.rd-navbar-fixed-linked .custom-progress {
-	position: fixed;
-	z-index: 1000;
-	top: 56px;
-	left: 0;
-	right: 0;
-}
-
 @media (min-width: 480px) {
 	.step-progress-caption {
 		white-space: nowrap;
@@ -111,19 +95,5 @@
 	}
 	.step-progress-caption {
 		font-size: 14px;
-	}
-}
-
-.rd-navbar-fixed-linked .step-progress {
-	position: fixed;
-	right: 8px;
-	top: 8px;
-	z-index: 10001;
-	padding-bottom: 2px;
-}
-
-@media (min-width: 480px) {
-	.rd-navbar-fixed-linked .step-progress {
-		top: 7px;
 	}
 }
