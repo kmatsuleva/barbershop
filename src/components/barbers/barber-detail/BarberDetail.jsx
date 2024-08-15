@@ -118,7 +118,7 @@ export default function BarberDetail() {
                           text={service.title}
                           size="xs"
                           key={service.id}
-                          className="mt-0 cursor-auto"
+                          className="bg-primary mt-0 cursor-auto"
                           icon="label"
                         />
                       ))}
