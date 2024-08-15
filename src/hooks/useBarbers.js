@@ -198,7 +198,11 @@ export function useToggleFavoriteBarbers(
         }
 
         const userData = userDocSnapshot.data();
-        const isLiked = userData.favoriteBarbers.some(
+        const favoriteBarbers = Array.isArray(userData.favoriteBarbers)
+          ? userData.favoriteBarbers
+          : [];
+
+        const isLiked = favoriteBarbers.some(
           (favBarber) => favBarber.id === barberId
         );
 
