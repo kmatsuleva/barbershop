@@ -18,9 +18,17 @@ export default function BarbersList({ size }) {
     "sort-by": "",
   });
 
-  const serviceId = servicesList?.find(service => service.title === values["filter-by-services"])?.id;
-  const { barbersByServices: filteredBarbers, loading: loadingFilteredBarbers } = useGetBarbersByService(serviceId);
-  const { barbersList: allBarbers, loading: loadingAllBarbers } = useGetAllBarbers();
+  const serviceId = servicesList?.find(
+    (service) => service.title === values["filter-by-services"]
+  )?.id;
+  
+  const {
+    barbersByServices: filteredBarbers,
+    loading: loadingFilteredBarbers,
+  } = useGetBarbersByService(serviceId);
+
+  const { barbersList: allBarbers, loading: loadingAllBarbers } =
+    useGetAllBarbers();
 
   const loading = loadingFilteredBarbers || loadingAllBarbers;
 
@@ -39,7 +47,9 @@ export default function BarbersList({ size }) {
 
   const displayedBarbers = size
     ? (serviceId ? filteredBarbers : allBarbers).slice(0, size)
-    : serviceId ? filteredBarbers : allBarbers;
+    : serviceId
+    ? filteredBarbers
+    : allBarbers;
 
   const sortedBarbers = sortBarbers(displayedBarbers, values["sort-by"]);
 
@@ -49,30 +59,32 @@ export default function BarbersList({ size }) {
 
   return (
     <>
-      <div className="range justify-end">
-        <div className="cell-sm-6 cell-md-4 cell-lg-3">
-          {!size && servicesList && servicesList.length > 0 && (
+      {!size && (
+        <div className="range justify-end">
+          <div className="cell-sm-6 cell-md-4 cell-lg-3">
+            {servicesList && servicesList.length > 0 && (
+              <FormField
+                type="select"
+                name="filter-by-services"
+                options={servicesList}
+                label="Filter by services"
+                value={values["filter-by-services"]}
+                onChange={handleInputChange}
+              />
+            )}
+          </div>
+          <div className="cell-sm-6 cell-md-4 cell-lg-3">
             <FormField
               type="select"
-              name="filter-by-services"
-              options={servicesList}
-              label="Filter by services"
-              value={values["filter-by-services"]}
+              name="sort-by"
+              options={sortBy}
+              label="Sort by"
+              value={values["sort-by"]}
               onChange={handleInputChange}
             />
-          )}
+          </div>
         </div>
-        <div className="cell-sm-6 cell-md-4 cell-lg-3">
-          <FormField
-            type="select"
-            name="sort-by"
-            options={sortBy}
-            label="Sort by"
-            value={values["sort-by"]}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
+      )}
       {sortedBarbers && sortedBarbers.length > 0 ? (
         <>
           <div className="range range-30">
