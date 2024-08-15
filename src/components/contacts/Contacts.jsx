@@ -1,18 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import emailjs from "@emailjs/browser";
 import { useForm } from "../../hooks/useForm";
 import Banner from "../banner/Banner";
 import SuccessSubmit from "./success-submit/SuccessSubmit";
 import Button from "../button/Button";
 import FormField from "../form-field/FormField";
-import styles from "./Contacts.module.css";
-import "leaflet/dist/leaflet.css";
+import Map from "../map/Map";
 
 export default function Contacts() {
   // variables
-  const location = [47.717562, -122.303803];
-
   const initialValues = {
     name: "",
     subject: "",
@@ -93,16 +89,7 @@ export default function Contacts() {
                 <div className="cell-md-5">
                   <div>
                     <h3>Opening Hours</h3>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "70px",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
-                        alignContent: "space-between",
-                      }}
-                      className="big"
-                    >
+                    <div className="big flex gap-7 items-start justify-start space-between">
                       <dl>
                         <dt>Monday – Friday</dt>
                         <dd>9am - 6pm</dd>
@@ -130,17 +117,9 @@ export default function Contacts() {
                   </div>
                 </div>
               </div>
-              <div className="range range-50">
+              <div className="range mt-3">
                 <div className="cell-md-5">
-                  <MapContainer
-                    className={styles["map-container"]}
-                    center={location}
-                    zoom={13}
-                    scrollWheelZoom={false}
-                  >
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <Marker position={location} />
-                  </MapContainer>
+                  <Map />
                 </div>
                 <div className="cell-md-7">
                   {isSubmitted ? (

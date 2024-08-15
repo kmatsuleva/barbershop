@@ -1,4 +1,4 @@
-import styles from "../Contacts.module.css";
+import styles from "./SuccessSubmit.module.css";
 
 export default function SuccessSubmit({ height }) {
   return (
