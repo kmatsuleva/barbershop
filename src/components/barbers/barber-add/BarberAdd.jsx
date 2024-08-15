@@ -143,7 +143,7 @@ export default function BarberAdd({ handleFormClose }) {
                   </div>
                   <div className="range mt-2">
                     <div className="cell-md-12">
-                      <p className="form-label-outside">Services:</p>
+                      <p className="form-label-outside">Services *</p>
                       <div className="range mt-1">
                         {servicesList.map((service) => (
                           <div className="cell-sm-6 flex mt-0" key={service.id}>
