@@ -10,6 +10,7 @@ export default function FormField({
   error,
   rows,
   options,
+  includeDefaultOption = true
 }) {
   const renderOptions = () => {
     if (Array.isArray(options)) {
@@ -64,7 +65,7 @@ export default function FormField({
           value={value}
           onChange={onChange}
         >
-          <option value="">Select</option>
+           {includeDefaultOption && <option value="">Select</option>}
           {renderOptions()}
         </select>
       )}

@@ -55,6 +55,7 @@ export default function ClientsManagement() {
                           handleRemoveBarber(client, e.target.value)
                         }
                         options={roles}
+                        includeDefaultOption={false}
                       />
                     </td>
                   )}
